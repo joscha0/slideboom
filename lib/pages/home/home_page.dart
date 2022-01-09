@@ -8,15 +8,42 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => HomeController());
     return Scaffold(
-      appBar: AppBar(title: Text('HomePage')),
+      appBar: AppBar(title: const Text('HomePage')),
       body: Center(
-        child: GridView.count(
-          crossAxisCount: 3,
-          children: [
-            for (int i = 1; i <= 9; i++) Center(child: Text(i.toString())),
-          ],
-        ),
+        child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
+            itemCount: 9,
+            itemBuilder: (context, index) {
+              final color = controller.randomColor;
+              return GestureDetector(
+                onVerticalDragStart: controller.onVerticalDragStart,
+                onVerticalDragUpdate: controller.onVerticalDragUpdate,
+                onVerticalDragEnd: controller.onVerticalDragEnd,
+                onHorizontalDragStart: controller.onHorizontalDragStart,
+                onHorizontalDragUpdate: controller.onHorizontalDragUpdate,
+                onHorizontalDragEnd: controller.onHorizontalDragEnd,
+                child: Container(
+                  color: color,
+                  child: Center(
+                    child: Text(
+                      (index + 1).toString(),
+                      style: TextStyle(
+                        fontSize: 72,
+                        color: color.computeLuminance() < 0.5
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            }),
       ),
     );
   }
