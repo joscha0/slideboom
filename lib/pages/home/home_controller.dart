@@ -15,7 +15,10 @@ class HomeController extends GetxController {
   };
 
   void onChanged(String? value) {
-    dropDownValue.value = value ?? '3x3';
+    dropDownValue.value = value ?? '4x4';
+    if ((modes[value] ?? 4) < 4) {
+      checkboxValue.value = false;
+    }
   }
 
   void startGame() {

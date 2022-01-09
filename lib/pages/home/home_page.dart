@@ -41,13 +41,14 @@ class HomePage extends GetView<HomeController> {
                                 );
                               }).toList(),
                               onChanged: c.onChanged),
-                          const SizedBox(
-                            width: 25,
-                          ),
-                          Checkbox(
-                              value: c.checkboxValue.value,
-                              onChanged: c.changeCheckbox),
-                          Text('${c.checkboxValue.value ? "" : "no"} bombs')
+                          if ((c.modes[c.dropDownValue.value] ?? 4) >= 4) ...[
+                            const SizedBox(width: 25),
+                            Checkbox(
+                                value: c.checkboxValue.value,
+                                onChanged: c.changeCheckbox),
+                            Text(
+                                'bombs ${c.checkboxValue.value ? "on" : "off"}')
+                          ],
                         ],
                       ),
                       ElevatedButton(
@@ -56,7 +57,7 @@ class HomePage extends GetView<HomeController> {
                         height: 25,
                       ),
                       Text(
-                        'scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
+                        'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
                         style: Get.textTheme.headline6,
                       ),
                       Container(
