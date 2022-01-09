@@ -10,7 +10,9 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => HomeController());
     return Scaffold(
-      appBar: AppBar(title: const Text('HomePage')),
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
       body: Center(
         child: GridView.builder(
             physics: const NeverScrollableScrollPhysics(),
