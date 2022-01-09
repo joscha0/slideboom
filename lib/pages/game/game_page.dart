@@ -87,15 +87,13 @@ class GamePage extends GetView<GameController> {
             onHorizontalDragEnd: (details) =>
                 c.onHorizontalDragEnd(details, index),
             child: Container(
-              color: Colors.primaries[c.tilePositions[index] * 2],
+              color: c.getColor(index),
               child: Center(
                 child: Text(
                   (c.tilePositions[index] + 1).toString(),
                   style: TextStyle(
-                    fontSize: 72,
-                    color: Colors.primaries[c.tilePositions[index] * 2]
-                                .computeLuminance() <
-                            0.5
+                    fontSize: c.tileWidth * 0.7,
+                    color: c.getColor(index).computeLuminance() < 0.5
                         ? Colors.white
                         : Colors.black,
                   ),

@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:fixmymaze/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,11 +23,30 @@ class GameController extends GetxController {
 
   Rx<Duration> animationDuration = const Duration(milliseconds: 0).obs;
 
-  get randomColor =>
-      Colors.primaries[Random().nextInt(Colors.primaries.length)];
+  getColor(int index) {
+    // TODO implement own color list
+    if (rowCount * rowCount * 3 <= Colors.primaries.length) {
+      return Colors.primaries[tilePositions[index] * 3];
+    } else if (rowCount * rowCount * 2 <= Colors.primaries.length) {
+      return Colors.primaries[tilePositions[index] * 2];
+    } else if (rowCount * rowCount <= Colors.primaries.length) {
+      return Colors.primaries[tilePositions[index]];
+    } else if (tilePositions[index] < Colors.primaries.length) {
+      return Colors.primaries[tilePositions[index]];
+    } else {
+      return Colors.primaries[tilePositions[index] % Colors.primaries.length];
+    }
+  }
 
   @override
   void onInit() {
+    rowCount = Get.arguments;
+    tileWidth = (Get.size.width - Get.size.width * 0.25) / rowCount;
+    setPositions();
+    super.onInit();
+  }
+
+  void setPositions() {
     for (int i = 0; i < rowCount * rowCount; i++) {
       double x = (i % rowCount) * tileWidth;
       double y = (i ~/ rowCount) * tileWidth;
@@ -61,11 +79,16 @@ class GameController extends GetxController {
       } else {
         vPositions.add([]);
       }
+    }
 
-      // save positions
+    // starting position
+    shuffleStartingPosition();
+  }
+
+  void shuffleStartingPosition() {
+    for (int i = 0; i < rowCount * rowCount; i++) {
       tilePositions[i] = i;
     }
-    super.onInit();
   }
 
   /*
@@ -136,6 +159,7 @@ class GameController extends GetxController {
         }
       }
       isMovingVertically.remove(index);
+      checkSolved();
     }
   }
 
@@ -250,6 +274,7 @@ class GameController extends GetxController {
         }
       }
       isMovingHorizontally.remove(index);
+      checkSolved();
     }
   }
 
@@ -295,5 +320,19 @@ class GameController extends GetxController {
         tilePositions[tiles[i]] = tilePos[tiles[i - 1]];
       }
     }
+  }
+
+  void checkSolved() {
+    print(tilePositions);
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      if (i != tilePositions[i]) {
+        return;
+      }
+    }
+    Get.defaultDialog(
+      title: 'solved!',
+      middleText: '',
+      onConfirm: () => Get.offAll(const HomePage()),
+    );
   }
 }

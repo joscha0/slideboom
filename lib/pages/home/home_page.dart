@@ -30,7 +30,7 @@ class HomePage extends GetView<HomeController> {
                       DropdownButton(
                           value: c.dropDownValue.value,
                           style: Get.textTheme.headline5,
-                          items: <String>['2x2', '3x3', '4x4', '5x5']
+                          items: c.modes.keys
                               .map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -39,10 +39,7 @@ class HomePage extends GetView<HomeController> {
                           }).toList(),
                           onChanged: c.onChanged),
                       ElevatedButton(
-                          onPressed: () {
-                            Get.to(const GamePage());
-                          },
-                          child: const Text('play'))
+                          onPressed: c.startGame, child: const Text('play'))
                     ],
                   );
                 })));
