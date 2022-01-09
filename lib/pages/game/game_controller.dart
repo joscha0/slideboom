@@ -353,13 +353,88 @@ class GameController extends GetxController {
     isMovingHorizontally.add(-1);
     isMovingVertically.add(-1);
     solved = true;
-    for (int i = 0; i < rowCount * rowCount; i++) {
-      update(['tile$i']);
-    }
+    updateAllTiles();
     Get.defaultDialog(
       title: 'solved!',
       middleText: '',
       onConfirm: () => Get.offAll(const HomePage()),
+    );
+  }
+
+  void updateAllTiles() {
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      update(['tile$i']);
+    }
+  }
+
+  showPause() {
+    Get.dialog(
+      Center(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Paused',
+                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                    onInit();
+                    updateAllTiles();
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Restart',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.offAll(() => const HomePage());
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Home',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+      barrierColor: Colors.black87,
     );
   }
 }

@@ -12,6 +12,14 @@ class GamePage extends GetView<GameController> {
       appBar: AppBar(
         toolbarHeight: 0,
       ),
+      floatingActionButton: IconButton(
+        icon: const Icon(
+          Icons.pause,
+          size: 32,
+        ),
+        onPressed: () => controller.showPause(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: Center(
         child: Container(
           decoration: controller.bordersEnabled
