@@ -13,9 +13,11 @@ class GamePage extends GetView<GameController> {
         toolbarHeight: 0,
       ),
       body: Center(
-        child: SizedBox(
-          width: controller.tileWidth * controller.rowCount,
-          height: controller.tileWidth * controller.rowCount,
+        child: Container(
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
+          width: controller.tileWidth * controller.rowCount + 10,
+          height: controller.tileWidth * controller.rowCount + 10,
           child: Stack(
             children: [
               for (int i = 0;
@@ -87,7 +89,10 @@ class GamePage extends GetView<GameController> {
             onHorizontalDragEnd: (details) =>
                 c.onHorizontalDragEnd(details, index),
             child: Container(
-              color: c.getColor(index),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                color: c.getColor(index),
+              ),
               child: Center(
                 child: Text(
                   (c.tilePositions[index] + 1).toString(),

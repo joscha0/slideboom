@@ -23,18 +23,27 @@ class GameController extends GetxController {
 
   Rx<Duration> animationDuration = const Duration(milliseconds: 0).obs;
 
+  String colorMode = 'gray'; // 'gray', 'color', 'white'
+
   getColor(int index) {
-    // TODO implement own color list
-    if (rowCount * rowCount * 3 <= Colors.primaries.length) {
-      return Colors.primaries[tilePositions[index] * 3];
-    } else if (rowCount * rowCount * 2 <= Colors.primaries.length) {
-      return Colors.primaries[tilePositions[index] * 2];
-    } else if (rowCount * rowCount <= Colors.primaries.length) {
-      return Colors.primaries[tilePositions[index]];
-    } else if (tilePositions[index] < Colors.primaries.length) {
-      return Colors.primaries[tilePositions[index]];
+    if (colorMode == 'gray') {
+      return Color.fromRGBO(255 - index * (10 - rowCount),
+          255 - index * (10 - rowCount), 255 - index * (10 - rowCount), 1);
+    } else if (colorMode == 'color') {
+      // TODO implement own color list
+      if (rowCount * rowCount * 3 <= Colors.primaries.length) {
+        return Colors.primaries[tilePositions[index] * 3];
+      } else if (rowCount * rowCount * 2 <= Colors.primaries.length) {
+        return Colors.primaries[tilePositions[index] * 2];
+      } else if (rowCount * rowCount <= Colors.primaries.length) {
+        return Colors.primaries[tilePositions[index]];
+      } else if (tilePositions[index] < Colors.primaries.length) {
+        return Colors.primaries[tilePositions[index]];
+      } else {
+        return Colors.primaries[tilePositions[index] % Colors.primaries.length];
+      }
     } else {
-      return Colors.primaries[tilePositions[index] % Colors.primaries.length];
+      return Colors.white;
     }
   }
 
