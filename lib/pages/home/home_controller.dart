@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -21,6 +22,8 @@ class HomeController extends GetxController {
 
   List isMovingVertically = [];
   List isMovingHorizontally = [];
+
+  Rx<Duration> animationDuration = const Duration(milliseconds: 0).obs;
 
   get randomColor =>
       Colors.primaries[Random().nextInt(Colors.primaries.length)];
@@ -79,7 +82,22 @@ class HomeController extends GetxController {
     }
   }
 
-  void onVerticalDragUpdate(details, index) {
+  void updateVerticalPositions(int index) {
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      if (i % rowCount == index % rowCount) {
+        positions[i][1] = (i ~/ rowCount) * tileWidth + dragDistance;
+        if (i ~/ rowCount == rowCount - 1) {
+          vPositions[i][1] = -tileWidth + dragDistance;
+        } else if (i ~/ rowCount == 0) {
+          vPositions[i][1] = rowCount * tileWidth + dragDistance;
+        }
+        update(['tile$i']);
+        update(['vtile$i']);
+      }
+    }
+  }
+
+  void onVerticalDragUpdate(DragUpdateDetails details, index) {
     if (isMovingHorizontally.isEmpty) {
       dragDistance += details.delta.dy;
       if (dragDistance > tileWidth) {
@@ -88,28 +106,31 @@ class HomeController extends GetxController {
       if (dragDistance < -tileWidth) {
         dragDistance = -tileWidth;
       }
-      for (int i = 0; i < rowCount * rowCount; i++) {
-        if (i % rowCount == index % rowCount) {
-          positions[i][1] = (i ~/ rowCount) * tileWidth + dragDistance;
-          if (i ~/ rowCount == rowCount - 1) {
-            vPositions[i][1] = -tileWidth + dragDistance;
-          } else if (i ~/ rowCount == 0) {
-            vPositions[i][1] = rowCount * tileWidth + dragDistance;
-          }
-          update(['tile$i']);
-          update(['vtile$i']);
-        }
-      }
+      updateVerticalPositions(index);
     }
   }
 
   void onVerticalDragEnd(DragEndDetails details, index) {
     if (isMovingHorizontally.isEmpty) {
+      bool isMoving = false;
+
       print(dragDistance);
       if (dragDistance > tileWidth ~/ 2) {
         moveDown(index);
+        // dragDistance = tileWidth;
+        isMoving = true;
+        // updateVerticalPositions(index);
       } else if (dragDistance < -tileWidth ~/ 2) {
         moveUp(index);
+        // dragDistance = -tileWidth;
+        isMoving = true;
+        // updateVerticalPositions(index);
+      }
+
+      if (isMoving) {
+        animationDuration.value = const Duration(milliseconds: 0);
+      } else {
+        animationDuration.value = const Duration(milliseconds: 100);
       }
       // move tiles back
       for (int i = 0; i < rowCount * rowCount; i++) {

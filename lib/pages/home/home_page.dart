@@ -61,7 +61,7 @@ class HomePage extends GetView<HomeController> {
       init: HomeController(),
       builder: (c) {
         return AnimatedPositioned(
-          duration: const Duration(milliseconds: 100),
+          duration: c.animationDuration.value,
           width: c.tileWidth,
           height: c.tileWidth,
           left: isOtile
