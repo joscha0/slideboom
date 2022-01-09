@@ -66,6 +66,19 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
+  /*
+
+  Move vertically
+  
+  */
+
+  void onVerticalDragStart(DragStartDetails details, index) {
+    if (isMovingHorizontally.isEmpty) {
+      dragDistance = 0;
+      isMovingVertically.add(index);
+    }
+  }
+
   void onVerticalDragUpdate(details, index) {
     if (isMovingHorizontally.isEmpty) {
       dragDistance += details.delta.dy;
@@ -87,13 +100,6 @@ class HomeController extends GetxController {
           update(['vtile$i']);
         }
       }
-    }
-  }
-
-  void onVerticalDragStart(DragStartDetails details, index) {
-    if (isMovingHorizontally.isEmpty) {
-      dragDistance = 0;
-      isMovingVertically.add(index);
     }
   }
 
@@ -166,35 +172,16 @@ class HomeController extends GetxController {
     }
   }
 
+  /* 
+  
+  Move horizontally 
+  
+  */
+
   void onHorizontalDragStart(DragStartDetails details, index) {
     if (isMovingVertically.isEmpty) {
       dragDistance = 0;
       isMovingHorizontally.add(index);
-    }
-  }
-
-  void onHorizontalDragEnd(DragEndDetails details, index) {
-    if (isMovingVertically.isEmpty) {
-      print(dragDistance);
-      if (dragDistance > tileWidth ~/ 2) {
-        moveRight();
-      } else if (dragDistance < -tileWidth ~/ 2) {
-        moveLeft();
-      }
-      // move tiles back
-      for (int i = 0; i < rowCount * rowCount; i++) {
-        if (i ~/ rowCount == index ~/ rowCount) {
-          positions[i][0] = (i % rowCount) * tileWidth;
-          if ((i + 1) % rowCount == 1) {
-            hPositions[i][0] = rowCount * tileWidth;
-          } else if ((i + 1) % rowCount == 0) {
-            hPositions[i][0] = -tileWidth;
-          }
-          update(['tile$i']);
-          update(['htile$i']);
-        }
-      }
-      isMovingHorizontally.remove(index);
     }
   }
 
@@ -220,6 +207,31 @@ class HomeController extends GetxController {
           update(['htile$i']);
         }
       }
+    }
+  }
+
+  void onHorizontalDragEnd(DragEndDetails details, index) {
+    if (isMovingVertically.isEmpty) {
+      print(dragDistance);
+      if (dragDistance > tileWidth ~/ 2) {
+        moveRight();
+      } else if (dragDistance < -tileWidth ~/ 2) {
+        moveLeft();
+      }
+      // move tiles back
+      for (int i = 0; i < rowCount * rowCount; i++) {
+        if (i ~/ rowCount == index ~/ rowCount) {
+          positions[i][0] = (i % rowCount) * tileWidth;
+          if ((i + 1) % rowCount == 1) {
+            hPositions[i][0] = rowCount * tileWidth;
+          } else if ((i + 1) % rowCount == 0) {
+            hPositions[i][0] = -tileWidth;
+          }
+          update(['tile$i']);
+          update(['htile$i']);
+        }
+      }
+      isMovingHorizontally.remove(index);
     }
   }
 
