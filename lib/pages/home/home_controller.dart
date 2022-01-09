@@ -82,21 +82,6 @@ class HomeController extends GetxController {
     }
   }
 
-  void updateVerticalPositions(int index) {
-    for (int i = 0; i < rowCount * rowCount; i++) {
-      if (i % rowCount == index % rowCount) {
-        positions[i][1] = (i ~/ rowCount) * tileWidth + dragDistance;
-        if (i ~/ rowCount == rowCount - 1) {
-          vPositions[i][1] = -tileWidth + dragDistance;
-        } else if (i ~/ rowCount == 0) {
-          vPositions[i][1] = rowCount * tileWidth + dragDistance;
-        }
-        update(['tile$i']);
-        update(['vtile$i']);
-      }
-    }
-  }
-
   void onVerticalDragUpdate(DragUpdateDetails details, index) {
     if (isMovingHorizontally.isEmpty) {
       dragDistance += details.delta.dy;
@@ -106,7 +91,18 @@ class HomeController extends GetxController {
       if (dragDistance < -tileWidth) {
         dragDistance = -tileWidth;
       }
-      updateVerticalPositions(index);
+      for (int i = 0; i < rowCount * rowCount; i++) {
+        if (i % rowCount == index % rowCount) {
+          positions[i][1] = (i ~/ rowCount) * tileWidth + dragDistance;
+          if (i ~/ rowCount == rowCount - 1) {
+            vPositions[i][1] = -tileWidth + dragDistance;
+          } else if (i ~/ rowCount == 0) {
+            vPositions[i][1] = rowCount * tileWidth + dragDistance;
+          }
+          update(['tile$i']);
+          update(['vtile$i']);
+        }
+      }
     }
   }
 
@@ -117,14 +113,10 @@ class HomeController extends GetxController {
       print(dragDistance);
       if (dragDistance > tileWidth ~/ 2) {
         moveDown(index);
-        // dragDistance = tileWidth;
         isMoving = true;
-        // updateVerticalPositions(index);
       } else if (dragDistance < -tileWidth ~/ 2) {
         moveUp(index);
-        // dragDistance = -tileWidth;
         isMoving = true;
-        // updateVerticalPositions(index);
       }
 
       if (isMoving) {
@@ -233,11 +225,20 @@ class HomeController extends GetxController {
 
   void onHorizontalDragEnd(DragEndDetails details, index) {
     if (isMovingVertically.isEmpty) {
+      bool isMoving = false;
       print(dragDistance);
       if (dragDistance > tileWidth ~/ 2) {
         moveRight(index);
+        isMoving = true;
       } else if (dragDistance < -tileWidth ~/ 2) {
         moveLeft(index);
+        isMoving = true;
+      }
+
+      if (isMoving) {
+        animationDuration.value = const Duration(milliseconds: 0);
+      } else {
+        animationDuration.value = const Duration(milliseconds: 100);
       }
       // move tiles back
       for (int i = 0; i < rowCount * rowCount; i++) {
