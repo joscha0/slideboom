@@ -14,15 +14,18 @@ class HomePage extends GetView<HomeController> {
       ),
       body: Center(
         child: SizedBox(
-          width: controller.tileWidth * 3,
-          height: controller.tileWidth * 3,
+          width: controller.tileWidth * controller.rowCount,
+          height: controller.tileWidth * controller.rowCount,
           child: Stack(
             children: [
-              for (int i = 0; i < 9; i++) ...[
+              for (int i = 0;
+                  i < controller.rowCount * controller.rowCount;
+                  i++) ...[
                 tile(context, i, false, false),
 
                 // add horizontal overflow tiles
-                if ((i + 1) % 3 == 1 || (i + 1) % 3 == 0) ...[
+                if ((i + 1) % controller.rowCount == 1 ||
+                    (i + 1) % controller.rowCount == 0) ...[
                   tile(
                     context,
                     i,
@@ -33,7 +36,8 @@ class HomePage extends GetView<HomeController> {
                 ],
 
                 // add vertical overflow tiles
-                if (i ~/ 3 == 3 - 1 || i ~/ 3 == 0) ...[
+                if (i ~/ controller.rowCount == controller.rowCount - 1 ||
+                    i ~/ controller.rowCount == 0) ...[
                   tile(
                     context,
                     i,
@@ -52,7 +56,7 @@ class HomePage extends GetView<HomeController> {
 
   Widget tile(context, int index, bool isOtile, bool isHtile, {String? idStr}) {
     /// [isOtile]: tile is overflow tile
-    final color = Colors.primaries[index * 2];
+    final color = Colors.primaries[controller.tilePositions[index] * 2];
     return GetBuilder<HomeController>(
       id: idStr ?? 'tile$index',
       init: HomeController(),
@@ -87,7 +91,7 @@ class HomePage extends GetView<HomeController> {
               color: color,
               child: Center(
                 child: Text(
-                  (index + 1).toString(),
+                  (c.tilePositions[index] + 1).toString(),
                   style: TextStyle(
                     fontSize: 72,
                     color: color.computeLuminance() < 0.5
