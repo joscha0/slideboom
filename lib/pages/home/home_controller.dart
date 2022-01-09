@@ -19,8 +19,8 @@ class HomeController extends GetxController {
 
   double tileWidth = 100;
 
-  bool isMovingVertically = false;
-  bool isMovingHorizontally = false;
+  List isMovingVertically = [];
+  List isMovingHorizontally = [];
 
   @override
   void onInit() {
@@ -61,49 +61,57 @@ class HomeController extends GetxController {
   }
 
   void onVerticalDragUpdate(details, index) {
-    dragDistance += details.delta.dy;
-    if (dragDistance > tileWidth) {
-      dragDistance = tileWidth;
-    }
-    if (dragDistance < -tileWidth) {
-      dragDistance = -tileWidth;
-    }
-    for (int i = 0; i < 9; i++) {
-      if (i % 3 == index % 3) {
-        positions[i][1] = (i ~/ 3) * tileWidth + dragDistance;
-        if (i ~/ 3 == 3 - 1) {
-          vPositions[i][1] = -tileWidth + dragDistance;
-        } else if (i ~/ 3 == 0) {
-          vPositions[i][1] = 3 * tileWidth + dragDistance;
+    if (isMovingHorizontally.isEmpty) {
+      dragDistance += details.delta.dy;
+      if (dragDistance > tileWidth) {
+        dragDistance = tileWidth;
+      }
+      if (dragDistance < -tileWidth) {
+        dragDistance = -tileWidth;
+      }
+      for (int i = 0; i < 9; i++) {
+        if (i % 3 == index % 3) {
+          positions[i][1] = (i ~/ 3) * tileWidth + dragDistance;
+          if (i ~/ 3 == 3 - 1) {
+            vPositions[i][1] = -tileWidth + dragDistance;
+          } else if (i ~/ 3 == 0) {
+            vPositions[i][1] = 3 * tileWidth + dragDistance;
+          }
+          update(['tile$i']);
+          update(['vtile$i']);
         }
-        update(['tile$i']);
-        update(['vtile$i']);
       }
     }
   }
 
-  void onVerticalDragStart(DragStartDetails details) {
-    dragDistance = 0;
+  void onVerticalDragStart(DragStartDetails details, index) {
+    if (isMovingHorizontally.isEmpty) {
+      dragDistance = 0;
+      isMovingVertically.add(index);
+    }
   }
 
   void onVerticalDragEnd(DragEndDetails details, index) {
-    print(dragDistance);
-    if (dragDistance > 50) {
-      moveDown();
-    } else if (dragDistance < -50) {
-      moveUp();
-    }
-    for (int i = 0; i < 9; i++) {
-      if (i % 3 == index % 3) {
-        positions[i][1] = (i ~/ 3) * tileWidth;
-        if (i ~/ 3 == 3 - 1) {
-          vPositions[i][1] = -tileWidth;
-        } else if (i ~/ 3 == 0) {
-          vPositions[i][1] = 3 * tileWidth;
-        }
-        update(['tile$i']);
-        update(['vtile$i']);
+    if (isMovingHorizontally.isEmpty) {
+      print(dragDistance);
+      if (dragDistance > 50) {
+        moveDown();
+      } else if (dragDistance < -50) {
+        moveUp();
       }
+      for (int i = 0; i < 9; i++) {
+        if (i % 3 == index % 3) {
+          positions[i][1] = (i ~/ 3) * tileWidth;
+          if (i ~/ 3 == 3 - 1) {
+            vPositions[i][1] = -tileWidth;
+          } else if (i ~/ 3 == 0) {
+            vPositions[i][1] = 3 * tileWidth;
+          }
+          update(['tile$i']);
+          update(['vtile$i']);
+        }
+      }
+      isMovingVertically.remove(index);
     }
   }
 
@@ -115,50 +123,58 @@ class HomeController extends GetxController {
     print('down');
   }
 
-  void onHorizontalDragStart(DragStartDetails details) {
-    dragDistance = 0;
+  void onHorizontalDragStart(DragStartDetails details, index) {
+    if (isMovingVertically.isEmpty) {
+      dragDistance = 0;
+      isMovingHorizontally.add(index);
+    }
   }
 
   void onHorizontalDragEnd(DragEndDetails details, index) {
-    print(dragDistance);
-    if (dragDistance > 50) {
-      moveRight();
-    } else if (dragDistance < -50) {
-      moveLeft();
-    }
-    for (int i = 0; i < 9; i++) {
-      if (i ~/ 3 == index ~/ 3) {
-        positions[i][0] = (i % 3) * tileWidth;
-        if ((i + 1) % 3 == 1) {
-          hPositions[i][0] = 3 * tileWidth;
-        } else if ((i + 1) % 3 == 0) {
-          hPositions[i][0] = -tileWidth;
-        }
-        update(['tile$i']);
-        update(['htile$i']);
+    if (isMovingVertically.isEmpty) {
+      print(dragDistance);
+      if (dragDistance > 50) {
+        moveRight();
+      } else if (dragDistance < -50) {
+        moveLeft();
       }
+      for (int i = 0; i < 9; i++) {
+        if (i ~/ 3 == index ~/ 3) {
+          positions[i][0] = (i % 3) * tileWidth;
+          if ((i + 1) % 3 == 1) {
+            hPositions[i][0] = 3 * tileWidth;
+          } else if ((i + 1) % 3 == 0) {
+            hPositions[i][0] = -tileWidth;
+          }
+          update(['tile$i']);
+          update(['htile$i']);
+        }
+      }
+      isMovingHorizontally.remove(index);
     }
   }
 
   void onHorizontalDragUpdate(DragUpdateDetails details, index) {
-    dragDistance += details.delta.dx;
+    if (isMovingVertically.isEmpty) {
+      dragDistance += details.delta.dx;
 
-    if (dragDistance > tileWidth) {
-      dragDistance = tileWidth;
-    }
-    if (dragDistance < -tileWidth) {
-      dragDistance = -tileWidth;
-    }
-    for (int i = 0; i < 9; i++) {
-      if (i ~/ 3 == index ~/ 3) {
-        positions[i][0] = (i % 3) * tileWidth + dragDistance;
-        if ((i + 1) % 3 == 1) {
-          hPositions[i][0] = 3 * tileWidth + dragDistance;
-        } else if ((i + 1) % 3 == 0) {
-          hPositions[i][0] = -tileWidth + dragDistance;
+      if (dragDistance > tileWidth) {
+        dragDistance = tileWidth;
+      }
+      if (dragDistance < -tileWidth) {
+        dragDistance = -tileWidth;
+      }
+      for (int i = 0; i < 9; i++) {
+        if (i ~/ 3 == index ~/ 3) {
+          positions[i][0] = (i % 3) * tileWidth + dragDistance;
+          if ((i + 1) % 3 == 1) {
+            hPositions[i][0] = 3 * tileWidth + dragDistance;
+          } else if ((i + 1) % 3 == 0) {
+            hPositions[i][0] = -tileWidth + dragDistance;
+          }
+          update(['tile$i']);
+          update(['htile$i']);
         }
-        update(['tile$i']);
-        update(['htile$i']);
       }
     }
   }

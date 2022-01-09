@@ -72,11 +72,13 @@ class HomePage extends GetView<HomeController> {
                   : controller.vPositions[index][1]
               : c.positions[index][1],
           child: GestureDetector(
-            onVerticalDragStart: c.onVerticalDragStart,
+            onVerticalDragStart: (details) =>
+                c.onVerticalDragStart(details, index),
             onVerticalDragUpdate: (details) =>
                 c.onVerticalDragUpdate(details, index),
             onVerticalDragEnd: (details) => c.onVerticalDragEnd(details, index),
-            onHorizontalDragStart: c.onHorizontalDragStart,
+            onHorizontalDragStart: (details) =>
+                c.onHorizontalDragStart(details, index),
             onHorizontalDragUpdate: (details) =>
                 c.onHorizontalDragUpdate(details, index),
             onHorizontalDragEnd: (details) =>
