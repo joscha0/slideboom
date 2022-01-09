@@ -123,6 +123,23 @@ class HomeController extends GetxController {
 
   void moveUp(index) {
     print('up');
+    // get column indexes
+    List<int> tiles = [];
+    Map tilePos = {};
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      if (i % rowCount == index % rowCount) {
+        tiles.add(i);
+        tilePos[i] = tilePositions[i];
+      }
+    }
+    // update tiles
+    for (int i = 0; i < tiles.length; i++) {
+      if (i == tiles.length - 1) {
+        tilePositions[tiles[i]] = tilePos[tiles.first];
+      } else {
+        tilePositions[tiles[i]] = tilePos[tiles[i + 1]];
+      }
+    }
   }
 
   void moveDown(index) {
