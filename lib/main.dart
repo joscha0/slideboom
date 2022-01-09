@@ -6,6 +6,6 @@ import 'pages/game/game_page.dart';
 void main() {
   runApp(const GetMaterialApp(
     debugShowCheckedModeBanner: false,
-    home: HomePage(),
+    home: GamePage(),
   ));
 }

@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 
 import 'game_controller.dart';
 
-class HomePage extends GetView<HomeController> {
-  const HomePage({Key? key}) : super(key: key);
+class GamePage extends GetView<GameController> {
+  const GamePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => GameController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -56,9 +56,9 @@ class HomePage extends GetView<HomeController> {
 
   Widget tile(context, int index, bool isOtile, bool isHtile, {String? idStr}) {
     /// [isOtile]: tile is overflow tile
-    return GetBuilder<HomeController>(
+    return GetBuilder<GameController>(
       id: idStr ?? 'tile$index',
-      init: HomeController(),
+      init: GameController(),
       builder: (c) {
         return AnimatedPositioned(
           duration: c.animationDuration.value,

@@ -1,10 +1,9 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
+class GameController extends GetxController {
   RxList positions = [].obs;
   // horizontal overflow tiles
   RxList hPositions = [].obs;
