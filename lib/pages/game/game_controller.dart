@@ -109,7 +109,6 @@ class GameController extends GetxController {
     if (isMovingHorizontally.isEmpty) {
       bool isMoving = false;
 
-      print(dragDistance);
       if (dragDistance > tileWidth ~/ 2) {
         moveDown(index);
         isMoving = true;
@@ -153,7 +152,6 @@ class GameController extends GetxController {
   }
 
   void moveUp(index) {
-    print('up');
     // get column indexes
     List column = getColumn(index);
     List<int> tiles = column[0];
@@ -225,7 +223,6 @@ class GameController extends GetxController {
   void onHorizontalDragEnd(DragEndDetails details, index) {
     if (isMovingVertically.isEmpty) {
       bool isMoving = false;
-      print(dragDistance);
       if (dragDistance > tileWidth ~/ 2) {
         moveRight(index);
         isMoving = true;
@@ -269,7 +266,6 @@ class GameController extends GetxController {
   }
 
   void moveLeft(index) {
-    print('left');
     // get row indexes
     List row = getRow(index);
     List<int> tiles = row[0];
@@ -286,7 +282,6 @@ class GameController extends GetxController {
   }
 
   void moveRight(index) {
-    print('right');
     // get row indexes
     List row = getRow(index);
     List<int> tiles = row[0];
