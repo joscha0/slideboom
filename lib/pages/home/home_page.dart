@@ -7,34 +7,70 @@ class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut(() => HomeController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
       ),
       body: Center(
         child: SizedBox(
-          width: 450,
-          height: 450,
+          width: controller.tileWidth * 3,
+          height: controller.tileWidth * 3,
           child: Stack(
-            children: [for (int i = 0; i < 9; i++) tile(context, i)],
+            children: [
+              for (int i = 0; i < 9; i++) ...[
+                tile(context, i, false, false),
+
+                // add horizontal overflow tiles
+                if ((i + 1) % 3 == 1 || (i + 1) % 3 == 0) ...[
+                  tile(
+                    context,
+                    i,
+                    true,
+                    true,
+                    idStr: 'htile$i',
+                  ),
+                ],
+
+                // add vertical overflow tiles
+                if (i ~/ 3 == 3 - 1 || i ~/ 3 == 0) ...[
+                  tile(
+                    context,
+                    i,
+                    true,
+                    false,
+                    idStr: 'vtile$i',
+                  ),
+                ],
+              ]
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget tile(context, index) {
+  Widget tile(context, int index, bool isOtile, bool isHtile, {String? idStr}) {
+    /// [isOtile]: tile is overflow tile
     final color = Colors.primaries[index * 2];
     return GetBuilder<HomeController>(
-      id: 'tile$index',
+      id: idStr ?? 'tile$index',
       init: HomeController(),
       builder: (c) {
         return AnimatedPositioned(
-          duration: const Duration(milliseconds: 300),
-          width: 150,
-          height: 150,
-          left: c.positions[index][0],
-          top: c.positions[index][1],
+          duration: const Duration(milliseconds: 100),
+          width: c.tileWidth,
+          height: c.tileWidth,
+          left: isOtile
+              ? isHtile
+                  ? controller.hPositions[index][0]
+                  : controller.vPositions[index][0]
+              : c.positions[index][0],
+          top: isOtile
+              ? isHtile
+                  ? controller.hPositions[index][1]
+                  : controller.vPositions[index][1]
+              : c.positions[index][1],
           child: GestureDetector(
             onVerticalDragStart: c.onVerticalDragStart,
             onVerticalDragUpdate: (details) =>
