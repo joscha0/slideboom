@@ -5,10 +5,8 @@ import 'home_controller.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomeController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
@@ -26,35 +24,44 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget tile(context, index) {
-    final color = controller.randomColor;
-    return AnimatedPositioned(
-      duration: const Duration(milliseconds: 500),
-      width: 150,
-      height: 150,
-      left: (index % 3) * 150,
-      top: (index ~/ 3) * 150,
-      child: GestureDetector(
-        onVerticalDragStart: controller.onVerticalDragStart,
-        onVerticalDragUpdate: controller.onVerticalDragUpdate,
-        onVerticalDragEnd: controller.onVerticalDragEnd,
-        onHorizontalDragStart: controller.onHorizontalDragStart,
-        onHorizontalDragUpdate: controller.onHorizontalDragUpdate,
-        onHorizontalDragEnd: controller.onHorizontalDragEnd,
-        child: Container(
-          color: color,
-          child: Center(
-            child: Text(
-              (index + 1).toString(),
-              style: TextStyle(
-                fontSize: 72,
-                color: color.computeLuminance() < 0.5
-                    ? Colors.white
-                    : Colors.black,
+    final color = Colors.primaries[index * 2];
+    return GetBuilder<HomeController>(
+      id: 'tile$index',
+      init: HomeController(),
+      builder: (c) {
+        return AnimatedPositioned(
+          duration: const Duration(milliseconds: 300),
+          width: 150,
+          height: 150,
+          left: c.positions[index][0],
+          top: c.positions[index][1],
+          child: GestureDetector(
+            onVerticalDragStart: c.onVerticalDragStart,
+            onVerticalDragUpdate: (details) =>
+                c.onVerticalDragUpdate(details, index),
+            onVerticalDragEnd: (details) => c.onVerticalDragEnd(details, index),
+            onHorizontalDragStart: c.onHorizontalDragStart,
+            onHorizontalDragUpdate: (details) =>
+                c.onHorizontalDragUpdate(details, index),
+            onHorizontalDragEnd: (details) =>
+                c.onHorizontalDragEnd(details, index),
+            child: Container(
+              color: color,
+              child: Center(
+                child: Text(
+                  (index + 1).toString(),
+                  style: TextStyle(
+                    fontSize: 72,
+                    color: color.computeLuminance() < 0.5
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
