@@ -105,6 +105,7 @@ class HomeController extends GetxController {
       } else if (dragDistance < -tileWidth ~/ 2) {
         moveUp(index);
       }
+      // move tiles back
       for (int i = 0; i < rowCount * rowCount; i++) {
         if (i % rowCount == index % rowCount) {
           positions[i][1] = (i ~/ rowCount) * tileWidth;
@@ -121,9 +122,7 @@ class HomeController extends GetxController {
     }
   }
 
-  void moveUp(index) {
-    print('up');
-    // get column indexes
+  List getColumn(index) {
     List<int> tiles = [];
     Map tilePos = {};
     for (int i = 0; i < rowCount * rowCount; i++) {
@@ -132,6 +131,16 @@ class HomeController extends GetxController {
         tilePos[i] = tilePositions[i];
       }
     }
+    return [tiles, tilePos];
+  }
+
+  void moveUp(index) {
+    print('up');
+    // get column indexes
+    List column = getColumn(index);
+    List<int> tiles = column[0];
+    Map tilePos = column[1];
+
     // update tiles
     for (int i = 0; i < tiles.length; i++) {
       if (i == tiles.length - 1) {
@@ -143,7 +152,18 @@ class HomeController extends GetxController {
   }
 
   void moveDown(index) {
-    print('down');
+    // get column indexes
+    List column = getColumn(index);
+    List<int> tiles = column[0];
+    Map tilePos = column[1];
+    // update tiles
+    for (int i = 0; i < tiles.length; i++) {
+      if (i == 0) {
+        tilePositions[tiles[i]] = tilePos[tiles.last];
+      } else {
+        tilePositions[tiles[i]] = tilePos[tiles[i - 1]];
+      }
+    }
   }
 
   void onHorizontalDragStart(DragStartDetails details, index) {
@@ -161,6 +181,7 @@ class HomeController extends GetxController {
       } else if (dragDistance < -tileWidth ~/ 2) {
         moveLeft();
       }
+      // move tiles back
       for (int i = 0; i < rowCount * rowCount; i++) {
         if (i ~/ rowCount == index ~/ rowCount) {
           positions[i][0] = (i % rowCount) * tileWidth;
