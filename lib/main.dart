@@ -1,6 +1,7 @@
-import 'package:fixmymaze/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'pages/game/game_page.dart';
 
 void main() {
   runApp(const GetMaterialApp(
