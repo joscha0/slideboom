@@ -24,22 +24,52 @@ class HomePage extends GetView<HomeController> {
                         width: double.infinity,
                       ),
                       Text(
-                        'fix my maze',
+                        'slide boom!',
                         style: Get.textTheme.headline3,
                       ),
-                      DropdownButton(
-                          value: c.dropDownValue.value,
-                          style: Get.textTheme.headline5,
-                          items: c.modes.keys
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: c.onChanged),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          DropdownButton(
+                              value: c.dropDownValue.value,
+                              style: Get.textTheme.headline5,
+                              items: c.modes.keys.map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: c.onChanged),
+                          const SizedBox(
+                            width: 25,
+                          ),
+                          Checkbox(
+                              value: c.checkboxValue.value,
+                              onChanged: c.changeCheckbox),
+                          Text('${c.checkboxValue.value ? "" : "no"} bombs')
+                        ],
+                      ),
                       ElevatedButton(
-                          onPressed: c.startGame, child: const Text('play'))
+                          onPressed: c.startGame, child: const Text('play')),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Text(
+                        'scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
+                        style: Get.textTheme.headline6,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.all(25),
+                        child: Table(
+                          children: const [
+                            TableRow(children: [
+                              Text('1.'),
+                              Text('...'),
+                            ])
+                          ],
+                        ),
+                      ),
                     ],
                   );
                 })));
