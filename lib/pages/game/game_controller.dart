@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:fixmymaze/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +29,13 @@ class GameController extends GetxController {
 
   bool bordersEnabled = false; // 'gray', 'color', 'white'
 
+  bool solved = false;
+
   getColor(int index) {
+    if (solved) {
+      return Colors.green;
+    }
+
     if (colorMode == 'gray') {
       return Color.fromRGBO(255 - index * (10 - rowCount),
           255 - index * (10 - rowCount), 255 - index * (10 - rowCount), 1);
@@ -97,8 +105,10 @@ class GameController extends GetxController {
   }
 
   void shuffleStartingPosition() {
+    List valueOptions = List.generate(rowCount * rowCount, (index) => index);
+    valueOptions.shuffle();
     for (int i = 0; i < rowCount * rowCount; i++) {
-      tilePositions[i] = i;
+      tilePositions[i] = valueOptions[i];
     }
   }
 
@@ -334,11 +344,17 @@ class GameController extends GetxController {
   }
 
   void checkSolved() {
-    print(tilePositions);
     for (int i = 0; i < rowCount * rowCount; i++) {
       if (i != tilePositions[i]) {
         return;
       }
+    }
+    // disable movement
+    isMovingHorizontally.add(-1);
+    isMovingVertically.add(-1);
+    solved = true;
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      update(['tile$i']);
     }
     Get.defaultDialog(
       title: 'solved!',
