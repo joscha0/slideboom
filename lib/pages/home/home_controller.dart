@@ -4,7 +4,14 @@ import 'package:get/get.dart';
 class HomeController extends GetxController {
   RxString dropDownValue = '3x3'.obs;
 
-  Map<String, int> modes = {'2x2': 2, '3x3': 3, '4x4': 4, '5x5': 5};
+  Map<String, int> modes = {
+    '2x2': 2,
+    '3x3': 3,
+    '4x4': 4,
+    '5x5': 5,
+    '6x6': 6,
+    '7x7': 7
+  };
 
   void onChanged(String? value) {
     dropDownValue.value = value ?? '3x3';
