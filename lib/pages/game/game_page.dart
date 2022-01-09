@@ -14,10 +14,13 @@ class GamePage extends GetView<GameController> {
       ),
       body: Center(
         child: Container(
-          decoration:
-              BoxDecoration(border: Border.all(color: Colors.black, width: 5)),
-          width: controller.tileWidth * controller.rowCount + 10,
-          height: controller.tileWidth * controller.rowCount + 10,
+          decoration: controller.bordersEnabled
+              ? BoxDecoration(border: Border.all(color: Colors.black, width: 5))
+              : const BoxDecoration(),
+          width: controller.tileWidth * controller.rowCount +
+              (controller.bordersEnabled ? 10 : 0),
+          height: controller.tileWidth * controller.rowCount +
+              (controller.bordersEnabled ? 10 : 0),
           child: Stack(
             children: [
               for (int i = 0;
@@ -89,10 +92,14 @@ class GamePage extends GetView<GameController> {
             onHorizontalDragEnd: (details) =>
                 c.onHorizontalDragEnd(details, index),
             child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                color: c.getColor(index),
-              ),
+              decoration: c.bordersEnabled
+                  ? BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      color: c.getColor(index),
+                    )
+                  : BoxDecoration(
+                      color: c.getColor(index),
+                    ),
               child: Center(
                 child: Text(
                   (c.tilePositions[index] + 1).toString(),

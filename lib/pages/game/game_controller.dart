@@ -23,7 +23,9 @@ class GameController extends GetxController {
 
   Rx<Duration> animationDuration = const Duration(milliseconds: 0).obs;
 
-  String colorMode = 'gray'; // 'gray', 'color', 'white'
+  String colorMode = 'color';
+
+  bool bordersEnabled = false; // 'gray', 'color', 'white'
 
   getColor(int index) {
     if (colorMode == 'gray') {
