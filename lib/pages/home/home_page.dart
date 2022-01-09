@@ -56,7 +56,6 @@ class HomePage extends GetView<HomeController> {
 
   Widget tile(context, int index, bool isOtile, bool isHtile, {String? idStr}) {
     /// [isOtile]: tile is overflow tile
-    final color = Colors.primaries[controller.tilePositions[index] * 2];
     return GetBuilder<HomeController>(
       id: idStr ?? 'tile$index',
       init: HomeController(),
@@ -88,13 +87,15 @@ class HomePage extends GetView<HomeController> {
             onHorizontalDragEnd: (details) =>
                 c.onHorizontalDragEnd(details, index),
             child: Container(
-              color: color,
+              color: Colors.primaries[c.tilePositions[index] * 2],
               child: Center(
                 child: Text(
                   (c.tilePositions[index] + 1).toString(),
                   style: TextStyle(
                     fontSize: 72,
-                    color: color.computeLuminance() < 0.5
+                    color: Colors.primaries[c.tilePositions[index] * 2]
+                                .computeLuminance() <
+                            0.5
                         ? Colors.white
                         : Colors.black,
                   ),
