@@ -1,6 +1,6 @@
 {
-    "name": "fixmymaze",
-    "short_name": "fixmymaze",
+    "name": "slideboom",
+    "short_name": "slideboom",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

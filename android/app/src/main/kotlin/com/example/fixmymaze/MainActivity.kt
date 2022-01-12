@@ -1,4 +1,4 @@
-package com.example.fixmymaze
+package com.example.slideboom
 
 import io.flutter.embedding.android.FlutterActivity
 

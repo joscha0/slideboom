@@ -1,4 +1,4 @@
-import 'package:fixmymaze/pages/game/game_page.dart';
+import 'package:slideboom/pages/game/game_page.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {

@@ -1,4 +1,4 @@
-import 'package:fixmymaze/pages/settings/settings_page.dart';
+import 'package:slideboom/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
