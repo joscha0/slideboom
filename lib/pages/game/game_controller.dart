@@ -60,9 +60,17 @@ class GameController extends GetxController {
   @override
   void onInit() {
     rowCount = Get.arguments;
-    tileWidth = (Get.size.width - Get.size.width * 0.25) / rowCount;
+    setTileWidth();
     setPositions();
     super.onInit();
+  }
+
+  void setTileWidth() {
+    if (Get.size.aspectRatio < 1) {
+      tileWidth = (Get.size.width - Get.size.width * 0.25) / rowCount;
+    } else {
+      tileWidth = (Get.size.height - Get.size.height * 0.25) / rowCount;
+    }
   }
 
   void setPositions() {
@@ -109,6 +117,9 @@ class GameController extends GetxController {
     valueOptions.shuffle();
     for (int i = 0; i < rowCount * rowCount; i++) {
       tilePositions[i] = valueOptions[i];
+    }
+    if (checkSolved()) {
+      shuffleStartingPosition();
     }
   }
 
@@ -180,7 +191,18 @@ class GameController extends GetxController {
         }
       }
       isMovingVertically.remove(index);
-      checkSolved();
+      if (checkSolved()) {
+        // disable movement
+        isMovingHorizontally.add(-1);
+        isMovingVertically.add(-1);
+        solved = true;
+        updateAllTiles();
+        Get.defaultDialog(
+          title: 'solved!',
+          middleText: '',
+          onConfirm: () => Get.offAll(const HomePage()),
+        );
+      }
     }
   }
 
@@ -295,7 +317,18 @@ class GameController extends GetxController {
         }
       }
       isMovingHorizontally.remove(index);
-      checkSolved();
+      if (checkSolved()) {
+        // disable movement
+        isMovingHorizontally.add(-1);
+        isMovingVertically.add(-1);
+        solved = true;
+        updateAllTiles();
+        Get.defaultDialog(
+          title: 'solved!',
+          middleText: '',
+          onConfirm: () => Get.offAll(const HomePage()),
+        );
+      }
     }
   }
 
@@ -343,22 +376,14 @@ class GameController extends GetxController {
     }
   }
 
-  void checkSolved() {
+  bool checkSolved() {
     for (int i = 0; i < rowCount * rowCount; i++) {
       if (i != tilePositions[i]) {
-        return;
+        return false;
       }
     }
-    // disable movement
-    isMovingHorizontally.add(-1);
-    isMovingVertically.add(-1);
-    solved = true;
-    updateAllTiles();
-    Get.defaultDialog(
-      title: 'solved!',
-      middleText: '',
-      onConfirm: () => Get.offAll(const HomePage()),
-    );
+
+    return true;
   }
 
   void updateAllTiles() {
@@ -418,7 +443,8 @@ class GameController extends GetxController {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Get.offAll(() => const HomePage());
+                    Get.offAll(() => const HomePage(),
+                        transition: Transition.fadeIn);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
