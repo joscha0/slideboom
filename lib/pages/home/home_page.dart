@@ -1,4 +1,4 @@
-import 'package:fixmymaze/pages/game/game_page.dart';
+import 'package:fixmymaze/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +13,14 @@ class HomePage extends GetView<HomeController> {
         appBar: AppBar(
           toolbarHeight: 0,
         ),
+        floatingActionButton: IconButton(
+          icon: const Icon(Icons.settings),
+          onPressed: () {
+            Get.to(() => const SettingsPage(),
+                transition: Transition.rightToLeftWithFade);
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         body: SafeArea(
             child: GetX<HomeController>(
                 init: HomeController(),
@@ -52,7 +60,11 @@ class HomePage extends GetView<HomeController> {
                         ],
                       ),
                       ElevatedButton(
-                          onPressed: c.startGame, child: const Text('play')),
+                          onPressed: c.startGame,
+                          child: const Text(
+                            'play',
+                            style: TextStyle(fontSize: 42),
+                          )),
                       const SizedBox(
                         height: 25,
                       ),
