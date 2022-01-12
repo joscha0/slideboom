@@ -22,7 +22,8 @@ class HomeController extends GetxController {
   }
 
   void startGame() {
-    Get.to(const GamePage(), arguments: modes[dropDownValue.value]);
+    Get.to(const GamePage(),
+        arguments: modes[dropDownValue.value], transition: Transition.zoom);
   }
 
   void changeCheckbox(bool? value) {
