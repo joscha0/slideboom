@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:fixmymaze/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -113,6 +111,7 @@ class GameController extends GetxController {
   }
 
   void shuffleStartingPosition() {
+    // TODO make move shuffle (this results in unsolvable parity)
     List valueOptions = List.generate(rowCount * rowCount, (index) => index);
     valueOptions.shuffle();
     for (int i = 0; i < rowCount * rowCount; i++) {
