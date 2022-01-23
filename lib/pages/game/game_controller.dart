@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:slideboom/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +11,13 @@ class GameController extends GetxController {
   RxList hPositions = [].obs;
   // vertical overflow tiles
   RxList vPositions = [].obs;
+
+  int bombIndex = -1;
+
+  RxInt bombImage = 0.obs;
+
+  RxInt explosionImage = 0.obs;
+  RxBool isExplosion = false.obs;
 
   // saved tile positions
   RxMap tilePositions = {}.obs;
@@ -28,6 +38,9 @@ class GameController extends GetxController {
   bool bordersEnabled = false; // 'gray', 'color', 'white'
 
   bool solved = false;
+
+  late final Timer bombTimer;
+  late final Timer explosionTimer;
 
   getColor(int index) {
     if (solved) {
@@ -62,6 +75,13 @@ class GameController extends GetxController {
     setPositions();
     super.onInit();
   }
+
+  // @override
+  // void onClose() {
+  //   bombTimer.cancel();
+  //   explosionTimer.cancel();
+  //   super.onClose();
+  // }
 
   void setTileWidth() {
     if (Get.size.aspectRatio < 1) {
@@ -120,6 +140,18 @@ class GameController extends GetxController {
     if (checkSolved()) {
       shuffleStartingPosition();
     }
+    // set bomb position
+    if (rowCount >= 4) {
+      bombIndex = Random().nextInt(rowCount * rowCount);
+    }
+  }
+
+  bool isBombPosition(index) {
+    if (bombIndex == -1) {
+      return false;
+    } else {
+      return bombIndex == index;
+    }
   }
 
   /*
@@ -147,6 +179,9 @@ class GameController extends GetxController {
       for (int i = 0; i < rowCount * rowCount; i++) {
         if (i % rowCount == index % rowCount) {
           positions[i][1] = (i ~/ rowCount) * tileWidth + dragDistance;
+          if (i == bombIndex) {
+            bombMoved();
+          }
           if (i ~/ rowCount == rowCount - 1) {
             vPositions[i][1] = -tileWidth + dragDistance;
           } else if (i ~/ rowCount == 0) {
@@ -274,6 +309,9 @@ class GameController extends GetxController {
       for (int i = 0; i < rowCount * rowCount; i++) {
         if (i ~/ rowCount == index ~/ rowCount) {
           positions[i][0] = (i % rowCount) * tileWidth + dragDistance;
+          if (i == bombIndex) {
+            bombMoved();
+          }
           if ((i + 1) % rowCount == 1) {
             hPositions[i][0] = rowCount * tileWidth + dragDistance;
           } else if ((i + 1) % rowCount == 0) {
@@ -461,5 +499,92 @@ class GameController extends GetxController {
       barrierDismissible: false,
       barrierColor: Colors.black87,
     );
+  }
+
+  void bombMoved() {
+    // disable movement
+    isMovingHorizontally.add(-1);
+    isMovingVertically.add(-1);
+    bombTimer = Timer.periodic(const Duration(milliseconds: 200), (bombTimer) {
+      bombImage.value += 1;
+      update(['tile$bombIndex']);
+      if (bombImage.value >= 3) {
+        bombTimer.cancel();
+
+        int count = 0;
+        explosionTimer =
+            Timer.periodic(const Duration(milliseconds: 150), (explosionTimer) {
+          if (count <= 3) {
+            count++;
+            if (count == 3) {
+              isExplosion.value = true;
+              update(['explosion']);
+            }
+          } else {
+            explosionImage.value += 1;
+
+            update(['explosion']);
+          }
+          if (explosionImage.value >= 8) {
+            explosionTimer.cancel();
+            isExplosion.value = false;
+            Get.dialog(
+              Center(
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'bomb exploded!',
+                        style: Get.textTheme.headline4
+                            ?.copyWith(color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Get.back();
+                            onInit();
+                            updateAllTiles();
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Restart',
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
+                            ),
+                          )),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Get.offAll(() => const HomePage(),
+                                transition: Transition.fadeIn);
+                          },
+                          child: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Home',
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
+                            ),
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+              barrierDismissible: false,
+              barrierColor: const Color.fromRGBO(230, 50, 17, 0.95),
+            );
+          }
+        });
+      }
+    });
   }
 }

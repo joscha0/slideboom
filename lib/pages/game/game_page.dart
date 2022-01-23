@@ -59,12 +59,34 @@ class GamePage extends GetView<GameController> {
                     idStr: 'vtile$i',
                   ),
                 ],
-              ]
+              ],
+              // add bomb explosion
+              if (controller.bombIndex != -1) ...[
+                bombExplosion(),
+              ],
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget bombExplosion() {
+    return GetBuilder<GameController>(
+        id: 'explosion',
+        init: GameController(),
+        builder: (c) {
+          return Visibility(
+            visible: c.isExplosion.value,
+            child: Positioned(
+                width: c.tileWidth * 2,
+                height: c.tileWidth * 2,
+                left: c.positions[c.bombIndex][0] - 0.5 * c.tileWidth,
+                top: c.positions[c.bombIndex][1] - 0.5 * c.tileWidth,
+                child: Image.asset(
+                    'assets/explosion/explosion_${c.explosionImage.value}.png')),
+          );
+        });
   }
 
   Widget tile(context, int index, bool isOtile, bool isHtile, {String? idStr}) {
@@ -109,15 +131,17 @@ class GamePage extends GetView<GameController> {
                       color: c.getColor(index),
                     ),
               child: Center(
-                child: Text(
-                  (c.tilePositions[index] + 1).toString(),
-                  style: TextStyle(
-                    fontSize: c.tileWidth * 0.6,
-                    color: c.getColor(index).computeLuminance() < 0.5
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                ),
+                child: c.isBombPosition(index)
+                    ? Image.asset('assets/bomb/bomb_${c.bombImage.value}.png')
+                    : Text(
+                        (c.tilePositions[index] + 1).toString(),
+                        style: TextStyle(
+                          fontSize: c.tileWidth * 0.6,
+                          color: c.getColor(index).computeLuminance() < 0.5
+                              ? Colors.white
+                              : Colors.black,
+                        ),
+                      ),
               ),
             ),
           ),
