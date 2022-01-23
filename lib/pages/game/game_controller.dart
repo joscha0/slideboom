@@ -38,9 +38,13 @@ class GameController extends GetxController {
   bool bordersEnabled = false; // 'gray', 'color', 'white'
 
   bool solved = false;
+  RxBool isEnded = false.obs;
 
-  late final Timer bombTimer;
-  late final Timer explosionTimer;
+  late Timer timer;
+  late Timer bombTimer;
+  late Timer explosionTimer;
+
+  RxInt timePassed = 0.obs;
 
   getColor(int index) {
     if (solved) {
@@ -73,15 +77,65 @@ class GameController extends GetxController {
     rowCount = Get.arguments;
     setTileWidth();
     setPositions();
+    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+      timePassed.value++;
+    });
     super.onInit();
   }
 
-  // @override
-  // void onClose() {
-  //   bombTimer.cancel();
-  //   explosionTimer.cancel();
-  //   super.onClose();
-  // }
+  void restart() {
+    Get.back();
+    // set default values
+    positions = [].obs;
+    hPositions = [].obs;
+    vPositions = [].obs;
+
+    bombIndex = -1;
+
+    bombImage = 0.obs;
+
+    explosionImage = 0.obs;
+    isExplosion = false.obs;
+
+    tilePositions = {}.obs;
+
+    dragDistance = 0;
+
+    tileWidth = 100;
+
+    rowCount = 3;
+
+    isMovingVertically = [];
+    isMovingHorizontally = [];
+
+    animationDuration = const Duration(milliseconds: 0).obs;
+
+    colorMode = 'color';
+
+    bordersEnabled = false;
+
+    solved = false;
+    isEnded.value = false;
+
+    timePassed = 0.obs;
+
+    rowCount = Get.arguments;
+    setTileWidth();
+    setPositions();
+
+    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+      timePassed.value++;
+    });
+    updateAllTiles();
+  }
+
+  @override
+  void onClose() {
+    bombTimer.cancel();
+    explosionTimer.cancel();
+    timer.cancel();
+    super.onClose();
+  }
 
   void setTileWidth() {
     if (Get.size.aspectRatio < 1) {
@@ -426,6 +480,8 @@ class GameController extends GetxController {
   void updateAllTiles() {
     for (int i = 0; i < rowCount * rowCount; i++) {
       update(['tile$i']);
+      update(['htile$i']);
+      update(['vtile$i']);
     }
   }
 
@@ -461,11 +517,7 @@ class GameController extends GetxController {
                 height: 10,
               ),
               ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                    onInit();
-                    updateAllTiles();
-                  },
+                  onPressed: restart,
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
@@ -505,6 +557,7 @@ class GameController extends GetxController {
     // disable movement
     isMovingHorizontally.add(-1);
     isMovingVertically.add(-1);
+    isEnded.value = true;
     bombTimer = Timer.periodic(const Duration(milliseconds: 200), (bombTimer) {
       bombImage.value += 1;
       update(['tile$bombIndex']);
@@ -544,11 +597,7 @@ class GameController extends GetxController {
                         height: 20,
                       ),
                       ElevatedButton(
-                          onPressed: () {
-                            Get.back();
-                            onInit();
-                            updateAllTiles();
-                          },
+                          onPressed: restart,
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: Text(
