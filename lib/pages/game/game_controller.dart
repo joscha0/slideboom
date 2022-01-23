@@ -77,27 +77,31 @@ class GameController extends GetxController {
     rowCount = Get.arguments;
     setTileWidth();
     setPositions();
+    startTimer();
+    super.onInit();
+  }
+
+  void startTimer() {
     timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
       timePassed.value++;
     });
-    super.onInit();
   }
 
   void restart() {
     Get.back();
     // set default values
-    positions = [].obs;
-    hPositions = [].obs;
-    vPositions = [].obs;
+    positions.value = [];
+    hPositions.value = [];
+    vPositions.value = [];
 
     bombIndex = -1;
 
-    bombImage = 0.obs;
+    bombImage.value = 0;
 
-    explosionImage = 0.obs;
-    isExplosion = false.obs;
+    explosionImage.value = 0;
+    isExplosion.value = false;
 
-    tilePositions = {}.obs;
+    tilePositions.value = {};
 
     dragDistance = 0;
 
@@ -108,7 +112,7 @@ class GameController extends GetxController {
     isMovingVertically = [];
     isMovingHorizontally = [];
 
-    animationDuration = const Duration(milliseconds: 0).obs;
+    animationDuration.value = const Duration(milliseconds: 0);
 
     colorMode = 'color';
 
@@ -117,7 +121,7 @@ class GameController extends GetxController {
     solved = false;
     isEnded.value = false;
 
-    timePassed = 0.obs;
+    timePassed.value = 0;
 
     rowCount = Get.arguments;
     setTileWidth();
@@ -131,8 +135,8 @@ class GameController extends GetxController {
 
   @override
   void onClose() {
-    bombTimer.cancel();
-    explosionTimer.cancel();
+    // bombTimer.cancel();
+    // explosionTimer.cancel();
     timer.cancel();
     super.onClose();
   }
@@ -280,16 +284,7 @@ class GameController extends GetxController {
       }
       isMovingVertically.remove(index);
       if (checkSolved()) {
-        // disable movement
-        isMovingHorizontally.add(-1);
-        isMovingVertically.add(-1);
-        solved = true;
-        updateAllTiles();
-        Get.defaultDialog(
-          title: 'solved!',
-          middleText: '',
-          onConfirm: () => Get.offAll(const HomePage()),
-        );
+        openFinished();
       }
     }
   }
@@ -409,16 +404,7 @@ class GameController extends GetxController {
       }
       isMovingHorizontally.remove(index);
       if (checkSolved()) {
-        // disable movement
-        isMovingHorizontally.add(-1);
-        isMovingVertically.add(-1);
-        solved = true;
-        updateAllTiles();
-        Get.defaultDialog(
-          title: 'solved!',
-          middleText: '',
-          onConfirm: () => Get.offAll(const HomePage()),
-        );
+        openFinished();
       }
     }
   }
@@ -486,6 +472,7 @@ class GameController extends GetxController {
   }
 
   showPause() {
+    timer.cancel();
     Get.dialog(
       Center(
         child: Container(
@@ -503,6 +490,7 @@ class GameController extends GetxController {
               ElevatedButton(
                   onPressed: () {
                     Get.back();
+                    startTimer();
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -635,5 +623,63 @@ class GameController extends GetxController {
         });
       }
     });
+  }
+
+  void openFinished() {
+    timer.cancel();
+    // disable movement
+    isMovingHorizontally.add(-1);
+    isMovingVertically.add(-1);
+    solved = true;
+    updateAllTiles();
+    Get.dialog(
+      Center(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'solved!',
+                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: restart,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Restart',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.offAll(() => const HomePage(),
+                        transition: Transition.fadeIn);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Home',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+      barrierColor: const Color.fromRGBO(5, 15, 5, 0.95),
+    );
   }
 }

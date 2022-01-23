@@ -25,51 +25,93 @@ class GamePage extends GetView<GameController> {
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerTop,
       body: Center(
-        child: Container(
-          decoration: controller.bordersEnabled
-              ? BoxDecoration(border: Border.all(color: Colors.black, width: 5))
-              : const BoxDecoration(),
-          width: controller.tileWidth * controller.rowCount +
-              (controller.bordersEnabled ? 10 : 0),
-          height: controller.tileWidth * controller.rowCount +
-              (controller.bordersEnabled ? 10 : 0),
-          child: Stack(
-            children: [
-              for (int i = 0;
-                  i < controller.rowCount * controller.rowCount;
-                  i++) ...[
-                tile(context, i, false, false),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 100,
+              child: Obx(() {
+                return controller.isEnded.value
+                    ? Container()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: Text(
+                              '${controller.timePassed.value ~/ 100}',
+                              textAlign: TextAlign.end,
+                              style: Get.textTheme.headline4,
+                            ),
+                          ),
+                          Text(
+                            ' : ',
+                            style: Get.textTheme.headline4,
+                          ),
+                          SizedBox(
+                            width: 150,
+                            child: Text(
+                              (controller.timePassed.value % 100)
+                                  .toString()
+                                  .padLeft(2, '0'),
+                              style: Get.textTheme.headline4,
+                            ),
+                          ),
+                        ],
+                      );
+              }),
+            ),
+            Container(
+              decoration: controller.bordersEnabled
+                  ? BoxDecoration(
+                      border: Border.all(color: Colors.black, width: 5))
+                  : const BoxDecoration(),
+              width: controller.tileWidth * controller.rowCount +
+                  (controller.bordersEnabled ? 10 : 0),
+              height: controller.tileWidth * controller.rowCount +
+                  (controller.bordersEnabled ? 10 : 0),
+              child: Stack(
+                children: [
+                  for (int i = 0;
+                      i < controller.rowCount * controller.rowCount;
+                      i++) ...[
+                    tile(context, i, false, false),
 
-                // add horizontal overflow tiles
-                if ((i + 1) % controller.rowCount == 1 ||
-                    (i + 1) % controller.rowCount == 0) ...[
-                  tile(
-                    context,
-                    i,
-                    true,
-                    true,
-                    idStr: 'htile$i',
-                  ),
-                ],
+                    // add horizontal overflow tiles
+                    if ((i + 1) % controller.rowCount == 1 ||
+                        (i + 1) % controller.rowCount == 0) ...[
+                      tile(
+                        context,
+                        i,
+                        true,
+                        true,
+                        idStr: 'htile$i',
+                      ),
+                    ],
 
-                // add vertical overflow tiles
-                if (i ~/ controller.rowCount == controller.rowCount - 1 ||
-                    i ~/ controller.rowCount == 0) ...[
-                  tile(
-                    context,
-                    i,
-                    true,
-                    false,
-                    idStr: 'vtile$i',
-                  ),
+                    // add vertical overflow tiles
+                    if (i ~/ controller.rowCount == controller.rowCount - 1 ||
+                        i ~/ controller.rowCount == 0) ...[
+                      tile(
+                        context,
+                        i,
+                        true,
+                        false,
+                        idStr: 'vtile$i',
+                      ),
+                    ],
+                  ],
+                  // add bomb explosion
+                  if (controller.bombIndex != -1) ...[
+                    bombExplosion(),
+                  ],
                 ],
-              ],
-              // add bomb explosion
-              if (controller.bombIndex != -1) ...[
-                bombExplosion(),
-              ],
-            ],
-          ),
+              ),
+            ),
+            SizedBox(
+              height: 100,
+            )
+          ],
         ),
       ),
     );
