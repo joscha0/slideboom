@@ -28,6 +28,7 @@ class GameController extends GetxController {
   double tileWidth = 100;
 
   int rowCount = 3;
+  bool bombEnabled = false;
 
   List isMovingVertically = [];
   List isMovingHorizontally = [];
@@ -75,7 +76,8 @@ class GameController extends GetxController {
 
   @override
   void onInit() {
-    rowCount = Get.arguments;
+    rowCount = Get.arguments['rowCount'];
+    bombEnabled = Get.arguments['bombEnabled'];
     setTileWidth();
     setPositions();
     startTimer();
@@ -124,7 +126,8 @@ class GameController extends GetxController {
 
     timePassed.value = 0;
 
-    rowCount = Get.arguments;
+    rowCount = Get.arguments['rowCount'];
+    bombEnabled = Get.arguments['bombEnabled'];
     setTileWidth();
     setPositions();
 
@@ -194,7 +197,7 @@ class GameController extends GetxController {
 
   void shuffleStartingPosition() {
     // set bomb position
-    if (rowCount >= 4) {
+    if (bombEnabled) {
       bombIndex = Random().nextInt(rowCount * rowCount);
     }
     // make a random move (up, down, left, right) at each tile;
@@ -203,7 +206,7 @@ class GameController extends GetxController {
       List moves = [moveUp, moveDown, moveLeft, moveRight];
       moves[Random().nextInt(moves.length)](i, isStart: true);
       // if bomb would explode skip that step
-      if (rowCount >= 4 && startPosition[bombIndex] != bombIndex) {
+      if (bombEnabled && startPosition[bombIndex] != bombIndex) {
         startPosition = backUpPos;
       }
     }

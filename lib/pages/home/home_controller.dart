@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 class HomeController extends GetxController {
   RxString dropDownValue = '3x3'.obs;
-  RxBool checkboxValue = true.obs;
+  RxBool checkboxValue = false.obs;
 
   Map<String, int> modes = {
     '2x2': 2,
@@ -23,7 +23,11 @@ class HomeController extends GetxController {
 
   void startGame() {
     Get.to(const GamePage(),
-        arguments: modes[dropDownValue.value], transition: Transition.zoom);
+        arguments: {
+          'bombEnabled': checkboxValue.value,
+          'rowCount': modes[dropDownValue.value]
+        },
+        transition: Transition.zoom);
   }
 
   void changeCheckbox(bool? value) {
