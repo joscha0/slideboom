@@ -21,6 +21,7 @@ class GameController extends GetxController {
 
   // saved tile positions
   RxMap tilePositions = {}.obs;
+  Map startPosition = {};
 
   double dragDistance = 0;
 
@@ -185,22 +186,39 @@ class GameController extends GetxController {
     }
 
     // starting position
+    List valueOptions = List.generate(rowCount * rowCount, (index) => index);
+    startPosition = Map.fromIterables(valueOptions, valueOptions);
     shuffleStartingPosition();
+    tilePositions.value = startPosition;
   }
 
   void shuffleStartingPosition() {
-    // TODO make move shuffle (this results in unsolvable parity)
-    List valueOptions = List.generate(rowCount * rowCount, (index) => index);
-    valueOptions.shuffle();
-    for (int i = 0; i < rowCount * rowCount; i++) {
-      tilePositions[i] = valueOptions[i];
-    }
-    if (checkSolved()) {
-      shuffleStartingPosition();
-    }
     // set bomb position
     if (rowCount >= 4) {
       bombIndex = Random().nextInt(rowCount * rowCount);
+    }
+    // make a random move (up, down, left, right) at each tile;
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      Map backUpPos = Map.from(startPosition);
+      List moves = [moveUp, moveDown, moveLeft, moveRight];
+      moves[Random().nextInt(moves.length)](i, isStart: true);
+      // if bomb would explode skip that step
+      if (rowCount >= 4 && startPosition[bombIndex] != bombIndex) {
+        startPosition = backUpPos;
+      }
+    }
+
+    // if more than 50% of positions are the same reshuffle
+    int sameIndexCount = 0;
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      if (i == startPosition[i]) {
+        sameIndexCount++;
+      }
+    }
+    print(startPosition);
+
+    if (sameIndexCount > (rowCount * rowCount / 2)) {
+      shuffleStartingPosition();
     }
   }
 
@@ -289,45 +307,65 @@ class GameController extends GetxController {
     }
   }
 
-  List getColumn(index) {
+  List getColumn(index, isStart) {
     List<int> tiles = [];
     Map tilePos = {};
     for (int i = 0; i < rowCount * rowCount; i++) {
       if (i % rowCount == index % rowCount) {
         tiles.add(i);
-        tilePos[i] = tilePositions[i];
+        if (isStart) {
+          tilePos[i] = startPosition[i];
+        } else {
+          tilePos[i] = tilePositions[i];
+        }
       }
     }
     return [tiles, tilePos];
   }
 
-  void moveUp(index) {
+  void moveUp(index, {isStart = false}) {
     // get column indexes
-    List column = getColumn(index);
+    List column = getColumn(index, isStart);
     List<int> tiles = column[0];
     Map tilePos = column[1];
 
     // update tiles
     for (int i = 0; i < tiles.length; i++) {
       if (i == tiles.length - 1) {
-        tilePositions[tiles[i]] = tilePos[tiles.first];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles.first];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles.first];
+        }
       } else {
-        tilePositions[tiles[i]] = tilePos[tiles[i + 1]];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles[i + 1]];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles[i + 1]];
+        }
       }
     }
   }
 
-  void moveDown(index) {
+  void moveDown(index, {isStart = false}) {
     // get column indexes
-    List column = getColumn(index);
+    List column = getColumn(index, isStart);
     List<int> tiles = column[0];
     Map tilePos = column[1];
     // update tiles
     for (int i = 0; i < tiles.length; i++) {
       if (i == 0) {
-        tilePositions[tiles[i]] = tilePos[tiles.last];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles.last];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles.last];
+        }
       } else {
-        tilePositions[tiles[i]] = tilePos[tiles[i - 1]];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles[i - 1]];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles[i - 1]];
+        }
       }
     }
   }
@@ -409,46 +447,66 @@ class GameController extends GetxController {
     }
   }
 
-  List getRow(index) {
+  List getRow(index, isStart) {
     List<int> tiles = [];
     Map tilePos = {};
     for (int i = 0; i < rowCount * rowCount; i++) {
       if (i ~/ rowCount == index ~/ rowCount) {
         tiles.add(i);
-        tilePos[i] = tilePositions[i];
+        if (isStart) {
+          tilePos[i] = startPosition[i];
+        } else {
+          tilePos[i] = tilePositions[i];
+        }
       }
     }
     return [tiles, tilePos];
   }
 
-  void moveLeft(index) {
+  void moveLeft(index, {isStart = false}) {
     // get row indexes
-    List row = getRow(index);
+    List row = getRow(index, isStart);
     List<int> tiles = row[0];
     Map tilePos = row[1];
 
     // update tiles
     for (int i = 0; i < tiles.length; i++) {
       if (i == tiles.length - 1) {
-        tilePositions[tiles[i]] = tilePos[tiles.first];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles.first];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles.first];
+        }
       } else {
-        tilePositions[tiles[i]] = tilePos[tiles[i + 1]];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles[i + 1]];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles[i + 1]];
+        }
       }
     }
   }
 
-  void moveRight(index) {
+  void moveRight(index, {isStart = false}) {
     // get row indexes
-    List row = getRow(index);
+    List row = getRow(index, isStart);
     List<int> tiles = row[0];
     Map tilePos = row[1];
 
     // update tiles
     for (int i = 0; i < tiles.length; i++) {
       if (i == 0) {
-        tilePositions[tiles[i]] = tilePos[tiles.last];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles.last];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles.last];
+        }
       } else {
-        tilePositions[tiles[i]] = tilePos[tiles[i - 1]];
+        if (isStart) {
+          startPosition[tiles[i]] = tilePos[tiles[i - 1]];
+        } else {
+          tilePositions[tiles[i]] = tilePos[tiles[i - 1]];
+        }
       }
     }
   }
