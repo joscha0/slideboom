@@ -22,6 +22,14 @@ class GamePage extends GetView<GameController> {
             controller.keyMoveIndex(Direction.LEFT),
         const SingleActivator(LogicalKeyboardKey.keyD): () =>
             controller.keyMoveIndex(Direction.RIGHT),
+        const SingleActivator(LogicalKeyboardKey.arrowUp): () =>
+            controller.keyMoveTiles(Direction.UP),
+        const SingleActivator(LogicalKeyboardKey.arrowDown): () =>
+            controller.keyMoveTiles(Direction.DOWN),
+        const SingleActivator(LogicalKeyboardKey.arrowLeft): () =>
+            controller.keyMoveTiles(Direction.LEFT),
+        const SingleActivator(LogicalKeyboardKey.arrowRight): () =>
+            controller.keyMoveTiles(Direction.RIGHT),
       },
       child: Focus(
         autofocus: true,

@@ -305,9 +305,41 @@ class GameController extends GetxController {
         default:
       }
     }
-    print(selectedIndex.value);
     update(['tile$oldSelected']);
     update(['tile${selectedIndex.value}']);
+  }
+
+  void keyMoveTiles(Direction dir) {
+    if (selectedIndex.value != -1) {
+      switch (dir) {
+        case Direction.UP:
+          if (isMovingHorizontally.isEmpty) {
+            moveUp(selectedIndex.value);
+            _moveVertical(true, selectedIndex.value);
+          }
+          break;
+        case Direction.DOWN:
+          if (isMovingHorizontally.isEmpty) {
+            moveDown(selectedIndex.value);
+            _moveVertical(true, selectedIndex.value);
+          }
+          break;
+        case Direction.LEFT:
+          if (isMovingVertically.isEmpty) {
+            moveLeft(selectedIndex.value);
+            _moveHorizontal(true, selectedIndex.value);
+          }
+          break;
+        case Direction.RIGHT:
+          if (isMovingVertically.isEmpty) {
+            moveRight(selectedIndex.value);
+            _moveHorizontal(true, selectedIndex.value);
+          }
+          break;
+        default:
+      }
+      keyMoveIndex(dir);
+    }
   }
 
   void removeSelectedIndex() {
@@ -372,28 +404,32 @@ class GameController extends GetxController {
         isMoving = true;
       }
 
-      if (isMoving) {
-        animationDuration.value = const Duration(milliseconds: 0);
-      } else {
-        animationDuration.value = const Duration(milliseconds: 100);
-      }
-      // move tiles back
-      for (int i = 0; i < rowCount * rowCount; i++) {
-        if (i % rowCount == index % rowCount) {
-          positions[i][1] = (i ~/ rowCount) * tileWidth;
-          if (i ~/ rowCount == rowCount - 1) {
-            vPositions[i][1] = -tileWidth;
-          } else if (i ~/ rowCount == 0) {
-            vPositions[i][1] = rowCount * tileWidth;
-          }
-          update(['tile$i']);
-          update(['vtile$i']);
+      _moveVertical(isMoving, index);
+    }
+  }
+
+  void _moveVertical(bool isMoving, int index) {
+    if (isMoving) {
+      animationDuration.value = const Duration(milliseconds: 0);
+    } else {
+      animationDuration.value = const Duration(milliseconds: 100);
+    }
+    // move tiles back
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      if (i % rowCount == index % rowCount) {
+        positions[i][1] = (i ~/ rowCount) * tileWidth;
+        if (i ~/ rowCount == rowCount - 1) {
+          vPositions[i][1] = -tileWidth;
+        } else if (i ~/ rowCount == 0) {
+          vPositions[i][1] = rowCount * tileWidth;
         }
+        update(['tile$i']);
+        update(['vtile$i']);
       }
-      isMovingVertically.remove(index);
-      if (checkSolved()) {
-        openFinished();
-      }
+    }
+    isMovingVertically.remove(index);
+    if (checkSolved()) {
+      openFinished();
     }
   }
 
@@ -513,28 +549,32 @@ class GameController extends GetxController {
         isMoving = true;
       }
 
-      if (isMoving) {
-        animationDuration.value = const Duration(milliseconds: 0);
-      } else {
-        animationDuration.value = const Duration(milliseconds: 100);
-      }
-      // move tiles back
-      for (int i = 0; i < rowCount * rowCount; i++) {
-        if (i ~/ rowCount == index ~/ rowCount) {
-          positions[i][0] = (i % rowCount) * tileWidth;
-          if ((i + 1) % rowCount == 1) {
-            hPositions[i][0] = rowCount * tileWidth;
-          } else if ((i + 1) % rowCount == 0) {
-            hPositions[i][0] = -tileWidth;
-          }
-          update(['tile$i']);
-          update(['htile$i']);
+      _moveHorizontal(isMoving, index);
+    }
+  }
+
+  _moveHorizontal(bool isMoving, int index) {
+    if (isMoving) {
+      animationDuration.value = const Duration(milliseconds: 0);
+    } else {
+      animationDuration.value = const Duration(milliseconds: 100);
+    }
+    // move tiles back
+    for (int i = 0; i < rowCount * rowCount; i++) {
+      if (i ~/ rowCount == index ~/ rowCount) {
+        positions[i][0] = (i % rowCount) * tileWidth;
+        if ((i + 1) % rowCount == 1) {
+          hPositions[i][0] = rowCount * tileWidth;
+        } else if ((i + 1) % rowCount == 0) {
+          hPositions[i][0] = -tileWidth;
         }
+        update(['tile$i']);
+        update(['htile$i']);
       }
-      isMovingHorizontally.remove(index);
-      if (checkSolved()) {
-        openFinished();
-      }
+    }
+    isMovingHorizontally.remove(index);
+    if (checkSolved()) {
+      openFinished();
     }
   }
 
