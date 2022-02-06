@@ -12,14 +12,13 @@ addScore(int rowCount, bool bombs, int time) {
   // id: scores-4x4b
   String id = "scores-${rowCount}x$rowCount" + (bombs ? "b" : "");
   List scores = box.read(id) ?? [];
-  int slowest = 0;
-  if (scores.isNotEmpty) {
-    slowest =
-        scores.reduce((a, b) => a['time'] > b['time'] ? a['time'] : b['time']);
+  Map slowest = {'time': 0};
+  if (scores.length > 1) {
+    slowest = scores.reduce((a, b) => a['time'] > b['time'] ? a : b);
   }
   if (scores.length < 10) {
     _saveScore(id, time, scores);
-  } else if (slowest > time) {
+  } else if (slowest['time'] > time) {
     scores.removeWhere((score) => score == slowest);
     _saveScore(id, time, scores);
   }
