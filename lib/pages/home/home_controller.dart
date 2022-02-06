@@ -19,6 +19,9 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
+    Map mode = getMode();
+    dropDownValue.value = mode['mode'];
+    checkboxValue.value = mode['bombs'];
     loadScores();
     super.onInit();
   }
@@ -29,6 +32,7 @@ class HomeController extends GetxController {
       checkboxValue.value = false;
     }
     loadScores();
+    saveMode();
   }
 
   void startGame() {
@@ -44,6 +48,7 @@ class HomeController extends GetxController {
   void changeCheckbox(bool? value) {
     checkboxValue.value = value ?? true;
     loadScores();
+    saveMode();
   }
 
   void loadScores() {
@@ -58,5 +63,9 @@ class HomeController extends GetxController {
       scores.add(score);
     }
     scores.sort((a, b) => a['time'].compareTo(b['time']));
+  }
+
+  void saveMode() {
+    setMode(dropDownValue.value, checkboxValue.value);
   }
 }
