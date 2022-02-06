@@ -39,7 +39,10 @@ class HomePage extends GetView<HomeController> {
                     children: [
                       ResponsiveRowColumnItem(
                         rowOrder: 1,
-                        rowFlex: 1,
+                        rowFlex:
+                            ResponsiveWrapper.of(context).isLargerThan(TABLET)
+                                ? 2
+                                : 1,
                         child: Column(
                             mainAxisAlignment: isRow
                                 ? MainAxisAlignment.center
@@ -48,35 +51,44 @@ class HomePage extends GetView<HomeController> {
                               const SizedBox(
                                 width: double.infinity,
                               ),
-                              Image.asset(
-                                'assets/home.png',
-                                width: 150,
+                              Container(
+                                constraints: BoxConstraints(
+                                    maxHeight: Get.size.height * 0.3),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Get.size.width * 0.15),
+                                child: Image.asset(
+                                  'assets/home.png',
+                                ),
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  DropdownButton(
-                                      value: c.dropDownValue.value,
-                                      style: Get.textTheme.headline5,
-                                      items: c.modes.keys
-                                          .map<DropdownMenuItem<String>>(
-                                              (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                      onChanged: c.onChanged),
-                                  if ((c.modes[c.dropDownValue.value] ?? 4) >=
-                                      4) ...[
-                                    const SizedBox(width: 25),
-                                    Checkbox(
-                                        value: c.checkboxValue.value,
-                                        onChanged: c.changeCheckbox),
-                                    Text(
-                                        'bombs ${c.checkboxValue.value ? "on" : "off"}')
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: Get.size.height * 0.01),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    DropdownButton(
+                                        value: c.dropDownValue.value,
+                                        style: Get.textTheme.headline5,
+                                        items: c.modes.keys
+                                            .map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(value),
+                                          );
+                                        }).toList(),
+                                        onChanged: c.onChanged),
+                                    if ((c.modes[c.dropDownValue.value] ?? 4) >=
+                                        4) ...[
+                                      const SizedBox(width: 25),
+                                      Checkbox(
+                                          value: c.checkboxValue.value,
+                                          onChanged: c.changeCheckbox),
+                                      Text(
+                                          'bombs ${c.checkboxValue.value ? "on" : "off"}')
+                                    ],
                                   ],
-                                ],
+                                ),
                               ),
                               ElevatedButton(
                                   onPressed: c.startGame,
@@ -89,54 +101,69 @@ class HomePage extends GetView<HomeController> {
                       ResponsiveRowColumnItem(
                         rowOrder: 0,
                         rowFlex: 1,
-                        child: Column(
-                            mainAxisAlignment: isRow
-                                ? MainAxisAlignment.center
-                                : MainAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 25,
-                              ),
-                              Text(
-                                'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
-                                style: Get.textTheme.headline6,
-                              ),
-                              Container(
-                                height: 200,
-                                padding: const EdgeInsets.all(10),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: DataTable(
-                                    headingRowHeight: 0,
-                                    columnSpacing: 25,
-                                    columns: const [
-                                      DataColumn(
-                                          label: Text(''), numeric: true),
-                                      DataColumn(
-                                        label: Text('time'),
-                                        numeric: true,
-                                      ),
-                                      DataColumn(label: Text('date')),
-                                    ],
-                                    rows: [
-                                      for (Map score in c.scores) ...[
-                                        DataRow(cells: [
-                                          DataCell(Text(
-                                              (c.scores.indexOf(score) + 1)
-                                                  .toString())),
-                                          DataCell(Text(
-                                            score['time'],
-                                            style:
-                                                const TextStyle(fontSize: 21),
-                                          )),
-                                          DataCell(Text(score['date'])),
-                                        ]),
-                                      ]
-                                    ],
+                        child: Padding(
+                          padding: EdgeInsets.all(ResponsiveWrapper.of(context)
+                                  .isLargerThan(DESKTOP)
+                              ? 0.05 * Get.size.height
+                              : 0),
+                          child: Column(
+                              mainAxisAlignment: isRow
+                                  ? MainAxisAlignment.center
+                                  : MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: Get.size.height * 0.03,
+                                ),
+                                Text(
+                                  'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
+                                  style: Get.textTheme.headline6,
+                                ),
+                                Container(
+                                  constraints: BoxConstraints(
+                                      maxHeight: Get.size.height *
+                                          (isRow
+                                              ? 0.8
+                                              : (ResponsiveWrapper.of(context)
+                                                      .isLargerThan(MOBILE)
+                                                  ? 0.25
+                                                  : 0.4))),
+                                  padding: const EdgeInsets.all(8),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.vertical,
+                                    child: DataTable(
+                                      headingRowHeight: 0,
+                                      columnSpacing: 25,
+                                      columns: const [
+                                        DataColumn(
+                                          label: Text(''),
+                                          numeric: true,
+                                        ),
+                                        DataColumn(
+                                          label: Text('time'),
+                                          numeric: true,
+                                        ),
+                                        DataColumn(label: Text('date')),
+                                      ],
+                                      rows: [
+                                        for (Map score in c.scores) ...[
+                                          DataRow(cells: [
+                                            DataCell(Text(
+                                                (c.scores.indexOf(score) + 1)
+                                                    .toString())),
+                                            DataCell(Text(
+                                              score['time'],
+                                              style:
+                                                  const TextStyle(fontSize: 21),
+                                            )),
+                                            DataCell(Text(score['date'])),
+                                          ]),
+                                        ]
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ]),
+                              ]),
+                        ),
                       ),
                     ],
                   );

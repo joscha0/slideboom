@@ -16,6 +16,7 @@ void main() async {
         ResponsiveBreakpoint.resize(350, name: MOBILE),
         ResponsiveBreakpoint.autoScale(600, name: TABLET),
         ResponsiveBreakpoint.resize(800, name: DESKTOP),
+        ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
       ],
     ),
     theme: ThemeData.light().copyWith(
