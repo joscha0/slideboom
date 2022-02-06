@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:slideboom/shared/app_pages.dart';
@@ -556,64 +557,76 @@ class GameController extends GetxController {
   showPause() {
     timer.cancel();
     Get.dialog(
-      Center(
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Paused',
-                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+      CallbackShortcuts(
+        bindings: {
+          const SingleActivator(LogicalKeyboardKey.escape): () {
+            Get.back();
+            startTimer();
+          },
+        },
+        child: Focus(
+          autofocus: true,
+          child: Center(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Paused',
+                    style:
+                        Get.textTheme.headline4?.copyWith(color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.back();
+                        startTimer();
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                      onPressed: restart,
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Restart',
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      )),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Get.offAllNamed(Routes.home);
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'Home',
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
+                        ),
+                      )),
+                ],
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                    startTimer();
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Continue',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                  )),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                  onPressed: restart,
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Restart',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                  )),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Get.offAllNamed(Routes.home);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Home',
-                      style: TextStyle(
-                        fontSize: 25,
-                      ),
-                    ),
-                  )),
-            ],
+            ),
           ),
         ),
       ),
