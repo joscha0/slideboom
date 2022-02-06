@@ -1,5 +1,6 @@
 import 'package:slideboom/pages/game/game_page.dart';
 import 'package:get/get.dart';
+import 'package:slideboom/storage/storage.dart';
 
 class HomeController extends GetxController {
   RxString dropDownValue = '3x3'.obs;
@@ -14,11 +15,20 @@ class HomeController extends GetxController {
     '7x7': 7
   };
 
+  RxList scores = [].obs;
+
+  @override
+  void onInit() {
+    loadScores();
+    super.onInit();
+  }
+
   void onChanged(String? value) {
     dropDownValue.value = value ?? '4x4';
     if ((modes[value] ?? 4) < 4) {
       checkboxValue.value = false;
     }
+    loadScores();
   }
 
   void startGame() {
@@ -32,5 +42,19 @@ class HomeController extends GetxController {
 
   void changeCheckbox(bool? value) {
     checkboxValue.value = value ?? true;
+    loadScores();
+  }
+
+  void loadScores() {
+    scores.value = [];
+    Map allScores = getScores(dropDownValue.value, checkboxValue.value);
+    allScores.forEach((key, value) {
+      Map score = {
+        'date': key.toString().substring(0, 19),
+        'time': "${value ~/ 100} : " + (value % 100).toString().padLeft(2, '0'),
+      };
+      scores.add(score);
+    });
+    scores.sort((a, b) => a['time'].compareTo(b['time']));
   }
 }

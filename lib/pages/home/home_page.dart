@@ -25,6 +25,7 @@ class HomePage extends GetView<HomeController> {
             child: GetX<HomeController>(
                 init: HomeController(),
                 builder: (c) {
+                  var scores;
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -75,11 +76,13 @@ class HomePage extends GetView<HomeController> {
                       Container(
                         padding: const EdgeInsets.all(25),
                         child: Table(
-                          children: const [
-                            TableRow(children: [
-                              Text('1.'),
-                              Text('...'),
-                            ])
+                          children: [
+                            for (Map score in c.scores) ...[
+                              TableRow(children: [
+                                Text(score['time']),
+                                Text(score['date']),
+                              ]),
+                            ]
                           ],
                         ),
                       ),

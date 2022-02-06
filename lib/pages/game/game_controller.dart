@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:slideboom/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:slideboom/storage/storage.dart';
 
 class GameController extends GetxController {
   RxList positions = [].obs;
@@ -687,12 +688,14 @@ class GameController extends GetxController {
   }
 
   void openFinished() {
+    // game over puzzle solved
     timer.cancel();
     // disable movement
     isMovingHorizontally.add(-1);
     isMovingVertically.add(-1);
     solved = true;
     updateAllTiles();
+    addScore(rowCount, bombEnabled, timePassed.value);
     Get.dialog(
       Center(
         child: Container(
