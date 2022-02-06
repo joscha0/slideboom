@@ -1,5 +1,5 @@
-import 'package:slideboom/pages/game/game_page.dart';
 import 'package:get/get.dart';
+import 'package:slideboom/routes/app_pages.dart';
 import 'package:slideboom/storage/storage.dart';
 
 class HomeController extends GetxController {
@@ -32,12 +32,13 @@ class HomeController extends GetxController {
   }
 
   void startGame() {
-    Get.to(() => const GamePage(),
-        arguments: {
-          'bombEnabled': checkboxValue.value,
-          'rowCount': modes[dropDownValue.value]
-        },
-        transition: Transition.zoom);
+    Get.toNamed(
+      Routes.game,
+      arguments: {
+        'bombEnabled': checkboxValue.value,
+        'rowCount': modes[dropDownValue.value]
+      },
+    );
   }
 
   void changeCheckbox(bool? value) {

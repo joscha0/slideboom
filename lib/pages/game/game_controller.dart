@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:slideboom/pages/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:slideboom/routes/app_pages.dart';
 import 'package:slideboom/storage/storage.dart';
 
 class GameController extends GetxController {
@@ -582,8 +582,7 @@ class GameController extends GetxController {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Get.offAll(() => const HomePage(),
-                        transition: Transition.fadeIn);
+                    Get.offAllNamed(Routes.home);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),
@@ -662,8 +661,7 @@ class GameController extends GetxController {
                       ),
                       ElevatedButton(
                           onPressed: () {
-                            Get.offAll(() => const HomePage(),
-                                transition: Transition.fadeIn);
+                            Get.offAllNamed(Routes.home);
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),
@@ -726,8 +724,7 @@ class GameController extends GetxController {
               ),
               ElevatedButton(
                   onPressed: () {
-                    Get.offAll(() => const HomePage(),
-                        transition: Transition.fadeIn);
+                    Get.offAllNamed(Routes.home);
                   },
                   child: const Padding(
                     padding: EdgeInsets.all(8.0),

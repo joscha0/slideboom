@@ -1,6 +1,6 @@
-import 'package:slideboom/pages/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:slideboom/routes/app_pages.dart';
 
 import 'home_controller.dart';
 
@@ -16,8 +16,9 @@ class HomePage extends GetView<HomeController> {
         floatingActionButton: IconButton(
           icon: const Icon(Icons.settings),
           onPressed: () {
-            Get.to(() => const SettingsPage(),
-                transition: Transition.rightToLeftWithFade);
+            Get.toNamed(
+              Routes.settings,
+            );
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,

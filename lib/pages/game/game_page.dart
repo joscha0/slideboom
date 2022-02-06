@@ -7,7 +7,6 @@ class GamePage extends GetView<GameController> {
   const GamePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => GameController());
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 0,
