@@ -168,9 +168,9 @@ class GameController extends GetxController {
     } else {
       if (Get.context != null) {
         tileWidth =
-            (ResponsiveWrapper.of(Get.context!).scaledHeight * 0.5) / rowCount;
+            (ResponsiveWrapper.of(Get.context!).scaledHeight * 0.6) / rowCount;
       } else {
-        tileWidth = (Get.size.height * 0.5) / rowCount;
+        tileWidth = (Get.size.height * 0.6) / rowCount;
       }
     }
   }
