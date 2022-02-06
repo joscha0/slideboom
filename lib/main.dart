@@ -15,8 +15,8 @@ void main() async {
       breakpoints: const [
         ResponsiveBreakpoint.resize(350, name: MOBILE),
         ResponsiveBreakpoint.autoScale(600, name: TABLET),
-        ResponsiveBreakpoint.resize(800, name: DESKTOP),
-        ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+        ResponsiveBreakpoint.resize(850, name: DESKTOP),
+        ResponsiveBreakpoint.autoScale(1600, name: 'XL'),
       ],
     ),
     theme: ThemeData.light().copyWith(

@@ -53,16 +53,22 @@ class HomePage extends GetView<HomeController> {
                               ),
                               Container(
                                 constraints: BoxConstraints(
-                                    maxHeight: Get.size.height * 0.3),
+                                    maxHeight: ResponsiveWrapper.of(context)
+                                            .scaledHeight *
+                                        0.3),
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: Get.size.width * 0.15),
+                                    horizontal: ResponsiveWrapper.of(context)
+                                            .scaledWidth *
+                                        0.15),
                                 child: Image.asset(
                                   'assets/home.png',
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: Get.size.height * 0.01),
+                                    vertical: ResponsiveWrapper.of(context)
+                                            .scaledHeight *
+                                        0.01),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -104,7 +110,8 @@ class HomePage extends GetView<HomeController> {
                         child: Padding(
                           padding: EdgeInsets.all(ResponsiveWrapper.of(context)
                                   .isLargerThan(DESKTOP)
-                              ? 0.05 * Get.size.height
+                              ? 0.05 *
+                                  ResponsiveWrapper.of(context).scaledHeight
                               : 0),
                           child: Column(
                               mainAxisAlignment: isRow
@@ -112,7 +119,9 @@ class HomePage extends GetView<HomeController> {
                                   : MainAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  height: Get.size.height * 0.03,
+                                  height: ResponsiveWrapper.of(context)
+                                          .scaledHeight *
+                                      0.03,
                                 ),
                                 Text(
                                   'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
@@ -120,7 +129,8 @@ class HomePage extends GetView<HomeController> {
                                 ),
                                 Container(
                                   constraints: BoxConstraints(
-                                      maxHeight: Get.size.height *
+                                      maxHeight: ResponsiveWrapper.of(context)
+                                              .scaledHeight *
                                           (isRow
                                               ? 0.8
                                               : (ResponsiveWrapper.of(context)
@@ -165,6 +175,14 @@ class HomePage extends GetView<HomeController> {
                               ]),
                         ),
                       ),
+                      if (ResponsiveWrapper.of(context)
+                          .isLargerThan(DESKTOP)) ...[
+                        ResponsiveRowColumnItem(
+                          rowOrder: 2,
+                          rowFlex: 1,
+                          child: Container(),
+                        ),
+                      ]
                     ],
                   );
                 })));
