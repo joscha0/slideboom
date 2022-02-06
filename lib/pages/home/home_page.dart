@@ -32,9 +32,9 @@ class HomePage extends GetView<HomeController> {
                       const SizedBox(
                         width: double.infinity,
                       ),
-                      Text(
-                        'slide boom!',
-                        style: Get.textTheme.headline3,
+                      Image.asset(
+                        'assets/home.png',
+                        width: 300,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

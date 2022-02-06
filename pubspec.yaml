@@ -53,6 +53,7 @@ flutter:
   assets:
     - assets/bomb/
     - assets/explosion/
+    - assets/home.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
