@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:slideboom/routes/app_pages.dart';
+import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/storage/storage.dart';
 
 class GameController extends GetxController {

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:slideboom/routes/app_pages.dart';
+import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/storage/storage.dart';
 
 class HomeController extends GetxController {
@@ -69,5 +69,9 @@ class HomeController extends GetxController {
 
   void saveMode() {
     setMode(dropDownValue.value, checkboxValue.value);
+  }
+
+  void openGithub() async {
+    // await launch(githubUrl);
   }
 }

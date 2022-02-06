@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:slideboom/routes/app_pages.dart';
+import 'package:slideboom/shared/app_pages.dart';
 
 import 'home_controller.dart';
 
@@ -180,7 +180,12 @@ class HomePage extends GetView<HomeController> {
                         ResponsiveRowColumnItem(
                           rowOrder: 2,
                           rowFlex: 1,
-                          child: Container(),
+                          child: Center(
+                            child: IconButton(
+                              icon: Image.asset('assets/github.png'),
+                              onPressed: () => c.openGithub(),
+                            ),
+                          ),
                         ),
                       ]
                     ],
