@@ -54,6 +54,7 @@ class HomeController extends GetxController {
   void loadScores() {
     scores.value = [];
     List allScores = getScores(dropDownValue.value, checkboxValue.value);
+    allScores.sort((a, b) => a['time'].compareTo(b['time']));
     for (Map score in allScores) {
       score = {
         'date': score['date'].substring(0, 19),
@@ -62,7 +63,6 @@ class HomeController extends GetxController {
       };
       scores.add(score);
     }
-    scores.sort((a, b) => a['time'].compareTo(b['time']));
   }
 
   void saveMode() {
