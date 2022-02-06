@@ -40,12 +40,13 @@ class GamePage extends GetView<GameController> {
                             child: Text(
                               '${controller.timePassed.value ~/ 100}',
                               textAlign: TextAlign.end,
-                              style: Get.textTheme.headline4,
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 48),
                             ),
                           ),
-                          Text(
+                          const Text(
                             ' : ',
-                            style: Get.textTheme.headline4,
+                            style: TextStyle(color: Colors.black, fontSize: 48),
                           ),
                           SizedBox(
                             width: 150,
@@ -53,7 +54,8 @@ class GamePage extends GetView<GameController> {
                               (controller.timePassed.value % 100)
                                   .toString()
                                   .padLeft(2, '0'),
-                              style: Get.textTheme.headline4,
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 48),
                             ),
                           ),
                         ],
@@ -107,7 +109,7 @@ class GamePage extends GetView<GameController> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             )
           ],
