@@ -12,7 +12,9 @@ class HomeController extends GetxController {
     '4x4': 4,
     '5x5': 5,
     '6x6': 6,
-    '7x7': 7
+    '7x7': 7,
+    '8x8': 8,
+    '9x9': 9
   };
 
   RxList scores = [].obs;
