@@ -25,7 +25,6 @@ class HomePage extends GetView<HomeController> {
             child: GetX<HomeController>(
                 init: HomeController(),
                 builder: (c) {
-                  var scores;
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
