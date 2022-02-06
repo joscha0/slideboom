@@ -34,7 +34,7 @@ class HomePage extends GetView<HomeController> {
                       ),
                       Image.asset(
                         'assets/home.png',
-                        width: 300,
+                        width: 250,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,16 +74,35 @@ class HomePage extends GetView<HomeController> {
                         style: Get.textTheme.headline6,
                       ),
                       Container(
-                        padding: const EdgeInsets.all(25),
-                        child: Table(
-                          children: [
-                            for (Map score in c.scores) ...[
-                              TableRow(children: [
-                                Text(score['time']),
-                                Text(score['date']),
-                              ]),
-                            ]
-                          ],
+                        height: 250,
+                        padding: const EdgeInsets.all(10),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: DataTable(
+                            headingRowHeight: 0,
+                            columnSpacing: 25,
+                            columns: const [
+                              DataColumn(label: Text(''), numeric: true),
+                              DataColumn(
+                                label: Text('time'),
+                                numeric: true,
+                              ),
+                              DataColumn(label: Text('date')),
+                            ],
+                            rows: [
+                              for (Map score in c.scores) ...[
+                                DataRow(cells: [
+                                  DataCell(Text((c.scores.indexOf(score) + 1)
+                                      .toString())),
+                                  DataCell(Text(
+                                    score['time'],
+                                    style: const TextStyle(fontSize: 21),
+                                  )),
+                                  DataCell(Text(score['date'])),
+                                ]),
+                              ]
+                            ],
+                          ),
                         ),
                       ),
                     ],
