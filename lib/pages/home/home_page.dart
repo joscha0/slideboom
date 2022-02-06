@@ -182,7 +182,10 @@ class HomePage extends GetView<HomeController> {
                           rowFlex: 1,
                           child: Center(
                             child: IconButton(
-                              icon: Image.asset('assets/github.png'),
+                              iconSize: 50,
+                              icon: Image.asset(
+                                'assets/github-dark.png',
+                              ),
                               onPressed: () => c.openGithub(),
                             ),
                           ),

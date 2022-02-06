@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:slideboom/shared/app_pages.dart';
+import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   RxString dropDownValue = '3x3'.obs;
@@ -72,6 +74,6 @@ class HomeController extends GetxController {
   }
 
   void openGithub() async {
-    // await launch(githubUrl);
+    await launch(githubUrl);
   }
 }
