@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   }
 
   void startGame() {
-    Get.to(const GamePage(),
+    Get.to(() => const GamePage(),
         arguments: {
           'bombEnabled': checkboxValue.value,
           'rowCount': modes[dropDownValue.value]
@@ -47,14 +47,15 @@ class HomeController extends GetxController {
 
   void loadScores() {
     scores.value = [];
-    Map allScores = getScores(dropDownValue.value, checkboxValue.value);
-    allScores.forEach((key, value) {
-      Map score = {
-        'date': key.toString().substring(0, 19),
-        'time': "${value ~/ 100} : " + (value % 100).toString().padLeft(2, '0'),
+    List allScores = getScores(dropDownValue.value, checkboxValue.value);
+    for (Map score in allScores) {
+      score = {
+        'date': score['date'].substring(0, 19),
+        'time': "${score['time'] ~/ 100} : " +
+            (score['time'] % 100).toString().padLeft(2, '0'),
       };
       scores.add(score);
-    });
+    }
     scores.sort((a, b) => a['time'].compareTo(b['time']));
   }
 }
