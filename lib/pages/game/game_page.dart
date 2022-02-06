@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:slideboom/shared/constants.dart';
 
 import 'game_controller.dart';
 
@@ -13,6 +14,14 @@ class GamePage extends GetView<GameController> {
       bindings: {
         const SingleActivator(LogicalKeyboardKey.escape): () =>
             controller.showPause(),
+        const SingleActivator(LogicalKeyboardKey.keyW): () =>
+            controller.keyMoveIndex(Direction.UP),
+        const SingleActivator(LogicalKeyboardKey.keyS): () =>
+            controller.keyMoveIndex(Direction.DOWN),
+        const SingleActivator(LogicalKeyboardKey.keyA): () =>
+            controller.keyMoveIndex(Direction.LEFT),
+        const SingleActivator(LogicalKeyboardKey.keyD): () =>
+            controller.keyMoveIndex(Direction.RIGHT),
       },
       child: Focus(
         autofocus: true,
@@ -196,14 +205,22 @@ class GamePage extends GetView<GameController> {
             onHorizontalDragEnd: (details) =>
                 c.onHorizontalDragEnd(details, index),
             child: Container(
-              decoration: c.bordersEnabled
+              decoration: index == c.selectedIndex.value
                   ? BoxDecoration(
-                      border: Border.all(color: Colors.black),
+                      border: Border.all(
+                        color: Colors.black,
+                        width: c.tileWidth * 0.08,
+                      ),
                       color: c.getColor(index),
                     )
-                  : BoxDecoration(
-                      color: c.getColor(index),
-                    ),
+                  : c.bordersEnabled
+                      ? BoxDecoration(
+                          border: Border.all(color: Colors.black),
+                          color: c.getColor(index),
+                        )
+                      : BoxDecoration(
+                          color: c.getColor(index),
+                        ),
               child: Center(
                 child: c.isBombPosition(index)
                     ? Image.asset('assets/bomb/bomb_${c.bombImage.value}.png')

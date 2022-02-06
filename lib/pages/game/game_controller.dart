@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:slideboom/shared/app_pages.dart';
+import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
 
 class GameController extends GetxController {
@@ -44,6 +45,8 @@ class GameController extends GetxController {
 
   bool solved = false;
   RxBool isEnded = false.obs;
+
+  RxInt selectedIndex = (-1).obs;
 
   late Timer timer;
   late Timer bombTimer;
@@ -127,6 +130,8 @@ class GameController extends GetxController {
     isEnded.value = false;
 
     timePassed.value = 0;
+
+    selectedIndex.value = -1;
 
     setArgumentValues();
     setTileWidth();
@@ -255,6 +260,64 @@ class GameController extends GetxController {
     }
   }
 
+  /* 
+  
+  Keyboard controll
+  
+  */
+
+  void keyMoveIndex(Direction dir) {
+    int oldSelected = selectedIndex.value;
+    if (selectedIndex.value == -1) {
+      selectedIndex.value = 0;
+    } else {
+      switch (dir) {
+        case Direction.UP:
+          if (selectedIndex.value ~/ rowCount == 0) {
+            selectedIndex.value =
+                selectedIndex.value + rowCount * (rowCount - 1);
+          } else {
+            selectedIndex.value = selectedIndex.value - rowCount;
+          }
+          break;
+        case Direction.DOWN:
+          if (selectedIndex.value ~/ rowCount == rowCount - 1) {
+            selectedIndex.value =
+                selectedIndex.value - rowCount * (rowCount - 1);
+          } else {
+            selectedIndex.value = selectedIndex.value + rowCount;
+          }
+          break;
+        case Direction.LEFT:
+          if (selectedIndex.value % rowCount == 0) {
+            selectedIndex.value = selectedIndex.value + (rowCount - 1);
+          } else {
+            selectedIndex.value = selectedIndex.value - 1;
+          }
+          break;
+        case Direction.RIGHT:
+          if (selectedIndex.value % rowCount == rowCount - 1) {
+            selectedIndex.value = selectedIndex.value - (rowCount - 1);
+          } else {
+            selectedIndex.value = selectedIndex.value + 1;
+          }
+          break;
+        default:
+      }
+    }
+    print(selectedIndex.value);
+    update(['tile$oldSelected']);
+    update(['tile${selectedIndex.value}']);
+  }
+
+  void removeSelectedIndex() {
+    if (selectedIndex.value != -1) {
+      int oldSelected = selectedIndex.value;
+      selectedIndex.value = -1;
+      update(['tile$oldSelected']);
+    }
+  }
+
   /*
 
   Move vertically
@@ -263,6 +326,8 @@ class GameController extends GetxController {
 
   void onVerticalDragStart(DragStartDetails details, index) {
     if (isMovingHorizontally.isEmpty) {
+      removeSelectedIndex();
+
       dragDistance = 0;
       isMovingVertically.add(index);
     }
@@ -403,6 +468,7 @@ class GameController extends GetxController {
 
   void onHorizontalDragStart(DragStartDetails details, index) {
     if (isMovingVertically.isEmpty) {
+      removeSelectedIndex();
       dragDistance = 0;
       isMovingHorizontally.add(index);
     }
