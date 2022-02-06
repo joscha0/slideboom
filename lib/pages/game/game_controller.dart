@@ -629,6 +629,7 @@ class GameController extends GetxController {
           }
           if (explosionImage.value >= 8) {
             explosionTimer.cancel();
+            timer.cancel();
             isExplosion.value = false;
             Get.dialog(
               Center(
@@ -693,7 +694,7 @@ class GameController extends GetxController {
     isMovingVertically.add(-1);
     solved = true;
     updateAllTiles();
-    addScore(rowCount, bombEnabled, timePassed.value);
+    bool isHighscore = addScore(rowCount, bombEnabled, timePassed.value);
     Get.dialog(
       Center(
         child: Container(
@@ -705,6 +706,13 @@ class GameController extends GetxController {
                 'solved!',
                 style: Get.textTheme.headline4?.copyWith(color: Colors.white),
               ),
+              isHighscore
+                  ? Text(
+                      'New Highscore!',
+                      style: Get.textTheme.headline4
+                          ?.copyWith(color: Colors.white),
+                    )
+                  : Container(),
               const SizedBox(
                 height: 20,
               ),
