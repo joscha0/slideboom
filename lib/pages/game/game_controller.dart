@@ -77,8 +77,7 @@ class GameController extends GetxController {
 
   @override
   void onInit() {
-    rowCount = Get.arguments['rowCount'];
-    bombEnabled = Get.arguments['bombEnabled'];
+    setArgumentValues();
     setTileWidth();
     setPositions();
     startTimer();
@@ -127,8 +126,7 @@ class GameController extends GetxController {
 
     timePassed.value = 0;
 
-    rowCount = Get.arguments['rowCount'];
-    bombEnabled = Get.arguments['bombEnabled'];
+    setArgumentValues();
     setTileWidth();
     setPositions();
 
@@ -136,6 +134,18 @@ class GameController extends GetxController {
       timePassed.value++;
     });
     updateAllTiles();
+  }
+
+  void setArgumentValues() {
+    try {
+      rowCount = Get.arguments['rowCount'];
+      bombEnabled = Get.arguments['bombEnabled'];
+    } catch (_) {
+      // if user accesses /game page directly (e.g. web)
+      Map mode = getMode();
+      rowCount = int.parse(mode['mode'].split('x')[0]);
+      bombEnabled = mode['bombs'];
+    }
   }
 
   @override
@@ -150,7 +160,7 @@ class GameController extends GetxController {
     if (Get.size.aspectRatio < 1) {
       tileWidth = (Get.size.width - Get.size.width * 0.25) / rowCount;
     } else {
-      tileWidth = (Get.size.height - Get.size.height * 0.25) / rowCount;
+      tileWidth = (Get.size.height - Get.size.height * 0.5) / rowCount;
     }
   }
 
@@ -219,7 +229,6 @@ class GameController extends GetxController {
         sameIndexCount++;
       }
     }
-    print(startPosition);
 
     if (sameIndexCount > (rowCount * rowCount / 2)) {
       shuffleStartingPosition();
