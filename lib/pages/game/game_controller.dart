@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:slideboom/routes/app_pages.dart';
 import 'package:slideboom/storage/storage.dart';
 
@@ -158,9 +159,19 @@ class GameController extends GetxController {
 
   void setTileWidth() {
     if (Get.size.aspectRatio < 1) {
-      tileWidth = (Get.size.width - Get.size.width * 0.25) / rowCount;
+      if (Get.context != null) {
+        tileWidth =
+            (ResponsiveWrapper.of(Get.context!).scaledWidth * 0.75) / rowCount;
+      } else {
+        tileWidth = (Get.size.width * 0.75) / rowCount;
+      }
     } else {
-      tileWidth = (Get.size.height - Get.size.height * 0.5) / rowCount;
+      if (Get.context != null) {
+        tileWidth =
+            (ResponsiveWrapper.of(Get.context!).scaledHeight * 0.5) / rowCount;
+      } else {
+        tileWidth = (Get.size.height * 0.5) / rowCount;
+      }
     }
   }
 
