@@ -91,7 +91,7 @@ class HomePage extends GetView<HomeController> {
                                           value: c.checkboxValue.value,
                                           onChanged: c.changeCheckbox),
                                       Text(
-                                          'bombs ${c.checkboxValue.value ? "on" : "off"}')
+                                          'bomb ${c.checkboxValue.value ? "on" : "off"}')
                                     ],
                                   ],
                                 ),
