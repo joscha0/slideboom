@@ -28,13 +28,20 @@ class HomePage extends GetView<HomeController> {
           appBar: AppBar(
             toolbarHeight: 0,
           ),
-          floatingActionButton: IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Get.toNamed(
-                Routes.settings,
-              );
-            },
+          floatingActionButton: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  onPressed: controller.openHelp, icon: const Icon(Icons.help)),
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  Get.toNamed(
+                    Routes.settings,
+                  );
+                },
+              ),
+            ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
           body: SafeArea(
@@ -195,12 +202,20 @@ class HomePage extends GetView<HomeController> {
                           rowOrder: 2,
                           rowFlex: 1,
                           child: Center(
-                            child: IconButton(
-                              iconSize: 50,
-                              icon: Image.asset(
-                                'assets/github-dark.png',
-                              ),
-                              onPressed: () => c.openGithub(),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'source code:',
+                                  style: Get.textTheme.headline6,
+                                ),
+                                IconButton(
+                                  iconSize: 32,
+                                  icon: Image.asset(
+                                    'assets/github-dark.png',
+                                  ),
+                                  onPressed: () => c.openGithub(),
+                                ),
+                              ],
                             ),
                           ),
                         ),
