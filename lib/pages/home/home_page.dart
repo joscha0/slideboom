@@ -103,7 +103,9 @@ class HomePage extends GetView<HomeController> {
                                           children: [
                                             Text(
                                               c.dropDownValue.value,
-                                              style: Get.textTheme.headline5,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headline5,
                                             ),
                                             const Icon(Icons.arrow_drop_down),
                                           ],
@@ -116,7 +118,9 @@ class HomePage extends GetView<HomeController> {
                                           value: value,
                                           child: Text(
                                             value,
-                                            style: Get.textTheme.headline5,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline5,
                                           ),
                                         );
                                       }).toList(),
@@ -132,7 +136,9 @@ class HomePage extends GetView<HomeController> {
                                           onChanged: c.changeCheckbox,
                                           title: Text(
                                             'bomb ${c.checkboxValue.value ? "on" : "off"}',
-                                            style: Get.textTheme.bodyText2,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
                                           ),
                                         ),
                                       ),
@@ -169,7 +175,7 @@ class HomePage extends GetView<HomeController> {
                                 ),
                                 Text(
                                   'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bomb" : ""}:',
-                                  style: Get.textTheme.headline6,
+                                  style: Theme.of(context).textTheme.headline6,
                                 ),
                                 Container(
                                   constraints: BoxConstraints(
@@ -231,7 +237,7 @@ class HomePage extends GetView<HomeController> {
                               children: [
                                 Text(
                                   'source code:',
-                                  style: Get.textTheme.headline6,
+                                  style: Theme.of(context).textTheme.headline6,
                                 ),
                                 IconButton(
                                   iconSize: 32,
