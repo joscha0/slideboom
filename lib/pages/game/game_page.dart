@@ -189,7 +189,7 @@ class GamePage extends GetView<GameController> {
               decoration: index == c.selectedIndex.value
                   ? BoxDecoration(
                       border: Border.all(
-                        color: Colors.black,
+                        color: c.isDarkTheme ? Colors.white : Colors.black,
                         width: c.tileWidth * 0.08,
                       ),
                       color: c.getColor(index),
