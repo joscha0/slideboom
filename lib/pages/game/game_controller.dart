@@ -324,26 +324,58 @@ class GameController extends GetxController
       switch (dir) {
         case Direction.UP:
           if (isMovingHorizontally.isEmpty) {
+            for (int i = 0; i < rowCount * rowCount; i++) {
+              if (i % rowCount == selectedIndex.value % rowCount) {
+                if (i == bombIndex) {
+                  bombMoved();
+                  return;
+                }
+              }
+            }
             moveUp(selectedIndex.value);
-            _moveVertical(true, selectedIndex.value);
+            _moveVertical(false, selectedIndex.value);
           }
           break;
         case Direction.DOWN:
           if (isMovingHorizontally.isEmpty) {
+            for (int i = 0; i < rowCount * rowCount; i++) {
+              if (i % rowCount == selectedIndex.value % rowCount) {
+                if (i == bombIndex) {
+                  bombMoved();
+                  return;
+                }
+              }
+            }
             moveDown(selectedIndex.value);
-            _moveVertical(true, selectedIndex.value);
+            _moveVertical(false, selectedIndex.value);
           }
           break;
         case Direction.LEFT:
           if (isMovingVertically.isEmpty) {
+            for (int i = 0; i < rowCount * rowCount; i++) {
+              if (i ~/ rowCount == selectedIndex.value ~/ rowCount) {
+                if (i == bombIndex) {
+                  bombMoved();
+                  return;
+                }
+              }
+            }
             moveLeft(selectedIndex.value);
-            _moveHorizontal(true, selectedIndex.value);
+            _moveHorizontal(false, selectedIndex.value);
           }
           break;
         case Direction.RIGHT:
           if (isMovingVertically.isEmpty) {
+            for (int i = 0; i < rowCount * rowCount; i++) {
+              if (i ~/ rowCount == selectedIndex.value ~/ rowCount) {
+                if (i == bombIndex) {
+                  bombMoved();
+                  return;
+                }
+              }
+            }
             moveRight(selectedIndex.value);
-            _moveHorizontal(true, selectedIndex.value);
+            _moveHorizontal(false, selectedIndex.value);
           }
           break;
         default:
