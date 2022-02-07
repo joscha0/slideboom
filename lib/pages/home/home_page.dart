@@ -80,10 +80,17 @@ class HomePage extends GetView<HomeController> {
                                     horizontal: ResponsiveWrapper.of(context)
                                             .scaledWidth *
                                         0.15),
-                                child: Image.asset(
-                                  c.isDarkTheme
-                                      ? 'assets/home.png'
-                                      : 'assets/home-light.png',
+                                child: AnimatedCrossFade(
+                                  duration: const Duration(milliseconds: 300),
+                                  firstChild: Image.asset(
+                                    'assets/home.png',
+                                  ),
+                                  secondChild: Image.asset(
+                                    'assets/home-light.png',
+                                  ),
+                                  crossFadeState: c.isDarkTheme
+                                      ? CrossFadeState.showFirst
+                                      : CrossFadeState.showSecond,
                                 ),
                               ),
                               Padding(
@@ -241,10 +248,17 @@ class HomePage extends GetView<HomeController> {
                                 ),
                                 IconButton(
                                   iconSize: 32,
-                                  icon: Image.asset(
-                                    c.isDarkTheme
-                                        ? 'assets/github.png'
-                                        : 'github-light.png',
+                                  icon: AnimatedCrossFade(
+                                    duration: const Duration(milliseconds: 200),
+                                    firstChild: Image.asset(
+                                      'assets/github.png',
+                                    ),
+                                    secondChild: Image.asset(
+                                      'assets/github-light.png',
+                                    ),
+                                    crossFadeState: c.isDarkTheme
+                                        ? CrossFadeState.showFirst
+                                        : CrossFadeState.showSecond,
                                   ),
                                   onPressed: () => c.openGithub(),
                                 ),
