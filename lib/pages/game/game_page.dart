@@ -40,15 +40,16 @@ class GamePage extends GetView<GameController> {
           body: Center(
             child: ResponsiveRowColumn(
               columnMainAxisAlignment: MainAxisAlignment.center,
-              layout: (ResponsiveWrapper.of(context).isSmallerThan(DESKTOP) &&
-                      ResponsiveWrapper.of(context).orientation ==
-                          Orientation.landscape)
+              rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              layout: ResponsiveWrapper.of(context).orientation ==
+                      Orientation.landscape
                   ? ResponsiveRowColumnType.ROW
                   : ResponsiveRowColumnType.COLUMN,
               children: [
                 ResponsiveRowColumnItem(
                   child: SizedBox(
                     height: 120,
+                    width: 250,
                     child: Obx(() {
                       return controller.isEnded.value
                           ? Container()
@@ -124,6 +125,7 @@ class GamePage extends GetView<GameController> {
                   const ResponsiveRowColumnItem(
                     child: SizedBox(
                       height: 120,
+                      width: 250,
                     ),
                   ),
                 ],
