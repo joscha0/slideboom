@@ -6,6 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
@@ -57,6 +58,8 @@ class GameController extends GetxController
   // late Timer timer;
   late Timer bombTimer;
   late Timer explosionTimer;
+
+  bool get isDarkTheme => Get.find<AppController>().isDarkMode.value;
 
   getColor(int index) {
     if (solved) {

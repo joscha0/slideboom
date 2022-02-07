@@ -38,6 +38,7 @@ class MyApp extends GetView<AppController> {
               unselectedWidgetColor: Colors.white70,
               canvasColor: Colors.grey[850],
               dividerColor: Colors.white24,
+              hoverColor: Colors.white12,
               dialogBackgroundColor: Colors.grey[850],
               popupMenuTheme: PopupMenuThemeData(color: Colors.grey[850]),
               primarySwatch: Colors.blue,
