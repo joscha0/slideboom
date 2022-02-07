@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
@@ -21,6 +22,8 @@ class HomeController extends GetxController {
   };
 
   RxList scores = [].obs;
+
+  bool get isDarkTheme => Get.find<AppController>().isDarkMode.value;
 
   @override
   void onInit() {
@@ -134,5 +137,9 @@ class HomeController extends GetxController {
                 '- escape: toggle pause\n- wasd: move selected\n- arrow keys: move tiles'),
           ],
         ));
+  }
+
+  void switchTheme() {
+    Get.find<AppController>().switchTheme();
   }
 }

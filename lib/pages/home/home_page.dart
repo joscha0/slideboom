@@ -35,12 +35,10 @@ class HomePage extends GetView<HomeController> {
               IconButton(
                   onPressed: controller.openHelp, icon: const Icon(Icons.help)),
               IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Get.toNamed(
-                    Routes.settings,
-                  );
-                },
+                icon: Icon(
+                  controller.isDarkTheme ? Icons.dark_mode : Icons.light_mode,
+                ),
+                onPressed: controller.switchTheme,
               ),
             ],
           ),
