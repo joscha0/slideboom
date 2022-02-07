@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -9,7 +10,8 @@ import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
 
-class GameController extends GetxController {
+class GameController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   RxList positions = [].obs;
   // horizontal overflow tiles
   RxList hPositions = [].obs;
@@ -39,6 +41,10 @@ class GameController extends GetxController {
 
   Rx<Duration> animationDuration = const Duration(milliseconds: 0).obs;
 
+  Rx<Duration> timerElapsed = Duration.zero.obs;
+  Duration _offset = Duration.zero;
+  late final Ticker _ticker;
+
   String colorMode = 'color';
 
   bool bordersEnabled = false; // 'gray', 'color', 'white'
@@ -48,11 +54,9 @@ class GameController extends GetxController {
 
   RxInt selectedIndex = (-1).obs;
 
-  late Timer timer;
+  // late Timer timer;
   late Timer bombTimer;
   late Timer explosionTimer;
-
-  RxInt timePassed = 0.obs;
 
   getColor(int index) {
     if (solved) {
@@ -63,7 +67,7 @@ class GameController extends GetxController {
       return Color.fromRGBO(255 - index * (10 - rowCount),
           255 - index * (10 - rowCount), 255 - index * (10 - rowCount), 1);
     } else if (colorMode == 'color') {
-      // TODO implement own color list
+      // todo implement own color list
       if (rowCount * rowCount * 3 <= Colors.primaries.length) {
         return Colors.primaries[tilePositions[index] * 3];
       } else if (rowCount * rowCount * 2 <= Colors.primaries.length) {
@@ -90,9 +94,15 @@ class GameController extends GetxController {
   }
 
   void startTimer() {
-    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
-      timePassed.value++;
+    _ticker = createTicker((elapsed) {
+      timerElapsed.value = _offset + elapsed;
     });
+    _ticker.start();
+  }
+
+  void pauseTimer() {
+    _ticker.stop();
+    _offset = timerElapsed.value;
   }
 
   void restart() {
@@ -129,7 +139,8 @@ class GameController extends GetxController {
     solved = false;
     isEnded.value = false;
 
-    timePassed.value = 0;
+    timerElapsed.value = Duration.zero;
+    _offset = Duration.zero;
 
     selectedIndex.value = -1;
 
@@ -137,10 +148,8 @@ class GameController extends GetxController {
     setTileWidth();
     setPositions();
 
-    timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
-      timePassed.value++;
-    });
     updateAllTiles();
+    _ticker.start();
   }
 
   void setArgumentValues() {
@@ -156,11 +165,9 @@ class GameController extends GetxController {
   }
 
   @override
-  void onClose() {
-    // bombTimer.cancel();
-    // explosionTimer.cancel();
-    timer.cancel();
-    super.onClose();
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
   }
 
   void setTileWidth() {
@@ -661,13 +668,13 @@ class GameController extends GetxController {
   }
 
   showPause() {
-    timer.cancel();
+    pauseTimer();
     Get.dialog(
       CallbackShortcuts(
         bindings: {
           const SingleActivator(LogicalKeyboardKey.escape): () {
             Get.back();
-            startTimer();
+            _ticker.start();
           },
         },
         child: Focus(
@@ -689,7 +696,7 @@ class GameController extends GetxController {
                   ElevatedButton(
                       onPressed: () {
                         Get.back();
-                        startTimer();
+                        _ticker.start();
                       },
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
@@ -768,7 +775,7 @@ class GameController extends GetxController {
           }
           if (explosionImage.value >= 8) {
             explosionTimer.cancel();
-            timer.cancel();
+            _ticker.stop();
             isExplosion.value = false;
             Get.dialog(
               Center(
@@ -827,13 +834,14 @@ class GameController extends GetxController {
 
   void openFinished() {
     // game over puzzle solved
-    timer.cancel();
+    _ticker.stop();
     // disable movement
     isMovingHorizontally.add(-1);
     isMovingVertically.add(-1);
     solved = true;
     updateAllTiles();
-    bool isHighscore = addScore(rowCount, bombEnabled, timePassed.value);
+    bool isHighscore =
+        addScore(rowCount, bombEnabled, timerElapsed.value.inMilliseconds);
     Get.dialog(
       Center(
         child: Container(

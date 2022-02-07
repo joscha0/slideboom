@@ -83,11 +83,19 @@ class HomeController extends GetxController {
     for (Map score in allScores) {
       score = {
         'date': score['date'].substring(0, 19),
-        'time': "${score['time'] ~/ 100} : " +
-            (score['time'] % 100).toString().padLeft(2, '0'),
+        'time': getTimeString(score['time']),
       };
       scores.add(score);
     }
+  }
+
+  String getTimeString(int time) {
+    Duration dur = Duration(milliseconds: time);
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String minutes = twoDigits(dur.inMinutes);
+    String seconds = twoDigits(dur.inSeconds.remainder(60));
+    String hundreds = twoDigits(dur.inMilliseconds.remainder(100));
+    return "$minutes:$seconds:$hundreds";
   }
 
   void saveMode() {

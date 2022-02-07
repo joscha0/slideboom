@@ -61,35 +61,8 @@ class GamePage extends GetView<GameController> {
                                   ),
                                   onPressed: () => controller.showPause(),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        '${controller.timePassed.value ~/ 100}',
-                                        textAlign: TextAlign.end,
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 48),
-                                      ),
-                                    ),
-                                    const Text(
-                                      ' : ',
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 48),
-                                    ),
-                                    SizedBox(
-                                      width: 150,
-                                      child: Text(
-                                        (controller.timePassed.value % 100)
-                                            .toString()
-                                            .padLeft(2, '0'),
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 48),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                timeText(
+                                    elapsed: controller.timerElapsed.value),
                               ],
                             );
                     }),
@@ -246,6 +219,47 @@ class GamePage extends GetView<GameController> {
           ),
         );
       },
+    );
+  }
+
+  Widget timeText({Duration elapsed = Duration.zero}) {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String minutes = twoDigits(elapsed.inMinutes);
+    String seconds = twoDigits(elapsed.inSeconds.remainder(60));
+    String hundreds = twoDigits(elapsed.inMilliseconds.remainder(100));
+    return Expanded(
+      child: Flex(
+        direction: Axis.horizontal,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            minutes,
+            textAlign: TextAlign.center,
+            style: const TextStyle(color: Colors.black, fontSize: 32),
+          ),
+          const Text(
+            ":",
+            style: TextStyle(color: Colors.black, fontSize: 32),
+          ),
+          sizedTimeText(seconds),
+          const Text(
+            ":",
+            style: TextStyle(color: Colors.black, fontSize: 32),
+          ),
+          sizedTimeText(hundreds),
+        ],
+      ),
+    );
+  }
+
+  Widget sizedTimeText(String time) {
+    return SizedBox(
+      width: 50,
+      child: Text(
+        time,
+        textAlign: TextAlign.center,
+        style: const TextStyle(color: Colors.black, fontSize: 32),
+      ),
     );
   }
 }
