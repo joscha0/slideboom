@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:slideboom/shared/app_pages.dart';
@@ -10,20 +11,33 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-        ),
-        floatingActionButton: IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            Get.toNamed(
-              Routes.settings,
-            );
-          },
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-        body: SafeArea(
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.keyP): () =>
+            controller.startGame(),
+        const SingleActivator(LogicalKeyboardKey.keyB): () =>
+            controller.toggleBomb(),
+        const SingleActivator(LogicalKeyboardKey.keyN): () =>
+            controller.decreaseMode(),
+        const SingleActivator(LogicalKeyboardKey.keyM): () =>
+            controller.increaseMode(),
+      },
+      child: Focus(
+        autofocus: true,
+        child: Scaffold(
+          appBar: AppBar(
+            toolbarHeight: 0,
+          ),
+          floatingActionButton: IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Get.toNamed(
+                Routes.settings,
+              );
+            },
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+          body: SafeArea(
             child: GetX<HomeController>(
                 init: HomeController(),
                 builder: (c) {
@@ -193,6 +207,10 @@ class HomePage extends GetView<HomeController> {
                       ]
                     ],
                   );
-                })));
+                }),
+          ),
+        ),
+      ),
+    );
   }
 }

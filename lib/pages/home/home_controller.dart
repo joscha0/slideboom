@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
@@ -53,6 +54,26 @@ class HomeController extends GetxController {
     checkboxValue.value = value ?? true;
     loadScores();
     saveMode();
+  }
+
+  void toggleBomb() {
+    if ((modes[dropDownValue.value] ?? 0) > 3) {
+      changeCheckbox(!checkboxValue.value);
+    }
+  }
+
+  void increaseMode() {
+    if (dropDownValue.value != modes.keys.last) {
+      int newMode = modes[dropDownValue.value]! + 1;
+      onChanged('${newMode}x$newMode');
+    }
+  }
+
+  void decreaseMode() {
+    if (dropDownValue.value != modes.keys.first) {
+      int newMode = modes[dropDownValue.value]! - 1;
+      onChanged('${newMode}x$newMode');
+    }
   }
 
   void loadScores() {
