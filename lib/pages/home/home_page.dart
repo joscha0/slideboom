@@ -21,6 +21,7 @@ class HomePage extends GetView<HomeController> {
             controller.decreaseMode(),
         const SingleActivator(LogicalKeyboardKey.keyM): () =>
             controller.increaseMode(),
+        const CharacterActivator('?'): () => controller.openHelp(),
       },
       child: Focus(
         autofocus: true,
