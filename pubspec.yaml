@@ -56,8 +56,9 @@ flutter:
     - assets/bomb/
     - assets/explosion/
     - assets/home.png
-    # - assets/github.png
-    - assets/github-dark.png
+    - assets/home-light.png
+    - assets/github.png
+    - assets/github-light.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -85,4 +86,5 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_native_splash:
   color: "#fafafa"
-  image: assets/logo.png
+  color_dark: "#000000"
+  image: assets/splash.png
