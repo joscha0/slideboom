@@ -138,7 +138,7 @@ class HomePage extends GetView<HomeController> {
                                       0.03,
                                 ),
                                 Text(
-                                  'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bombs" : ""}:',
+                                  'Scores for ${c.dropDownValue.value}${c.checkboxValue.value ? " with bomb" : ""}:',
                                   style: Get.textTheme.headline6,
                                 ),
                                 Container(
