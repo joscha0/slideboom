@@ -235,16 +235,16 @@ class GamePage extends GetView<GameController> {
           Text(
             minutes,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: Colors.black, fontSize: 32),
+            style: const TextStyle(fontSize: 32),
           ),
           const Text(
             ":",
-            style: TextStyle(color: Colors.black, fontSize: 32),
+            style: TextStyle(fontSize: 32),
           ),
           sizedTimeText(seconds),
           const Text(
             ":",
-            style: TextStyle(color: Colors.black, fontSize: 32),
+            style: TextStyle(fontSize: 32),
           ),
           sizedTimeText(hundreds),
         ],
@@ -258,7 +258,7 @@ class GamePage extends GetView<GameController> {
       child: Text(
         time,
         textAlign: TextAlign.center,
-        style: const TextStyle(color: Colors.black, fontSize: 32),
+        style: const TextStyle(fontSize: 32),
       ),
     );
   }

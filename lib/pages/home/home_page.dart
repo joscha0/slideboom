@@ -81,7 +81,9 @@ class HomePage extends GetView<HomeController> {
                                             .scaledWidth *
                                         0.15),
                                 child: Image.asset(
-                                  'assets/home.png',
+                                  c.isDarkTheme
+                                      ? 'assets/home.png'
+                                      : 'assets/home-light.png',
                                 ),
                               ),
                               Padding(
@@ -92,26 +94,48 @@ class HomePage extends GetView<HomeController> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    DropdownButton(
-                                        value: c.dropDownValue.value,
-                                        style: Get.textTheme.headline5,
-                                        items: c.modes.keys
-                                            .map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                          return DropdownMenuItem<String>(
-                                            value: value,
-                                            child: Text(value),
-                                          );
-                                        }).toList(),
-                                        onChanged: c.onChanged),
+                                    PopupMenuButton(
+                                      tooltip: 'select mode',
+                                      initialValue: c.dropDownValue.value,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              c.dropDownValue.value,
+                                              style: Get.textTheme.headline5,
+                                            ),
+                                            const Icon(Icons.arrow_drop_down),
+                                          ],
+                                        ),
+                                      ),
+                                      itemBuilder: (context) => c.modes.keys
+                                          .map<PopupMenuItem<String>>(
+                                              (String value) {
+                                        return PopupMenuItem<String>(
+                                          value: value,
+                                          child: Text(
+                                            value,
+                                            style: Get.textTheme.headline5,
+                                          ),
+                                        );
+                                      }).toList(),
+                                      onSelected: c.onChanged,
+                                    ),
                                     if ((c.modes[c.dropDownValue.value] ?? 4) >=
                                         4) ...[
                                       const SizedBox(width: 25),
-                                      Checkbox(
+                                      SizedBox(
+                                        width: 150,
+                                        child: CheckboxListTile(
                                           value: c.checkboxValue.value,
-                                          onChanged: c.changeCheckbox),
-                                      Text(
-                                          'bomb ${c.checkboxValue.value ? "on" : "off"}')
+                                          onChanged: c.changeCheckbox,
+                                          title: Text(
+                                            'bomb ${c.checkboxValue.value ? "on" : "off"}',
+                                            style: Get.textTheme.bodyText2,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ],
                                 ),
@@ -185,7 +209,9 @@ class HomePage extends GetView<HomeController> {
                                               style:
                                                   const TextStyle(fontSize: 21),
                                             )),
-                                            DataCell(Text(score['date'])),
+                                            DataCell(Text(
+                                              score['date'],
+                                            )),
                                           ]),
                                         ]
                                       ],
@@ -210,7 +236,9 @@ class HomePage extends GetView<HomeController> {
                                 IconButton(
                                   iconSize: 32,
                                   icon: Image.asset(
-                                    'assets/github-dark.png',
+                                    c.isDarkTheme
+                                        ? 'assets/github.png'
+                                        : 'github-light.png',
                                   ),
                                   onPressed: () => c.openGithub(),
                                 ),

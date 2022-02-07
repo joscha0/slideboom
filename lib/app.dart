@@ -24,13 +24,33 @@ class MyApp extends GetView<AppController> {
                 ResponsiveBreakpoint.autoScale(1600, name: 'XL'),
               ],
             ),
-            theme: ThemeData.light().copyWith(
+            theme: ThemeData(
               scaffoldBackgroundColor: const Color.fromARGB(255, 250, 250, 250),
-              textTheme: GoogleFonts.bungeeTextTheme(),
+              textTheme: GoogleFonts.bungeeTextTheme(
+                const TextTheme(
+                  headline4: TextStyle(color: Colors.black),
+                  bodyText1: TextStyle(color: Colors.black54),
+                ),
+              ),
             ),
-            darkTheme: ThemeData.dark().copyWith(
+            darkTheme: ThemeData(
               scaffoldBackgroundColor: Colors.black,
-              textTheme: GoogleFonts.bungeeTextTheme(),
+              unselectedWidgetColor: Colors.white70,
+              canvasColor: Colors.grey[850],
+              dividerColor: Colors.white24,
+              dialogBackgroundColor: Colors.grey[850],
+              popupMenuTheme: PopupMenuThemeData(color: Colors.grey[850]),
+              primarySwatch: Colors.blue,
+              iconTheme: const IconThemeData(color: Colors.white),
+              textTheme: GoogleFonts.bungeeTextTheme(
+                const TextTheme(
+                  headline5: TextStyle(color: Colors.white),
+                  headline4: TextStyle(color: Colors.white),
+                  bodyText2: TextStyle(color: Colors.white),
+                  headline6: TextStyle(color: Colors.white),
+                  bodyText1: TextStyle(color: Colors.white70),
+                ),
+              ),
             ),
             themeMode: c.themeMode.value,
             getPages: AppPages.routes,

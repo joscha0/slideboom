@@ -120,8 +120,10 @@ class HomeController extends GetxController {
               'How to play?',
               style: Get.textTheme.headline5,
             ),
-            const Text(
-                'slide the tiles into numerical order.\nbe as fast as possible!\nIf you move a bomb you lose!'),
+            Text(
+              'slide the tiles into numerical order.\nbe as fast as possible!\nIf you move the bomb you lose!',
+              style: Get.textTheme.bodyText1,
+            ),
             const SizedBox(
               height: 15,
             ),
@@ -130,11 +132,15 @@ class HomeController extends GetxController {
               style: Get.textTheme.headline5,
             ),
             Text('on home screen:', style: Get.textTheme.headline6),
-            const Text(
-                '- p: play\n- m: increase mode\n- n: decrease mode\n- b: toggle bomb\n- ?: open help'),
+            Text(
+              '- p: play\n- m: increase mode\n- n: decrease mode\n- b: toggle bomb\n- ?: open help',
+              style: Get.textTheme.bodyText1,
+            ),
             Text('in game:', style: Get.textTheme.headline6),
-            const Text(
-                '- escape: toggle pause\n- wasd: move selected\n- arrow keys: move tiles'),
+            Text(
+              '- escape: toggle pause\n- wasd: move selected\n- arrow keys: move tiles',
+              style: Get.textTheme.bodyText1,
+            ),
           ],
         ));
   }

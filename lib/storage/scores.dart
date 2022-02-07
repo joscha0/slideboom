@@ -9,6 +9,8 @@ getScores(String mode, bool bombs) {
 }
 
 bool addScore(int rowCount, bool bombs, int time) {
+  // TODO save starting position and number of moves
+
   /// returns true if score is new highscore
   // id: scores-4x4b
   String id = "scores-${rowCount}x$rowCount" + (bombs ? "b" : "");
