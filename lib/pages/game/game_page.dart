@@ -81,7 +81,7 @@ class GamePage extends GetView<GameController> {
                         return Yoda(
                           yodaEffect: YodaEffect.Explosion,
                           controller: controller.yodaControllerExplode,
-                          duration: const Duration(milliseconds: 3500),
+                          duration: const Duration(milliseconds: 2500),
                           animParameters: AnimParameters(
                             fractionalCenter: controller.offsetExplosion.value,
                             hTiles: 20,
