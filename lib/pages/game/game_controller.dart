@@ -237,6 +237,9 @@ class GameController extends GetxController
     // set bomb position
     if (bombEnabled) {
       bombIndex = Random().nextInt(rowCount * rowCount);
+      if (rowCount == 3 && bombIndex == 4) {
+        shuffleStartingPosition();
+      }
     }
     // make a random move (up, down, left, right) at each tile;
     for (int i = 0; i < rowCount * rowCount; i++) {

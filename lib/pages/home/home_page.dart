@@ -133,23 +133,20 @@ class HomePage extends GetView<HomeController> {
                                       }).toList(),
                                       onSelected: c.onChanged,
                                     ),
-                                    if ((c.modes[c.dropDownValue.value] ?? 4) >=
-                                        4) ...[
-                                      const SizedBox(width: 25),
-                                      SizedBox(
-                                        width: 150,
-                                        child: CheckboxListTile(
-                                          value: c.checkboxValue.value,
-                                          onChanged: c.changeCheckbox,
-                                          title: Text(
-                                            'bomb ${c.checkboxValue.value ? "on" : "off"}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2,
-                                          ),
+                                    const SizedBox(width: 25),
+                                    SizedBox(
+                                      width: 150,
+                                      child: CheckboxListTile(
+                                        value: c.checkboxValue.value,
+                                        onChanged: c.changeCheckbox,
+                                        title: Text(
+                                          'bomb ${c.checkboxValue.value ? "on" : "off"}',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2,
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ],
                                 ),
                               ),

@@ -36,9 +36,6 @@ class HomeController extends GetxController {
 
   void onChanged(String? value) {
     dropDownValue.value = value ?? '4x4';
-    if ((modes[value] ?? 4) < 4) {
-      checkboxValue.value = false;
-    }
     loadScores();
     saveMode();
   }
@@ -60,9 +57,7 @@ class HomeController extends GetxController {
   }
 
   void toggleBomb() {
-    if ((modes[dropDownValue.value] ?? 0) > 3) {
-      changeCheckbox(!checkboxValue.value);
-    }
+    changeCheckbox(!checkboxValue.value);
   }
 
   void increaseMode() {
