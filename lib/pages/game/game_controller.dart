@@ -101,7 +101,12 @@ class GameController extends GetxController
     startTimer();
     offsetExplosion.value = getOffsetExplosion();
     super.onInit();
-    yodaControllerExplode = YodaController();
+    yodaControllerExplode = YodaController()
+      ..addStatusListener((status, context) {
+        if (status == AnimationStatus.completed) {
+          showBombExploded();
+        }
+      });
   }
 
   void startTimer() {
@@ -801,16 +806,16 @@ class GameController extends GetxController
     isMovingHorizontally.add(-1);
     isMovingVertically.add(-1);
     isEnded.value = true;
-    bombTimer = Timer.periodic(const Duration(milliseconds: 200), (bombTimer) {
+    bombTimer = Timer.periodic(const Duration(milliseconds: 120), (bombTimer) {
       bombImage.value += 1;
       update(['tile$bombIndex']);
       if (bombImage.value >= 3) {
         bombTimer.cancel();
 
         int count = 0;
-        yodaControllerExplode.start();
+
         explosionTimer =
-            Timer.periodic(const Duration(milliseconds: 150), (explosionTimer) {
+            Timer.periodic(const Duration(milliseconds: 100), (explosionTimer) {
           if (count <= 3) {
             count++;
             if (count == 3) {
@@ -822,63 +827,68 @@ class GameController extends GetxController
 
             update(['explosion']);
           }
+          if (explosionImage.value == 1) {
+            yodaControllerExplode.start();
+          }
           if (explosionImage.value >= 8) {
             explosionTimer.cancel();
             _ticker.stop();
             isExplosion.value = false;
-            Get.dialog(
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'bomb exploded!',
-                        style: Get.textTheme.headline4
-                            ?.copyWith(color: Colors.white),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      ElevatedButton(
-                          onPressed: restart,
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Restart',
-                              style: TextStyle(
-                                fontSize: 25,
-                              ),
-                            ),
-                          )),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Get.offAllNamed(Routes.home);
-                          },
-                          child: const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              'Home',
-                              style: TextStyle(
-                                fontSize: 25,
-                              ),
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-              ),
-              barrierDismissible: false,
-              barrierColor: const Color.fromRGBO(230, 50, 17, 0.95),
-            );
           }
         });
       }
     });
+  }
+
+  void showBombExploded() {
+    Get.dialog(
+      Center(
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'bomb exploded!',
+                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                  onPressed: restart,
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Restart',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.offAllNamed(Routes.home);
+                  },
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Home',
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+      barrierColor: const Color.fromRGBO(230, 50, 17, 0.95),
+    );
   }
 
   void openFinished() {

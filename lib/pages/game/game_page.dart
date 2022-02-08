@@ -71,72 +71,79 @@ class GamePage extends GetView<GameController> {
                   ),
                 ),
                 ResponsiveRowColumnItem(
-                  child: Obx(() {
-                    return Yoda(
-                      yodaEffect: YodaEffect.Explosion,
-                      controller: controller.yodaControllerExplode,
-                      duration: const Duration(milliseconds: 2500),
-                      animParameters: AnimParameters(
-                        fractionalCenter: controller.offsetExplosion.value,
-                        hTiles: 30,
-                        vTiles: 30,
-                        effectPower: 0.2,
-                        blurPower: 5,
-                        gravity: 0.1,
-                        randomness: 30,
-                      ),
-                      startWhenTapped: false,
-                      child: Container(
-                        decoration: controller.bordersEnabled
-                            ? BoxDecoration(
-                                border:
-                                    Border.all(color: Colors.black, width: 5))
-                            : const BoxDecoration(),
-                        width: controller.tileWidth * controller.rowCount +
-                            (controller.bordersEnabled ? 10 : 0),
-                        height: controller.tileWidth * controller.rowCount +
-                            (controller.bordersEnabled ? 10 : 0),
-                        child: Stack(
-                          children: [
-                            for (int i = 0;
-                                i < controller.rowCount * controller.rowCount;
-                                i++) ...[
-                              tile(context, i, false, false),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      if (controller.bombIndex != -1) ...[
+                        bombExplosion(),
+                      ],
+                      Obx(() {
+                        return Yoda(
+                          yodaEffect: YodaEffect.Explosion,
+                          controller: controller.yodaControllerExplode,
+                          duration: const Duration(milliseconds: 3500),
+                          animParameters: AnimParameters(
+                            fractionalCenter: controller.offsetExplosion.value,
+                            hTiles: 20,
+                            vTiles: 20,
+                            effectPower: 0.5 - (controller.rowCount * 0.04),
+                            blurPower: 5,
+                            gravity: 0.1,
+                            randomness: 30,
+                          ),
+                          startWhenTapped: false,
+                          child: Container(
+                            decoration: controller.bordersEnabled
+                                ? BoxDecoration(
+                                    border: Border.all(
+                                        color: Colors.black, width: 5))
+                                : const BoxDecoration(),
+                            width: controller.tileWidth * controller.rowCount +
+                                (controller.bordersEnabled ? 10 : 0),
+                            height: controller.tileWidth * controller.rowCount +
+                                (controller.bordersEnabled ? 10 : 0),
+                            child: Stack(
+                              children: [
+                                for (int i = 0;
+                                    i <
+                                        controller.rowCount *
+                                            controller.rowCount;
+                                    i++) ...[
+                                  tile(context, i, false, false),
 
-                              // add horizontal overflow tiles
-                              if ((i + 1) % controller.rowCount == 1 ||
-                                  (i + 1) % controller.rowCount == 0) ...[
-                                tile(
-                                  context,
-                                  i,
-                                  true,
-                                  true,
-                                  idStr: 'htile$i',
-                                ),
-                              ],
+                                  // add horizontal overflow tiles
+                                  if ((i + 1) % controller.rowCount == 1 ||
+                                      (i + 1) % controller.rowCount == 0) ...[
+                                    tile(
+                                      context,
+                                      i,
+                                      true,
+                                      true,
+                                      idStr: 'htile$i',
+                                    ),
+                                  ],
 
-                              // add vertical overflow tiles
-                              if (i ~/ controller.rowCount ==
-                                      controller.rowCount - 1 ||
-                                  i ~/ controller.rowCount == 0) ...[
-                                tile(
-                                  context,
-                                  i,
-                                  true,
-                                  false,
-                                  idStr: 'vtile$i',
-                                ),
+                                  // add vertical overflow tiles
+                                  if (i ~/ controller.rowCount ==
+                                          controller.rowCount - 1 ||
+                                      i ~/ controller.rowCount == 0) ...[
+                                    tile(
+                                      context,
+                                      i,
+                                      true,
+                                      false,
+                                      idStr: 'vtile$i',
+                                    ),
+                                  ],
+                                ],
                               ],
-                            ],
-                            // add bomb explosion
-                            if (controller.bombIndex != -1) ...[
-                              bombExplosion(),
-                            ],
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                            ),
+                          ),
+                        );
+                      }),
+                      // add bomb explosion
+                    ],
+                  ),
                 ),
                 if (ResponsiveWrapper.of(context).isLargerThan(TABLET) &&
                     ResponsiveWrapper.of(context).orientation ==
