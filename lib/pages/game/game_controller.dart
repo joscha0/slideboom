@@ -949,8 +949,8 @@ class GameController extends GetxController
   }
 
   Offset getOffsetExplosion() {
-    double dx = ((bombIndex) % rowCount) / rowCount;
-    double dy = ((bombIndex) ~/ rowCount) / rowCount;
+    double dx = ((bombIndex) % rowCount) / rowCount + 1 / (rowCount * 2);
+    double dy = ((bombIndex) ~/ rowCount) / rowCount + 1 / (rowCount * 2);
     return Offset(dx, dy);
   }
 }
