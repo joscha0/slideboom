@@ -6,10 +6,13 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:slideboom/pages/home/home_controller.dart';
+import 'package:slideboom/pages/home/home_page.dart';
 import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
+import 'package:yoda/yoda.dart';
 
 class GameController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -55,6 +58,9 @@ class GameController extends GetxController
 
   RxInt selectedIndex = (-1).obs;
 
+  late YodaController yodaControllerExplode;
+  Rx<Offset> offsetExplosion = Offset(0.5, 0.5).obs;
+
   // late Timer timer;
   late Timer bombTimer;
   late Timer explosionTimer;
@@ -93,7 +99,9 @@ class GameController extends GetxController
     setTileWidth();
     setPositions();
     startTimer();
+    offsetExplosion.value = getOffsetExplosion();
     super.onInit();
+    yodaControllerExplode = YodaController();
   }
 
   void startTimer() {
@@ -153,6 +161,8 @@ class GameController extends GetxController
 
     updateAllTiles();
     _ticker.start();
+    yodaControllerExplode.reset();
+    offsetExplosion.value = getOffsetExplosion();
   }
 
   void setArgumentValues() {
@@ -798,6 +808,7 @@ class GameController extends GetxController
         bombTimer.cancel();
 
         int count = 0;
+        yodaControllerExplode.start();
         explosionTimer =
             Timer.periodic(const Duration(milliseconds: 150), (explosionTimer) {
           if (count <= 3) {
@@ -935,5 +946,11 @@ class GameController extends GetxController
       barrierDismissible: false,
       barrierColor: const Color.fromRGBO(5, 15, 5, 0.95),
     );
+  }
+
+  Offset getOffsetExplosion() {
+    double dx = ((bombIndex) % rowCount) / rowCount;
+    double dy = ((bombIndex) ~/ rowCount) / rowCount;
+    return Offset(dx, dy);
   }
 }
