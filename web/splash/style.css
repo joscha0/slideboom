@@ -10,7 +10,7 @@
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
-	background-color: #f1f1f2;
+	background-color: #fafafa;
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	justify-content: center;
@@ -57,3 +57,8 @@
 	opacity: 0;
 }
 
+@media (prefers-color-scheme: dark) {
+	.preloader-container {
+		background-color: #000000;
+	}
+}
