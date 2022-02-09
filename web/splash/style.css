@@ -1,43 +1,59 @@
-body, html {
-  margin:0;
-  height:100%;
-  background: #fafafa;
-  
-  background-size: 100% 100%;
+.preloader-container {
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow-x: auto;
+	overflow-y: scroll;
+	position: fixed;
+	z-index: 9000;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	background-color: #f1f1f2;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	overflow: hidden;
+	-webkit-transition: all 1s linear;
+	-o-transition: all 1s linear;
+	transition: all 1s linear;
 }
 
-.center {
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+.preloader-container .animation {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-ms-flex-direction: column;
+	flex-direction: column;
 }
 
-.contain {
-  display:block;
-  width:100%; height:100%;
-  object-fit: contain;
+.preloader-container .animation #skip {
+	color: #20495a;
+	cursor: pointer;
+	font-family: montserrat, sans-serif;
+	font-size: 1.75em;
+	position: absolute;
+	margin: 0 auto;
+	bottom: 20vh;
 }
 
-.stretch {
-  display:block;
-  width:100%; height:100%;
+.hidden {
+	display: none;
 }
 
-.cover {
-  display:block;
-  width:100%; height:100%;
-  object-fit: cover;
+.visuallyhidden {
+	opacity: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  body {
-    margin:0;
-    height:100%;
-    background: #000000;
-    
-    background-size: 100% 100%;
-  }
-}

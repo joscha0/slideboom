@@ -42,6 +42,7 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  animated_native_splash: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -88,3 +89,6 @@ flutter_native_splash:
   color: "#fafafa"
   color_dark: "#000000"
   image: assets/splash.png
+
+animated_native_splash:
+  jsonFile: assets/loader.json
