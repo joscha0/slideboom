@@ -14,6 +14,7 @@ class MyApp extends GetView<AppController> {
         init: AppController(),
         builder: (c) {
           return GetMaterialApp(
+            title: "slideboom",
             debugShowCheckedModeBanner: false,
             builder: (context, widget) => ResponsiveWrapper.builder(
               ClampingScrollWrapper.builder(context, widget!),
