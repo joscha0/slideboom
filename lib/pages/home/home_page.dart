@@ -224,7 +224,7 @@ class HomePage extends GetView<HomeController> {
                                             'time',
                                             style: Get.textTheme.headline5,
                                           ),
-                                          numeric: true,
+                                          numeric: false,
                                         ),
                                         DataColumn(
                                             label: Text(
