@@ -90,13 +90,6 @@ class HomeController extends GetxController {
       };
       scores.add(score);
     }
-
-    // scores.add({
-    //   'date': '',
-    //   'time': '',
-    //   'moves': 1,
-    //   'startPosition': List.generate(25, (index) => index),
-    // });
   }
 
   String getTimeString(int time) {
@@ -120,6 +113,7 @@ class HomeController extends GetxController {
     Get.dialog(AlertDialog(
         title: Text(
           'Help',
+          textAlign: TextAlign.center,
           style: Get.textTheme.headline4,
         ),
         scrollable: true,
@@ -167,7 +161,11 @@ class HomeController extends GetxController {
       tileWidth = getTileWidth(rowCount);
     }
     Get.dialog(AlertDialog(
-        title: Text('score ${index + 1}'),
+        title: Text(
+          '#${index + 1}',
+          textAlign: TextAlign.center,
+          style: Get.textTheme.headline4,
+        ),
         scrollable: true,
         content: SingleChildScrollView(
           child: Column(
