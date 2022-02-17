@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:slideboom/shared/functions.dart';
 import 'package:slideboom/shared/constants.dart';
+import 'package:slideboom/shared/widgets.dart';
 import 'package:yoda/yoda.dart';
 
 import 'game_controller.dart';
@@ -255,47 +256,6 @@ class GamePage extends GetView<GameController> {
           ),
         );
       },
-    );
-  }
-
-  Widget timeText({Duration elapsed = Duration.zero}) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String minutes = twoDigits(elapsed.inMinutes);
-    String seconds = twoDigits(elapsed.inSeconds.remainder(60));
-    String hundreds = twoDigits(elapsed.inMilliseconds.remainder(100));
-    return Expanded(
-      child: Flex(
-        direction: Axis.horizontal,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            minutes,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 32),
-          ),
-          const Text(
-            ":",
-            style: TextStyle(fontSize: 32),
-          ),
-          sizedTimeText(seconds),
-          const Text(
-            ":",
-            style: TextStyle(fontSize: 32),
-          ),
-          sizedTimeText(hundreds),
-        ],
-      ),
-    );
-  }
-
-  Widget sizedTimeText(String time) {
-    return SizedBox(
-      width: 50,
-      child: Text(
-        time,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 32),
-      ),
     );
   }
 }
