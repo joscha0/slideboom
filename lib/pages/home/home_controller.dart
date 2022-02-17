@@ -90,6 +90,13 @@ class HomeController extends GetxController {
       };
       scores.add(score);
     }
+
+    // scores.add({
+    //   'date': '',
+    //   'time': '',
+    //   'moves': 1,
+    //   'startPosition': List.generate(25, (index) => index),
+    // });
   }
 
   String getTimeString(int time) {
@@ -154,8 +161,10 @@ class HomeController extends GetxController {
   void openScoreDialog(int index) {
     Map score = scores[index];
     int rowCount = 0;
+    double tileWidth = 0;
     if (score['startPosition'] != null) {
       rowCount = sqrt(score['startPosition'].length).toInt();
+      tileWidth = getTileWidth(rowCount);
     }
     Get.dialog(AlertDialog(
         title: Text('score ${index + 1}'),
@@ -211,22 +220,24 @@ class HomeController extends GetxController {
                   ),
                 ),
                 Center(
-                  child: SizedBox(
-                    height: getTileWidth(rowCount) * rowCount * 0.8,
-                    width: getTileWidth(rowCount) * rowCount * 0.8,
+                  child: Container(
+                    height: tileWidth * rowCount * 0.6,
+                    width: tileWidth * rowCount * 0.6,
+                    // constraints: BoxConstraints(maxHeight: 150, maxWidth: 150),
                     child: GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: rowCount),
                       itemCount: score['startPosition'].length,
                       itemBuilder: (context, i) {
-                        Color color = getColor(i, rowCount, false);
+                        Color color = getColor(
+                            score['startPosition'][i], rowCount, false);
                         return Container(
                           color: color,
                           child: Center(
                             child: Text(
                               (score['startPosition'][i] + 1).toString(),
                               style: TextStyle(
-                                fontSize: 42,
+                                fontSize: tileWidth * 0.4,
                                 color: color.computeLuminance() < 0.5
                                     ? Colors.white
                                     : Colors.black,
