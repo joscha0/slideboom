@@ -441,8 +441,8 @@ class GameController extends GetxController
   }
 
   void _moveVertical(bool isMoving, int index) {
-    moves.value++;
     if (isMoving) {
+      moves.value++;
       animationDuration.value = const Duration(milliseconds: 0);
     } else {
       animationDuration.value = const Duration(milliseconds: 100);
@@ -587,8 +587,8 @@ class GameController extends GetxController
   }
 
   _moveHorizontal(bool isMoving, int index) {
-    moves.value++;
     if (isMoving) {
+      moves.value++;
       animationDuration.value = const Duration(milliseconds: 0);
     } else {
       animationDuration.value = const Duration(milliseconds: 100);
