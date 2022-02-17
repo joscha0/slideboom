@@ -219,7 +219,7 @@ class HomeController extends GetxController {
                         color: color,
                         child: Center(
                           child: Text(
-                            (i + 1).toString(),
+                            (score['startPosition'][i] + 1).toString(),
                             style: TextStyle(
                               fontSize: 42,
                               color: color.computeLuminance() < 0.5
