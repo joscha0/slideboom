@@ -58,12 +58,16 @@ class GamePage extends GetView<GameController> {
                           ? Container()
                           : Column(
                               children: [
-                                IconButton(
-                                  icon: const Icon(
-                                    Icons.pause,
-                                    size: 32,
+                                Tooltip(
+                                  message: "pause",
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    icon: const Icon(
+                                      Icons.pause,
+                                      size: 32,
+                                    ),
+                                    onPressed: () => controller.showPause(),
                                   ),
-                                  onPressed: () => controller.showPause(),
                                 ),
                                 timeText(
                                     elapsed: controller.timerElapsed.value),

@@ -32,13 +32,20 @@ class HomePage extends GetView<HomeController> {
           floatingActionButton: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              IconButton(
-                  onPressed: controller.openHelp, icon: const Icon(Icons.help)),
-              IconButton(
-                icon: Icon(
-                  controller.isDarkTheme ? Icons.dark_mode : Icons.light_mode,
+              Tooltip(
+                message: "open Help",
+                child: IconButton(
+                    onPressed: controller.openHelp,
+                    icon: const Icon(Icons.help)),
+              ),
+              Tooltip(
+                message: "toggle light/dark theme",
+                child: IconButton(
+                  icon: Icon(
+                    controller.isDarkTheme ? Icons.dark_mode : Icons.light_mode,
+                  ),
+                  onPressed: controller.switchTheme,
                 ),
-                onPressed: controller.switchTheme,
               ),
             ],
           ),
@@ -136,26 +143,32 @@ class HomePage extends GetView<HomeController> {
                                     const SizedBox(width: 25),
                                     SizedBox(
                                       width: 150,
-                                      child: CheckboxListTile(
-                                        value: c.checkboxValue.value,
-                                        onChanged: c.changeCheckbox,
-                                        title: Text(
-                                          'bomb ${c.checkboxValue.value ? "on" : "off"}',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyText2,
+                                      child: Tooltip(
+                                        message: "toggle bomb",
+                                        child: CheckboxListTile(
+                                          value: c.checkboxValue.value,
+                                          onChanged: c.changeCheckbox,
+                                          title: Text(
+                                            'bomb ${c.checkboxValue.value ? "on" : "off"}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              ElevatedButton(
-                                  onPressed: c.startGame,
-                                  child: const Text(
-                                    'play',
-                                    style: TextStyle(fontSize: 42),
-                                  )),
+                              Tooltip(
+                                message: "start game",
+                                child: ElevatedButton(
+                                    onPressed: c.startGame,
+                                    child: const Text(
+                                      'play',
+                                      style: TextStyle(fontSize: 42),
+                                    )),
+                              ),
                             ]),
                       ),
                       ResponsiveRowColumnItem(
@@ -262,21 +275,25 @@ class HomePage extends GetView<HomeController> {
                                   'source code:',
                                   style: Theme.of(context).textTheme.headline6,
                                 ),
-                                IconButton(
-                                  iconSize: 32,
-                                  icon: AnimatedCrossFade(
-                                    duration: const Duration(milliseconds: 200),
-                                    firstChild: Image.asset(
-                                      'assets/github.png',
+                                Tooltip(
+                                  message: "open github",
+                                  child: IconButton(
+                                    iconSize: 32,
+                                    icon: AnimatedCrossFade(
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      firstChild: Image.asset(
+                                        'assets/github.png',
+                                      ),
+                                      secondChild: Image.asset(
+                                        'assets/github-light.png',
+                                      ),
+                                      crossFadeState: c.isDarkTheme
+                                          ? CrossFadeState.showFirst
+                                          : CrossFadeState.showSecond,
                                     ),
-                                    secondChild: Image.asset(
-                                      'assets/github-light.png',
-                                    ),
-                                    crossFadeState: c.isDarkTheme
-                                        ? CrossFadeState.showFirst
-                                        : CrossFadeState.showSecond,
+                                    onPressed: () => c.openGithub(),
                                   ),
-                                  onPressed: () => c.openGithub(),
                                 ),
                               ],
                             ),
