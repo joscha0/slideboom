@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:slideboom/shared/colors.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:yoda/yoda.dart';
 
@@ -191,6 +192,11 @@ class GamePage extends GetView<GameController> {
       id: idStr ?? 'tile$index',
       init: GameController(),
       builder: (c) {
+        Color color = getColor(
+          c.tilePositions[index],
+          c.rowCount,
+          c.solved,
+        );
         return AnimatedPositioned(
           duration: c.animationDuration.value,
           width: c.tileWidth,
@@ -224,16 +230,14 @@ class GamePage extends GetView<GameController> {
                         color: c.isDarkTheme ? Colors.white : Colors.black,
                         width: c.tileWidth * 0.08,
                       ),
-                      color: c.getColor(index),
+                      color: color,
                     )
                   : c.bordersEnabled
                       ? BoxDecoration(
                           border: Border.all(color: Colors.black),
-                          color: c.getColor(index),
+                          color: color,
                         )
-                      : BoxDecoration(
-                          color: c.getColor(index),
-                        ),
+                      : BoxDecoration(color: color),
               child: Center(
                 child: c.isBombPosition(index)
                     ? Image.asset('assets/bomb/bomb_${c.bombImage.value}.png')
@@ -241,7 +245,7 @@ class GamePage extends GetView<GameController> {
                         (c.tilePositions[index] + 1).toString(),
                         style: TextStyle(
                           fontSize: c.tileWidth * 0.6,
-                          color: c.getColor(index).computeLuminance() < 0.5
+                          color: color.computeLuminance() < 0.5
                               ? Colors.white
                               : Colors.black,
                         ),
