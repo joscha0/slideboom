@@ -6,8 +6,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:slideboom/pages/home/home_controller.dart';
-import 'package:slideboom/pages/home/home_page.dart';
+
 import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
@@ -59,7 +58,7 @@ class GameController extends GetxController
   RxInt selectedIndex = (-1).obs;
 
   late YodaController yodaControllerExplode;
-  Rx<Offset> offsetExplosion = Offset(0.5, 0.5).obs;
+  Rx<Offset> offsetExplosion = const Offset(0.5, 0.5).obs;
 
   // late Timer timer;
   late Timer bombTimer;
@@ -95,6 +94,7 @@ class GameController extends GetxController
 
   @override
   void onInit() {
+    precacheImages();
     setArgumentValues();
     setTileWidth();
     setPositions();
@@ -107,6 +107,16 @@ class GameController extends GetxController
           showBombExploded();
         }
       });
+  }
+
+  void precacheImages() {
+    for (int i = 0; i <= 3; i++) {
+      precacheImage(AssetImage('assets/bomb/bomb_$i.png'), Get.context!);
+    }
+    for (int i = 0; i <= 8; i++) {
+      precacheImage(
+          AssetImage('assets/explosion/explosion_$i.png'), Get.context!);
+    }
   }
 
   void startTimer() {
@@ -290,7 +300,7 @@ class GameController extends GetxController
 
   /* 
   
-  Keyboard controll
+  Keyboard control
   
   */
 
