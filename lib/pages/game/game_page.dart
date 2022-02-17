@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:slideboom/shared/colors.dart';
+import 'package:slideboom/shared/functions.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:yoda/yoda.dart';
 

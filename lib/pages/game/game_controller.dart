@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
+import 'package:slideboom/shared/functions.dart';
 import 'package:slideboom/storage/storage.dart';
 import 'package:yoda/yoda.dart';
 
@@ -72,7 +72,7 @@ class GameController extends GetxController
   void onInit() {
     precacheImages();
     setArgumentValues();
-    setTileWidth();
+    tileWidth = getTileWidth(rowCount);
     setPositions();
     startTimer();
     offsetExplosion.value = getOffsetExplosion();
@@ -149,7 +149,7 @@ class GameController extends GetxController
     moves.value = 0;
 
     setArgumentValues();
-    setTileWidth();
+    tileWidth = getTileWidth(rowCount);
     setPositions();
 
     updateAllTiles();
@@ -174,24 +174,6 @@ class GameController extends GetxController
   void dispose() {
     _ticker.dispose();
     super.dispose();
-  }
-
-  void setTileWidth() {
-    if (Get.size.aspectRatio < 1) {
-      if (Get.context != null) {
-        tileWidth =
-            (ResponsiveWrapper.of(Get.context!).scaledWidth * 0.75) / rowCount;
-      } else {
-        tileWidth = (Get.size.width * 0.75) / rowCount;
-      }
-    } else {
-      if (Get.context != null) {
-        tileWidth =
-            (ResponsiveWrapper.of(Get.context!).scaledHeight * 0.6) / rowCount;
-      } else {
-        tileWidth = (Get.size.height * 0.6) / rowCount;
-      }
-    }
   }
 
   void setPositions() {
