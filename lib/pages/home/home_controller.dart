@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
+import 'package:slideboom/shared/colors.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/storage/storage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -144,5 +147,94 @@ class HomeController extends GetxController {
 
   void switchTheme() {
     Get.find<AppController>().switchTheme();
+  }
+
+  void openScoreDialog(int index) {
+    Map score = scores[index];
+    Get.defaultDialog(
+        title: 'score ${index + 1}',
+        middleText: '',
+        content: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "time: ",
+                  style: Get.textTheme.bodyText1,
+                ),
+                Text(
+                  score['time'],
+                  style: Get.textTheme.headline5,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "moves: ",
+                  style: Get.textTheme.bodyText1,
+                ),
+                Text(
+                  score['moves'].toString(),
+                  style: Get.textTheme.headline5,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "date: ",
+                  style: Get.textTheme.bodyText1,
+                ),
+                Text(
+                  score['date'],
+                  style: Get.textTheme.bodyText2,
+                ),
+              ],
+            ),
+            if (score['startPosition'] != null) ...[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "starting position:",
+                  style: Get.textTheme.bodyText1,
+                ),
+              ),
+              Center(
+                child: SizedBox(
+                  height: 200,
+                  width: 200,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount:
+                            sqrt(score['startPosition'].length).toInt()),
+                    itemCount: score['startPosition'].length,
+                    itemBuilder: (context, i) {
+                      Color color = getColor(i,
+                          sqrt(score['startPosition'].length).toInt(), false);
+                      return Container(
+                        color: color,
+                        child: Center(
+                          child: Text(
+                            (i + 1).toString(),
+                            style: TextStyle(
+                              fontSize: 42,
+                              color: color.computeLuminance() < 0.5
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ],
+        ));
   }
 }

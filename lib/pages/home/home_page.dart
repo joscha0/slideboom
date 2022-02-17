@@ -197,6 +197,7 @@ class HomePage extends GetView<HomeController> {
                                     child: DataTable(
                                       headingRowHeight: 0,
                                       columnSpacing: 25,
+                                      showCheckboxColumn: false,
                                       columns: const [
                                         DataColumn(
                                           label: Text(''),
@@ -209,20 +210,25 @@ class HomePage extends GetView<HomeController> {
                                         DataColumn(label: Text('moves')),
                                       ],
                                       rows: [
-                                        for (Map score in c.scores) ...[
-                                          DataRow(cells: [
-                                            DataCell(Text(
-                                                (c.scores.indexOf(score) + 1)
-                                                    .toString())),
-                                            DataCell(Text(
-                                              score['time'],
-                                              style:
-                                                  const TextStyle(fontSize: 21),
-                                            )),
-                                            DataCell(Text(
-                                              "moves: ${score['moves']}",
-                                            )),
-                                          ]),
+                                        for (int i = 0;
+                                            i < c.scores.length;
+                                            i++) ...[
+                                          DataRow(
+                                              onSelectChanged: (value) {
+                                                c.openScoreDialog(i);
+                                              },
+                                              cells: [
+                                                DataCell(
+                                                    Text((i + 1).toString())),
+                                                DataCell(Text(
+                                                  c.scores[i]['time'],
+                                                  style: const TextStyle(
+                                                      fontSize: 21),
+                                                )),
+                                                DataCell(Text(
+                                                  "moves: ${c.scores[i]['moves']}",
+                                                )),
+                                              ]),
                                         ]
                                       ],
                                     ),
