@@ -10,6 +10,7 @@ import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/shared/functions.dart';
+import 'package:slideboom/shared/widgets.dart';
 import 'package:slideboom/storage/storage.dart';
 import 'package:yoda/yoda.dart';
 
@@ -887,6 +888,15 @@ class GameController extends GetxController
             children: [
               Text(
                 'solved!',
+                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+              ),
+              Material(
+                  color: Colors.transparent,
+                  textStyle:
+                      Get.textTheme.headline4?.copyWith(color: Colors.white),
+                  child: timeText(elapsed: timerElapsed.value)),
+              Text(
+                'with $moves moves',
                 style: Get.textTheme.headline4?.copyWith(color: Colors.white),
               ),
               isHighscore
