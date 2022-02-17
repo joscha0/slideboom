@@ -195,19 +195,30 @@ class HomePage extends GetView<HomeController> {
                                   child: SingleChildScrollView(
                                     scrollDirection: Axis.vertical,
                                     child: DataTable(
-                                      headingRowHeight: 0,
+                                      // headingRowHeight: 0,
                                       columnSpacing: 25,
                                       showCheckboxColumn: false,
-                                      columns: const [
+                                      columns: [
                                         DataColumn(
-                                          label: Text(''),
+                                          label: Text(
+                                            '',
+                                            style: Get.textTheme.headline5,
+                                          ),
                                           numeric: true,
                                         ),
                                         DataColumn(
-                                          label: Text('time'),
+                                          label: Text(
+                                            'time',
+                                            style: Get.textTheme.headline5,
+                                          ),
                                           numeric: true,
                                         ),
-                                        DataColumn(label: Text('moves')),
+                                        DataColumn(
+                                            label: Text(
+                                              'moves',
+                                              style: Get.textTheme.headline5,
+                                            ),
+                                            numeric: true),
                                       ],
                                       rows: [
                                         for (int i = 0;
@@ -226,7 +237,9 @@ class HomePage extends GetView<HomeController> {
                                                       fontSize: 21),
                                                 )),
                                                 DataCell(Text(
-                                                  "moves: ${c.scores[i]['moves']}",
+                                                  "${c.scores[i]['moves']}",
+                                                  style: const TextStyle(
+                                                      fontSize: 21),
                                                 )),
                                               ]),
                                         ]
