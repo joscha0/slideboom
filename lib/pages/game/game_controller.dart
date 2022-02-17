@@ -57,6 +57,8 @@ class GameController extends GetxController
 
   RxInt selectedIndex = (-1).obs;
 
+  RxInt moves = 0.obs;
+
   late YodaController yodaControllerExplode;
   Rx<Offset> offsetExplosion = const Offset(0.5, 0.5).obs;
 
@@ -169,6 +171,8 @@ class GameController extends GetxController
     _offset = Duration.zero;
 
     selectedIndex.value = -1;
+
+    moves.value = 0;
 
     setArgumentValues();
     setTileWidth();
@@ -479,6 +483,7 @@ class GameController extends GetxController
   }
 
   void _moveVertical(bool isMoving, int index) {
+    moves.value++;
     if (isMoving) {
       animationDuration.value = const Duration(milliseconds: 0);
     } else {
@@ -624,6 +629,7 @@ class GameController extends GetxController
   }
 
   _moveHorizontal(bool isMoving, int index) {
+    moves.value++;
     if (isMoving) {
       animationDuration.value = const Duration(milliseconds: 0);
     } else {

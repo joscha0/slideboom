@@ -65,6 +65,10 @@ class GamePage extends GetView<GameController> {
                                 ),
                                 timeText(
                                     elapsed: controller.timerElapsed.value),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: Text("moves: ${controller.moves}"),
+                                ),
                               ],
                             );
                     }),
