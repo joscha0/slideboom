@@ -30,7 +30,7 @@ class GameController extends GetxController
 
   // saved tile positions
   RxMap tilePositions = {}.obs;
-  Map startPosition = {};
+  Map<int, int> startPosition = {};
 
   double dragDistance = 0;
 
@@ -256,10 +256,11 @@ class GameController extends GetxController
     }
 
     // starting position
-    List valueOptions = List.generate(rowCount * rowCount, (index) => index);
+    List<int> valueOptions =
+        List.generate(rowCount * rowCount, (index) => index);
     startPosition = Map.fromIterables(valueOptions, valueOptions);
     shuffleStartingPosition();
-    tilePositions.value = startPosition;
+    tilePositions.value = {...startPosition};
   }
 
   void shuffleStartingPosition() {
@@ -272,7 +273,7 @@ class GameController extends GetxController
     }
     // make a random move (up, down, left, right) at each tile;
     for (int i = 0; i < rowCount * rowCount; i++) {
-      Map backUpPos = Map.from(startPosition);
+      Map<int, int> backUpPos = Map.from(startPosition);
       List moves = [moveUp, moveDown, moveLeft, moveRight];
       moves[Random().nextInt(moves.length)](i, isStart: true);
       // if bomb would explode skip that step
@@ -915,8 +916,12 @@ class GameController extends GetxController
     isMovingVertically.add(-1);
     solved = true;
     updateAllTiles();
-    bool isHighscore =
-        addScore(rowCount, bombEnabled, timerElapsed.value.inMilliseconds);
+    bool isHighscore = addScore(
+        rowCount,
+        bombEnabled,
+        timerElapsed.value.inMilliseconds,
+        moves.value,
+        startPosition.values.toList());
     Get.dialog(
       Center(
         child: Container(

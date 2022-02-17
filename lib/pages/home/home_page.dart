@@ -206,7 +206,7 @@ class HomePage extends GetView<HomeController> {
                                           label: Text('time'),
                                           numeric: true,
                                         ),
-                                        DataColumn(label: Text('date')),
+                                        DataColumn(label: Text('moves')),
                                       ],
                                       rows: [
                                         for (Map score in c.scores) ...[
@@ -220,7 +220,7 @@ class HomePage extends GetView<HomeController> {
                                                   const TextStyle(fontSize: 21),
                                             )),
                                             DataCell(Text(
-                                              score['date'],
+                                              "moves: ${score['moves']}",
                                             )),
                                           ]),
                                         ]

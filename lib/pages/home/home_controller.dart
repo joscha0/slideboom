@@ -82,6 +82,8 @@ class HomeController extends GetxController {
       score = {
         'date': score['date'].substring(0, 19),
         'time': getTimeString(score['time']),
+        'moves': score['moves'],
+        'startPosition': score['startPosition'],
       };
       scores.add(score);
     }
