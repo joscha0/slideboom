@@ -888,7 +888,7 @@ class GameController extends GetxController
             children: [
               Text(
                 'solved!',
-                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+                style: Get.textTheme.headline3?.copyWith(color: Colors.white),
               ),
               Material(
                   color: Colors.transparent,
@@ -897,7 +897,7 @@ class GameController extends GetxController
                   child: timeText(elapsed: timerElapsed.value)),
               Text(
                 'with $moves moves',
-                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+                style: Get.textTheme.headline5?.copyWith(color: Colors.white),
               ),
               isHighscore
                   ? Text(
