@@ -89,6 +89,7 @@ flutter_native_splash:
   color: "#fafafa"
   color_dark: "#000000"
   image: assets/splash.png
+  web: false
 
 animated_native_splash:
   jsonFile: assets/loader.json
