@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -26,6 +27,15 @@ class MyApp extends GetView<AppController> {
               ],
             ),
             theme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                shadowColor: Colors.transparent,
+                color: Colors.transparent,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Color.fromARGB(255, 250, 250, 250),
+                  statusBarIconBrightness: Brightness.dark,
+                  statusBarBrightness: Brightness.light,
+                ),
+              ),
               scaffoldBackgroundColor: const Color.fromARGB(255, 250, 250, 250),
               textTheme: GoogleFonts.bungeeTextTheme(
                 const TextTheme(
@@ -35,6 +45,15 @@ class MyApp extends GetView<AppController> {
               ),
             ),
             darkTheme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                shadowColor: Colors.transparent,
+                color: Colors.transparent,
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.black,
+                  statusBarIconBrightness: Brightness.light,
+                  statusBarBrightness: Brightness.dark,
+                ),
+              ),
               scaffoldBackgroundColor: Colors.black,
               unselectedWidgetColor: Colors.white70,
               canvasColor: Colors.grey[850],
