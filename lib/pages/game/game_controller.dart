@@ -879,7 +879,8 @@ class GameController extends GetxController
         bombEnabled,
         timerElapsed.value.inMilliseconds,
         moves.value,
-        startPosition.values.toList());
+        startPosition.values.toList(),
+        bombIndex);
     Get.dialog(
       Center(
         child: Container(

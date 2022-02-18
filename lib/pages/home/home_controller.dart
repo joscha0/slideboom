@@ -87,6 +87,7 @@ class HomeController extends GetxController {
         'time': getTimeString(score['time']),
         'moves': score['moves'],
         'startPosition': score['startPosition'],
+        'bombIndex': score['bombIndex'],
       };
       scores.add(score);
     }
@@ -232,15 +233,21 @@ class HomeController extends GetxController {
                         return Container(
                           color: color,
                           child: Center(
-                            child: Text(
-                              (score['startPosition'][i] + 1).toString(),
-                              style: TextStyle(
-                                fontSize: tileWidth * 0.4,
-                                color: color.computeLuminance() < 0.5
-                                    ? Colors.white
-                                    : Colors.black,
-                              ),
-                            ),
+                            child: score['bombIndex'] == i
+                                ? Padding(
+                                    padding: const EdgeInsets.all(4.0),
+                                    child:
+                                        Image.asset('assets/bomb/bomb_0.png'),
+                                  )
+                                : Text(
+                                    (score['startPosition'][i] + 1).toString(),
+                                    style: TextStyle(
+                                      fontSize: tileWidth * 0.4,
+                                      color: color.computeLuminance() < 0.5
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
+                                  ),
                           ),
                         );
                       },

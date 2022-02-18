@@ -8,8 +8,8 @@ getScores(String mode, bool bombs) {
   return scores;
 }
 
-bool addScore(
-    int rowCount, bool bombs, int time, int moves, List<int> startPosition) {
+bool addScore(int rowCount, bool bombs, int time, int moves,
+    List<int> startPosition, int bombIndex) {
   /// returns true if score is new highscore
   // id: scores-4x4b
   String id = "scores-${rowCount}x$rowCount" + (bombs ? "b" : "");
@@ -32,22 +32,23 @@ bool addScore(
   }
 
   if (scores.length < 10) {
-    _saveScore(id, time, scores, moves, startPosition);
+    _saveScore(id, time, scores, moves, startPosition, bombIndex);
   } else if (slowest['time'] > time) {
     scores.removeWhere((score) => score == slowest);
-    _saveScore(id, time, scores, moves, startPosition);
+    _saveScore(id, time, scores, moves, startPosition, bombIndex);
   }
   return isHighscore;
 }
 
-_saveScore(
-    String id, int time, List scores, int moves, List<int> startPosition) {
+_saveScore(String id, int time, List scores, int moves, List<int> startPosition,
+    int bombIndex) {
   DateTime now = DateTime.now();
   scores.add({
     'date': now.toString(),
     'time': time,
     'moves': moves,
     'startPosition': startPosition,
+    'bombIndex': bombIndex,
   });
   _box.write(id, scores);
 }
