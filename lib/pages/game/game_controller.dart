@@ -13,6 +13,7 @@ import 'package:slideboom/shared/functions.dart';
 import 'package:slideboom/shared/widgets.dart';
 import 'package:slideboom/storage/storage.dart';
 import 'package:yoda/yoda.dart';
+import 'package:share_plus/share_plus.dart';
 
 class GameController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -890,11 +891,10 @@ class GameController extends GetxController
                 'solved!',
                 style: Get.textTheme.headline3?.copyWith(color: Colors.white),
               ),
-              Material(
-                  color: Colors.transparent,
-                  textStyle:
-                      Get.textTheme.headline4?.copyWith(color: Colors.white),
-                  child: timeText(elapsed: timerElapsed.value)),
+              Text(
+                getTimeString(),
+                style: Get.textTheme.headline4?.copyWith(color: Colors.white),
+              ),
               Text(
                 'with $moves moves',
                 style: Get.textTheme.headline5?.copyWith(color: Colors.white),
@@ -906,6 +906,10 @@ class GameController extends GetxController
                           ?.copyWith(color: Colors.white),
                     )
                   : Container(),
+              ElevatedButton.icon(
+                  onPressed: shareScore,
+                  icon: const Icon(Icons.share),
+                  label: const Text("share")),
               const SizedBox(
                 height: 20,
               ),
@@ -943,6 +947,23 @@ class GameController extends GetxController
       barrierDismissible: false,
       barrierColor: const Color.fromRGBO(5, 15, 5, 0.95),
     );
+  }
+
+  String getTimeString() {
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String minutes = twoDigits(timerElapsed.value.inMinutes);
+    String seconds = twoDigits(timerElapsed.value.inSeconds.remainder(60));
+    String hundreds =
+        twoDigits(timerElapsed.value.inMilliseconds.remainder(100));
+    return "$minutes:$seconds:$hundreds";
+  }
+
+  void shareScore() {
+    String modeString =
+        "${rowCount}x$rowCount " + (bombEnabled ? "with" : "without") + " bomb";
+    String timeString = getTimeString();
+    Share.share(
+        'I solved slideboom $modeString in $timeString with $moves moves can you beat me? check it out at https://slideboom.960.eu/#/home');
   }
 
   Offset getOffsetExplosion() {
