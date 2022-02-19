@@ -720,101 +720,103 @@ class GameController extends GetxController
         child: Focus(
           autofocus: true,
           child: Center(
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Paused',
-                    style:
-                        Get.textTheme.headline4?.copyWith(color: Colors.white),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.back();
-                        _ticker.start();
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Continue',
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                      onPressed: restart,
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Restart',
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      )),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.offAllNamed(Routes.home);
-                      },
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          'Home',
-                          style: TextStyle(
-                            fontSize: 25,
-                          ),
-                        ),
-                      )),
-                  Material(
-                    color: Colors.transparent,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Obx(() => Tooltip(
-                                message: muted.value ? "unmute" : "mute",
-                                child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: Icon(
-                                    muted.value
-                                        ? Icons.volume_off
-                                        : Icons.volume_up,
-                                    size: 32,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () => toggleMute(),
-                                ),
-                              )),
-                          const Tooltip(
-                            message: "help",
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                Icons.help,
-                                size: 32,
-                                color: Colors.white,
-                              ),
-                              onPressed: openHelp,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Paused',
+                      style: Get.textTheme.headline4
+                          ?.copyWith(color: Colors.white),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.back();
+                          _ticker.start();
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Continue',
+                            style: TextStyle(
+                              fontSize: 25,
                             ),
                           ),
-                        ],
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                        onPressed: restart,
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Restart',
+                            style: TextStyle(
+                              fontSize: 25,
+                            ),
+                          ),
+                        )),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Get.offAllNamed(Routes.home);
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            'Home',
+                            style: TextStyle(
+                              fontSize: 25,
+                            ),
+                          ),
+                        )),
+                    Material(
+                      color: Colors.transparent,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Obx(() => Tooltip(
+                                  message: muted.value ? "unmute" : "mute",
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    icon: Icon(
+                                      muted.value
+                                          ? Icons.volume_off
+                                          : Icons.volume_up,
+                                      size: 32,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () => toggleMute(),
+                                  ),
+                                )),
+                            const Tooltip(
+                              message: "help",
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                icon: Icon(
+                                  Icons.help,
+                                  size: 32,
+                                  color: Colors.white,
+                                ),
+                                onPressed: openHelp,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
