@@ -803,7 +803,6 @@ class GameController extends GetxController
                                       muted.value
                                           ? Icons.volume_off
                                           : Icons.volume_up,
-                                      size: 32,
                                       color: Colors.white,
                                     ),
                                     onPressed: () => toggleMute(),
@@ -815,7 +814,6 @@ class GameController extends GetxController
                                 padding: EdgeInsets.zero,
                                 icon: Icon(
                                   Icons.help,
-                                  size: 32,
                                   color: Colors.white,
                                 ),
                                 onPressed: openHelp,

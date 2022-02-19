@@ -44,7 +44,6 @@ class HomePage extends GetView<HomeController> {
                       controller.muted.value
                           ? Icons.volume_off
                           : Icons.volume_up,
-                      size: 32,
                     ),
                     onPressed: controller.toggleMute,
                   ),
