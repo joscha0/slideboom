@@ -34,7 +34,7 @@ void openHelp() {
           ),
           Text('in game:', style: Get.textTheme.headline6),
           Text(
-            '- escape: toggle pause\n- wasd: move selected\n- arrow keys: move tiles',
+            '- escape: toggle pause\n- wasd: move selected\n- arrow keys: move tiles\n- vim keys (hjkl): move tiles',
             style: Get.textTheme.bodyText1,
           ),
         ],
