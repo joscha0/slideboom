@@ -26,11 +26,14 @@ class HomeController extends GetxController {
 
   RxList scores = [].obs;
 
+  RxBool muted = false.obs;
+
   bool get isDarkTheme => Get.find<AppController>().isDarkMode.value;
 
   @override
   void onInit() {
     Map mode = getMode();
+    muted.value = getMuted();
     dropDownValue.value = mode['mode'];
     checkboxValue.value = mode['bombs'];
     loadScores();
@@ -219,5 +222,10 @@ class HomeController extends GetxController {
             ],
           ),
         )));
+  }
+
+  void toggleMute() {
+    muted.value = !muted.value;
+    setMuted(muted.value);
   }
 }

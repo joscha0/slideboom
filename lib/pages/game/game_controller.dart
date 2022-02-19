@@ -77,6 +77,8 @@ class GameController extends GetxController
 
   @override
   void onInit() {
+    muted.value = getMuted();
+    setVolume();
     precacheImages();
     setArgumentValues();
     tileWidth = getTileWidth(rowCount);
@@ -99,6 +101,14 @@ class GameController extends GetxController
     for (int i = 0; i <= 8; i++) {
       precacheImage(
           AssetImage('assets/explosion/explosion_$i.png'), Get.context!);
+    }
+  }
+
+  void setVolume() async {
+    if (muted.value) {
+      await audioPlayer.setVolume(0);
+    } else {
+      await audioPlayer.setVolume(1);
     }
   }
 
@@ -1038,10 +1048,7 @@ class GameController extends GetxController
 
   void toggleMute() async {
     muted.value = !muted.value;
-    if (muted.value) {
-      await audioPlayer.setVolume(0);
-    } else {
-      await audioPlayer.setVolume(1);
-    }
+    setMuted(muted.value);
+    setVolume();
   }
 }

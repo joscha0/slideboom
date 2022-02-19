@@ -36,6 +36,20 @@ class HomePage extends GetView<HomeController> {
                 message: "open Help",
                 child: IconButton(onPressed: openHelp, icon: Icon(Icons.help)),
               ),
+              Obx(
+                () => Tooltip(
+                  message: controller.muted.value ? "unmute" : "mute",
+                  child: IconButton(
+                    icon: Icon(
+                      controller.muted.value
+                          ? Icons.volume_off
+                          : Icons.volume_up,
+                      size: 32,
+                    ),
+                    onPressed: controller.toggleMute,
+                  ),
+                ),
+              ),
               Tooltip(
                 message: "toggle light/dark theme",
                 child: IconButton(
