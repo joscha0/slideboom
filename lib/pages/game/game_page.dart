@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:slideboom/shared/functions.dart';
 import 'package:slideboom/shared/constants.dart';
+import 'package:slideboom/shared/helpDialog.dart';
 import 'package:slideboom/shared/widgets.dart';
 import 'package:yoda/yoda.dart';
 

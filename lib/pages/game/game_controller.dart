@@ -11,6 +11,7 @@ import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/shared/functions.dart';
+import 'package:slideboom/shared/helpDialog.dart';
 import 'package:slideboom/shared/widgets.dart';
 import 'package:slideboom/storage/storage.dart';
 import 'package:yoda/yoda.dart';
@@ -70,6 +71,7 @@ class GameController extends GetxController
   late Timer explosionTimer;
 
   AudioPlayer audioPlayer = AudioPlayer();
+  RxBool muted = false.obs;
 
   bool get isDarkTheme => Get.find<AppController>().isDarkMode.value;
 
@@ -775,6 +777,43 @@ class GameController extends GetxController
                           ),
                         ),
                       )),
+                  Material(
+                    color: Colors.transparent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Obx(() => Tooltip(
+                                message: muted.value ? "unmute" : "mute",
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(
+                                    muted.value
+                                        ? Icons.volume_off
+                                        : Icons.volume_up,
+                                    size: 32,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () => toggleMute(),
+                                ),
+                              )),
+                          const Tooltip(
+                            message: "help",
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                Icons.help,
+                                size: 32,
+                                color: Colors.white,
+                              ),
+                              onPressed: openHelp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -993,5 +1032,14 @@ class GameController extends GetxController
     double dx = ((bombIndex) % rowCount) / rowCount + 1 / (rowCount * 2);
     double dy = ((bombIndex) ~/ rowCount) / rowCount + 1 / (rowCount * 2);
     return Offset(dx, dy);
+  }
+
+  void toggleMute() async {
+    muted.value = !muted.value;
+    if (muted.value) {
+      await audioPlayer.setVolume(0);
+    } else {
+      await audioPlayer.setVolume(1);
+    }
   }
 }
