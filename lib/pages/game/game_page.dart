@@ -250,7 +250,9 @@ class GamePage extends GetView<GameController> {
                     : Text(
                         (c.tilePositions[index] + 1).toString(),
                         style: TextStyle(
-                          fontSize: c.tileWidth * 0.6,
+                          fontSize: index == c.selectedIndex.value
+                              ? c.tileWidth * 0.5
+                              : c.tileWidth * 0.6,
                           color: color.computeLuminance() < 0.5
                               ? Colors.white
                               : Colors.black,
