@@ -327,6 +327,7 @@ class GameController extends GetxController
 
   void keyMoveTiles(Direction dir) {
     if (selectedIndex.value != -1) {
+      moves.value++;
       switch (dir) {
         case Direction.UP:
           if (isMovingHorizontally.isEmpty) {
