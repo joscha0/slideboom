@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
 
 import 'package:slideboom/shared/app_controller.dart';
 import 'package:slideboom/shared/app_pages.dart';
@@ -67,6 +68,8 @@ class GameController extends GetxController
   // late Timer timer;
   late Timer bombTimer;
   late Timer explosionTimer;
+
+  AudioPlayer audioPlayer = AudioPlayer();
 
   bool get isDarkTheme => Get.find<AppController>().isDarkMode.value;
 
@@ -442,6 +445,7 @@ class GameController extends GetxController
   }
 
   void _moveVertical(bool isMoving, int index) {
+    playSlideSound();
     if (isMoving) {
       moves.value++;
       animationDuration.value = const Duration(milliseconds: 0);
@@ -587,7 +591,13 @@ class GameController extends GetxController
     }
   }
 
-  _moveHorizontal(bool isMoving, int index) {
+  void playSlideSound() async {
+    await audioPlayer.setAsset("assets/sounds/slide.mp3");
+    await audioPlayer.play();
+  }
+
+  void _moveHorizontal(bool isMoving, int index) {
+    playSlideSound();
     if (isMoving) {
       moves.value++;
       animationDuration.value = const Duration(milliseconds: 0);
@@ -776,11 +786,18 @@ class GameController extends GetxController
     );
   }
 
+  void playFuseSound() async {
+    await audioPlayer.setAsset("assets/sounds/fuse.mp3");
+    await audioPlayer.setLoopMode(LoopMode.one);
+    await audioPlayer.play();
+  }
+
   void bombMoved() {
     // disable movement
     isMovingHorizontally.add(-1);
     isMovingVertically.add(-1);
     isEnded.value = true;
+    playFuseSound();
     bombTimer = Timer.periodic(const Duration(milliseconds: 120), (bombTimer) {
       bombImage.value += 1;
       update(['tile$bombIndex']);
@@ -789,12 +806,17 @@ class GameController extends GetxController
 
         int count = 0;
 
-        explosionTimer =
-            Timer.periodic(const Duration(milliseconds: 100), (explosionTimer) {
-          if (count <= 3) {
+        explosionTimer = Timer.periodic(const Duration(milliseconds: 100),
+            (explosionTimer) async {
+          if (count <= 2) {
+            // wait a little until explosion
             count++;
-            if (count == 3) {
+            if (count == 2) {
               isExplosion.value = true;
+              await audioPlayer.stop();
+              await audioPlayer.setLoopMode(LoopMode.off);
+              await audioPlayer.setAsset("assets/sounds/bomb.mp3");
+              await audioPlayer.play();
               update(['explosion']);
             }
           } else {
