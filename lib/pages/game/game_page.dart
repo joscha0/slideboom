@@ -249,6 +249,7 @@ class GamePage extends GetView<GameController> {
                     ? Image.asset('assets/bomb/bomb_${c.bombImage.value}.png')
                     : Text(
                         (c.tilePositions[index] + 1).toString(),
+                        textScaleFactor: 1,
                         style: TextStyle(
                           fontSize: index == c.selectedIndex.value
                               ? c.tileWidth * 0.5

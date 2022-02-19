@@ -11,16 +11,19 @@ Widget timeText({Duration elapsed = Duration.zero}) {
     children: [
       Text(
         minutes,
+        textScaleFactor: 1,
         textAlign: TextAlign.center,
         style: const TextStyle(fontSize: 32),
       ),
       const Text(
         ":",
+        textScaleFactor: 1,
         style: TextStyle(fontSize: 32),
       ),
       sizedTimeText(seconds),
       const Text(
         ".",
+        textScaleFactor: 1,
         style: TextStyle(fontSize: 32),
       ),
       sizedTimeText(hundreds),
@@ -33,6 +36,7 @@ Widget sizedTimeText(String time) {
     width: 50,
     child: Text(
       time,
+      textScaleFactor: 1,
       textAlign: TextAlign.center,
       style: const TextStyle(fontSize: 32),
     ),
