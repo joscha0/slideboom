@@ -33,7 +33,7 @@ class HomePage extends GetView<HomeController> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const Tooltip(
-                message: "open Help",
+                message: "help",
                 child: IconButton(onPressed: openHelp, icon: Icon(Icons.help)),
               ),
               Obx(
@@ -51,7 +51,7 @@ class HomePage extends GetView<HomeController> {
                 ),
               ),
               Tooltip(
-                message: "toggle light/dark theme",
+                message: controller.isDarkTheme ? "light mode" : "dark mode",
                 child: IconButton(
                   icon: Icon(
                     controller.isDarkTheme ? Icons.dark_mode : Icons.light_mode,
@@ -156,12 +156,13 @@ class HomePage extends GetView<HomeController> {
                                     SizedBox(
                                       width: 150,
                                       child: Tooltip(
-                                        message: "toggle bomb",
+                                        message:
+                                            "${c.checkboxValue.value ? "disable" : "enable"} bomb",
                                         child: CheckboxListTile(
                                           value: c.checkboxValue.value,
                                           onChanged: c.changeCheckbox,
                                           title: Text(
-                                            'bomb ${c.checkboxValue.value ? "on" : "off"}',
+                                            'bomb',
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyText2,
