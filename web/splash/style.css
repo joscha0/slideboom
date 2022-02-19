@@ -1,64 +1,27 @@
-.preloader-container {
-	left: 0;
-	top: 0;
-	width: 100%;
+body,
+html {
+	margin: 0;
 	height: 100%;
-	overflow-x: auto;
-	overflow-y: scroll;
-	position: fixed;
-	z-index: 9000;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	background-color: #fafafa;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
+	background: #fafafa;
 	overflow: hidden;
-	-webkit-transition: all 1s linear;
-	-o-transition: all 1s linear;
-	transition: all 1s linear;
+	background-size: 100% 100%;
 }
 
-.preloader-container .animation {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-pack: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-orient: vertical;
-	-webkit-box-direction: normal;
-	-ms-flex-direction: column;
-	flex-direction: column;
-}
-
-.preloader-container .animation #skip {
-	color: #20495a;
-	cursor: pointer;
-	font-family: montserrat, sans-serif;
-	font-size: 1.75em;
-	position: absolute;
-	margin: 0 auto;
-	bottom: 20vh;
-}
-
-.hidden {
-	display: none;
-}
-
-.visuallyhidden {
-	opacity: 0;
+.player {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 @media (prefers-color-scheme: dark) {
-	.preloader-container {
-		background-color: #000000;
+	body {
+		margin: 0;
+		height: 100%;
+		background: #000000;
+
+		background-size: 100% 100%;
 	}
 }
