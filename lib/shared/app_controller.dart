@@ -17,7 +17,7 @@ class AppController extends GetxController {
 
   @override
   void onInit() {
-    isDarkMode.value = box.read(_key) ?? Get.isDarkMode;
+    isDarkMode.value = box.read(_key) ?? Get.isPlatformDarkMode;
     themeMode.value = isDarkMode.value ? ThemeMode.dark : ThemeMode.light;
     super.onInit();
   }
