@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:slideboom/shared/app_pages.dart';
+import 'package:slideboom/shared/helpDialog.dart';
 
 import 'home_controller.dart';
 
@@ -21,7 +21,7 @@ class HomePage extends GetView<HomeController> {
             controller.decreaseMode(),
         const SingleActivator(LogicalKeyboardKey.keyM): () =>
             controller.increaseMode(),
-        const CharacterActivator('?'): () => controller.openHelp(),
+        const CharacterActivator('?'): () => openHelp(),
       },
       child: Focus(
         autofocus: true,
@@ -32,11 +32,9 @@ class HomePage extends GetView<HomeController> {
           floatingActionButton: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Tooltip(
+              const Tooltip(
                 message: "open Help",
-                child: IconButton(
-                    onPressed: controller.openHelp,
-                    icon: const Icon(Icons.help)),
+                child: IconButton(onPressed: openHelp, icon: Icon(Icons.help)),
               ),
               Tooltip(
                 message: "toggle light/dark theme",
