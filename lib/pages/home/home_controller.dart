@@ -132,95 +132,90 @@ class HomeController extends GetxController {
           style: Get.textTheme.headline4,
         ),
         scrollable: true,
-        content: SingleChildScrollView(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "time: ",
-                    style: Get.textTheme.bodyText1,
-                  ),
-                  Text(
-                    score['time'],
-                    style: Get.textTheme.headline5,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "moves: ",
-                    style: Get.textTheme.bodyText1,
-                  ),
-                  Text(
-                    score['moves'].toString(),
-                    style: Get.textTheme.headline5,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "date: ",
-                    style: Get.textTheme.bodyText1,
-                  ),
-                  Text(
-                    score['date'],
-                    style: Get.textTheme.bodyText2,
-                  ),
-                ],
-              ),
-              if (score['startPosition'] != null) ...[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "starting position:",
-                    style: Get.textTheme.bodyText1,
-                  ),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Text(
+                  "time: ",
+                  style: Get.textTheme.bodyText1,
                 ),
-                Center(
-                  child: Container(
-                    height: tileWidth * rowCount * 0.6,
-                    width: tileWidth * rowCount * 0.6,
-                    // constraints: BoxConstraints(maxHeight: 150, maxWidth: 150),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: rowCount),
-                      itemCount: score['startPosition'].length,
-                      itemBuilder: (context, i) {
-                        Color color = getColor(
-                            score['startPosition'][i], rowCount, false);
-                        return Container(
-                          color: color,
-                          child: Center(
-                            child: score['bombIndex'] == i
-                                ? Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child:
-                                        Image.asset('assets/bomb/bomb_0.png'),
-                                  )
-                                : Text(
-                                    (score['startPosition'][i] + 1).toString(),
-                                    style: TextStyle(
-                                      fontSize: tileWidth * 0.4,
-                                      color: color.computeLuminance() < 0.5
-                                          ? Colors.white
-                                          : Colors.black,
-                                    ),
-                                  ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                Text(
+                  score['time'],
+                  style: Get.textTheme.headline5,
                 ),
               ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "moves: ",
+                  style: Get.textTheme.bodyText1,
+                ),
+                Text(
+                  score['moves'].toString(),
+                  style: Get.textTheme.headline5,
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  "date: ",
+                  style: Get.textTheme.bodyText1,
+                ),
+                Text(
+                  score['date'],
+                  style: Get.textTheme.bodyText2,
+                ),
+              ],
+            ),
+            if (score['startPosition'] != null) ...[
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  "starting position:",
+                  style: Get.textTheme.bodyText1,
+                ),
+              ),
+              Center(
+                child: Container(
+                  height: tileWidth * rowCount * 0.6,
+                  width: tileWidth * rowCount * 0.6,
+                  // constraints: BoxConstraints(maxHeight: 150, maxWidth: 150),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: rowCount),
+                    itemCount: score['startPosition'].length,
+                    itemBuilder: (context, i) {
+                      Color color =
+                          getColor(score['startPosition'][i], rowCount, false);
+                      return Container(
+                        color: color,
+                        child: Center(
+                          child: score['bombIndex'] == i
+                              ? Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Image.asset('assets/bomb/bomb_0.png'),
+                                )
+                              : Text(
+                                  (score['startPosition'][i] + 1).toString(),
+                                  style: TextStyle(
+                                    fontSize: tileWidth * 0.4,
+                                    color: color.computeLuminance() < 0.5
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
             ],
-          ),
+          ],
         )));
   }
 

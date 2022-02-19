@@ -10,6 +10,7 @@ void openHelp() {
       ),
       scrollable: true,
       content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             'How to play?',
