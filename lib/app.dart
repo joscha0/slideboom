@@ -23,7 +23,7 @@ class MyApp extends GetView<AppController> {
                 ResponsiveBreakpoint.resize(350, name: MOBILE),
                 ResponsiveBreakpoint.resize(600, name: TABLET),
                 ResponsiveBreakpoint.resize(850, name: DESKTOP),
-                ResponsiveBreakpoint.resize(1600, name: 'XL'),
+                ResponsiveBreakpoint.autoScale(1600, name: 'XL'),
               ],
             ),
             theme: ThemeData(
@@ -37,7 +37,7 @@ class MyApp extends GetView<AppController> {
                 ),
               ),
               scaffoldBackgroundColor: const Color.fromARGB(255, 250, 250, 250),
-              textTheme: GoogleFonts.concertOneTextTheme(
+              textTheme: GoogleFonts.dosisTextTheme(
                 const TextTheme(
                   headline4: TextStyle(color: Colors.black),
                   bodyText1: TextStyle(color: Colors.black54),
@@ -63,7 +63,7 @@ class MyApp extends GetView<AppController> {
               popupMenuTheme: PopupMenuThemeData(color: Colors.grey[850]),
               primarySwatch: Colors.blue,
               iconTheme: const IconThemeData(color: Colors.white),
-              textTheme: GoogleFonts.changaTextTheme(
+              textTheme: GoogleFonts.dosisTextTheme(
                 const TextTheme(
                   headline5: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w800),
@@ -72,6 +72,8 @@ class MyApp extends GetView<AppController> {
                   bodyText2: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w800),
                   headline6: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800),
+                  headline3: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w800),
                   bodyText1: TextStyle(
                       color: Colors.white70, fontWeight: FontWeight.w800),
