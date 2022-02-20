@@ -21,9 +21,9 @@ class MyApp extends GetView<AppController> {
               ClampingScrollWrapper.builder(context, widget!),
               breakpoints: const [
                 ResponsiveBreakpoint.resize(350, name: MOBILE),
-                ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                ResponsiveBreakpoint.resize(600, name: TABLET),
                 ResponsiveBreakpoint.resize(850, name: DESKTOP),
-                ResponsiveBreakpoint.autoScale(1600, name: 'XL'),
+                ResponsiveBreakpoint.resize(1600, name: 'XL'),
               ],
             ),
             theme: ThemeData(
