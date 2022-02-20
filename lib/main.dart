@@ -13,7 +13,7 @@ void main() async {
     win.minSize = initialSize;
     win.size = initialSize;
     win.alignment = Alignment.center;
-    win.title = "flutter";
+    win.title = "slideboom";
     win.show();
   });
 }
