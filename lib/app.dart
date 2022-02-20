@@ -37,7 +37,7 @@ class MyApp extends GetView<AppController> {
                 ),
               ),
               scaffoldBackgroundColor: const Color.fromARGB(255, 250, 250, 250),
-              textTheme: GoogleFonts.bungeeTextTheme(
+              textTheme: GoogleFonts.concertOneTextTheme(
                 const TextTheme(
                   headline4: TextStyle(color: Colors.black),
                   bodyText1: TextStyle(color: Colors.black54),
@@ -63,13 +63,18 @@ class MyApp extends GetView<AppController> {
               popupMenuTheme: PopupMenuThemeData(color: Colors.grey[850]),
               primarySwatch: Colors.blue,
               iconTheme: const IconThemeData(color: Colors.white),
-              textTheme: GoogleFonts.bungeeTextTheme(
+              textTheme: GoogleFonts.changaTextTheme(
                 const TextTheme(
-                  headline5: TextStyle(color: Colors.white),
-                  headline4: TextStyle(color: Colors.white),
-                  bodyText2: TextStyle(color: Colors.white),
-                  headline6: TextStyle(color: Colors.white),
-                  bodyText1: TextStyle(color: Colors.white70),
+                  headline5: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800),
+                  headline4: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800),
+                  bodyText2: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800),
+                  headline6: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w800),
+                  bodyText1: TextStyle(
+                      color: Colors.white70, fontWeight: FontWeight.w800),
                 ),
               ),
             ),
