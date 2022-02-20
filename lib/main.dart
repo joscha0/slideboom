@@ -9,7 +9,7 @@ void main() async {
   runApp(const MyApp());
   doWhenWindowReady(() {
     final win = appWindow;
-    const initialSize = Size(600, 450);
+    const initialSize = Size(854, 480);
     win.minSize = initialSize;
     win.size = initialSize;
     win.alignment = Alignment.center;
