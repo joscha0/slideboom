@@ -31,42 +31,36 @@ class HomePage extends GetView<HomeController> {
           appBar: AppBar(
             toolbarHeight: 0,
           ),
-          floatingActionButton: Padding(
-            padding: const EdgeInsets.only(top: 32.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Tooltip(
-                  message: "help",
-                  child:
-                      IconButton(onPressed: openHelp, icon: Icon(Icons.help)),
-                ),
-                Obx(
-                  () => Tooltip(
-                    message: controller.muted.value ? "unmute" : "mute",
-                    child: IconButton(
-                      icon: Icon(
-                        controller.muted.value
-                            ? Icons.volume_off
-                            : Icons.volume_up,
-                      ),
-                      onPressed: controller.toggleMute,
-                    ),
-                  ),
-                ),
-                Tooltip(
-                  message: controller.isDarkTheme ? "light mode" : "dark mode",
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Tooltip(
+                message: "help",
+                child: IconButton(onPressed: openHelp, icon: Icon(Icons.help)),
+              ),
+              Obx(
+                () => Tooltip(
+                  message: controller.muted.value ? "unmute" : "mute",
                   child: IconButton(
                     icon: Icon(
-                      controller.isDarkTheme
-                          ? Icons.dark_mode
-                          : Icons.light_mode,
+                      controller.muted.value
+                          ? Icons.volume_off
+                          : Icons.volume_up,
                     ),
-                    onPressed: controller.switchTheme,
+                    onPressed: controller.toggleMute,
                   ),
                 ),
-              ],
-            ),
+              ),
+              Tooltip(
+                message: controller.isDarkTheme ? "light mode" : "dark mode",
+                child: IconButton(
+                  icon: Icon(
+                    controller.isDarkTheme ? Icons.dark_mode : Icons.light_mode,
+                  ),
+                  onPressed: controller.switchTheme,
+                ),
+              ),
+            ],
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
           body: WindowBorder(
