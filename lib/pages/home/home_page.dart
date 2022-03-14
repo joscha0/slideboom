@@ -64,7 +64,9 @@ class HomePage extends GetView<HomeController> {
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
           body: WindowBorder(
-            color: Colors.white,
+            color: controller.isDarkTheme
+                ? Colors.black
+                : const Color.fromARGB(255, 250, 250, 250),
             child: Column(
               children: [
                 WindowTitleBarBox(
@@ -200,9 +202,9 @@ class HomePage extends GetView<HomeController> {
                                         message: "start game",
                                         child: ElevatedButton(
                                             onPressed: c.startGame,
-                                            child: const Text(
-                                              'play',
-                                              style: TextStyle(fontSize: 42),
+                                            child: Text(
+                                              'play'.toUpperCase(),
+                                              style: Get.textTheme.headline3,
                                             )),
                                       ),
                                     ]),
