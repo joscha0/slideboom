@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.slideboom">
+    package="com.joscha0.slideboom">
    <application
         android:label="slideboom"
         android:name="${applicationName}"

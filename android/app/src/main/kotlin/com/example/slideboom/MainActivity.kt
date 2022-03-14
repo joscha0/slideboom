@@ -1,4 +1,4 @@
-package com.example.slideboom
+package com.joscha0.slideboom
 
 import io.flutter.embedding.android.FlutterActivity
 
