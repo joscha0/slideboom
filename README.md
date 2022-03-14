@@ -34,3 +34,31 @@ It is recommended to play the game with touch inputs. If you are on a PC you can
 - `WASD`: move the selection
 - `arrow keys` / `vim keys (HJKL)`: move tiles
 
+## Build
+
+### Web
+```bash
+ flutter build web --web-renderer canvaskit
+```
+(forces canvaskit for mobile web, required for animation)
+
+### Linux
+```bash
+ flutter build linux --release
+ cd build_files/linux
+ ./create-appimage.sh
+ cd Slideboom.AppDir
+ ./Slideboom-x86_64.AppImage
+ ```
+([appimagetool](https://github.com/AppImage/AppImageKit) required)
+- generates executable appimage file
+
+### Android
+```bash
+flutter build apk
+```
+
+### Windows
+```bash
+flutter build windows
+```
