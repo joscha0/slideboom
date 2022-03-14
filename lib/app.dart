@@ -76,7 +76,7 @@ class MyApp extends GetView<AppController> {
                   headline3: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w800),
                   bodyText1: TextStyle(
-                      color: Colors.white70, fontWeight: FontWeight.w800),
+                      color: Colors.white70, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
