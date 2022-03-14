@@ -1,5 +1,5 @@
 name: slideboom
-description: A new Flutter project.
+description: Simple sliding puzzle
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -106,4 +106,4 @@ msix_config:
   publisher: joscha0
   identity_name: com.joscha0.slideboom
   msix_version: 1.0.0.0
-  logo_path: build_files/linux/slideboom.png
+  logo_path: build_files\linux\slideboom.png
