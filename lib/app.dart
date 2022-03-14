@@ -39,8 +39,18 @@ class MyApp extends GetView<AppController> {
               scaffoldBackgroundColor: const Color.fromARGB(255, 250, 250, 250),
               textTheme: GoogleFonts.dosisTextTheme(
                 const TextTheme(
-                  headline4: TextStyle(color: Colors.black),
-                  bodyText1: TextStyle(color: Colors.black54),
+                  headline5: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w800),
+                  headline4: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w800),
+                  bodyText2: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w800),
+                  headline6: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w800),
+                  headline3: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.w800),
+                  bodyText1: TextStyle(
+                      color: Colors.black54, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

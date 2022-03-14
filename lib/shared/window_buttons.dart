@@ -31,20 +31,23 @@ class _WindowButtonsState extends State<WindowButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        MinimizeWindowButton(colors: buttonColors),
-        appWindow.isMaximized
-            ? RestoreWindowButton(
-                colors: buttonColors,
-                onPressed: maximizeOrRestore,
-              )
-            : MaximizeWindowButton(
-                colors: buttonColors,
-                onPressed: maximizeOrRestore,
-              ),
-        CloseWindowButton(colors: closeButtonColors),
-      ],
+    return Container(
+      color: Colors.black87,
+      child: Row(
+        children: [
+          MinimizeWindowButton(colors: buttonColors),
+          appWindow.isMaximized
+              ? RestoreWindowButton(
+                  colors: buttonColors,
+                  onPressed: maximizeOrRestore,
+                )
+              : MaximizeWindowButton(
+                  colors: buttonColors,
+                  onPressed: maximizeOrRestore,
+                ),
+          CloseWindowButton(colors: closeButtonColors),
+        ],
+      ),
     );
   }
 }
