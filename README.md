@@ -60,5 +60,7 @@ flutter build apk
 
 ### Windows
 ```bash
-flutter build windows
+flutter pub run msix:create
 ```
+in [windows](https://github.com/joscha0/slideboom/tree/windows) branch
+
