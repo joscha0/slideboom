@@ -1,3 +1,4 @@
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:slideboom/shared/functions.dart';
 import 'package:slideboom/shared/constants.dart';
 import 'package:slideboom/shared/helpDialog.dart';
 import 'package:slideboom/shared/widgets.dart';
+import 'package:slideboom/shared/window_buttons.dart';
 import 'package:yoda/yoda.dart';
 
 import 'game_controller.dart';
@@ -15,171 +17,211 @@ class GamePage extends GetView<GameController> {
   @override
   Widget build(BuildContext context) {
     return CallbackShortcuts(
-      bindings: {
-        const SingleActivator(LogicalKeyboardKey.escape): () =>
-            controller.showPause(),
-        const SingleActivator(LogicalKeyboardKey.keyW): () =>
-            controller.keyMoveIndex(Direction.UP),
-        const SingleActivator(LogicalKeyboardKey.keyS): () =>
-            controller.keyMoveIndex(Direction.DOWN),
-        const SingleActivator(LogicalKeyboardKey.keyA): () =>
-            controller.keyMoveIndex(Direction.LEFT),
-        const SingleActivator(LogicalKeyboardKey.keyD): () =>
-            controller.keyMoveIndex(Direction.RIGHT),
-        const SingleActivator(LogicalKeyboardKey.arrowUp): () =>
-            controller.keyMoveTiles(Direction.UP),
-        const SingleActivator(LogicalKeyboardKey.arrowDown): () =>
-            controller.keyMoveTiles(Direction.DOWN),
-        const SingleActivator(LogicalKeyboardKey.arrowLeft): () =>
-            controller.keyMoveTiles(Direction.LEFT),
-        const SingleActivator(LogicalKeyboardKey.arrowRight): () =>
-            controller.keyMoveTiles(Direction.RIGHT),
-        const SingleActivator(LogicalKeyboardKey.keyK): () =>
-            controller.keyMoveTiles(Direction.UP),
-        const SingleActivator(LogicalKeyboardKey.keyJ): () =>
-            controller.keyMoveTiles(Direction.DOWN),
-        const SingleActivator(LogicalKeyboardKey.keyH): () =>
-            controller.keyMoveTiles(Direction.LEFT),
-        const SingleActivator(LogicalKeyboardKey.keyL): () =>
-            controller.keyMoveTiles(Direction.RIGHT),
-      },
-      child: Focus(
-        autofocus: true,
-        child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 0,
-          ),
-          body: Center(
-            child: ResponsiveRowColumn(
-              columnMainAxisAlignment: MainAxisAlignment.center,
-              rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              layout: ResponsiveWrapper.of(context).orientation ==
-                      Orientation.landscape
-                  ? ResponsiveRowColumnType.ROW
-                  : ResponsiveRowColumnType.COLUMN,
-              children: [
-                ResponsiveRowColumnItem(
-                  child: SizedBox(
-                    height: 120,
-                    width: 250,
-                    child: Obx(() {
-                      return controller.isEnded.value
-                          ? Container()
-                          : Column(
-                              children: [
-                                Tooltip(
-                                  message: "pause",
-                                  child: IconButton(
-                                    padding: EdgeInsets.zero,
-                                    icon: const Icon(
-                                      Icons.pause,
-                                      size: 32,
-                                    ),
-                                    onPressed: () => controller.showPause(),
+        bindings: {
+          const SingleActivator(LogicalKeyboardKey.escape): () =>
+              controller.showPause(),
+          const SingleActivator(LogicalKeyboardKey.keyW): () =>
+              controller.keyMoveIndex(Direction.UP),
+          const SingleActivator(LogicalKeyboardKey.keyS): () =>
+              controller.keyMoveIndex(Direction.DOWN),
+          const SingleActivator(LogicalKeyboardKey.keyA): () =>
+              controller.keyMoveIndex(Direction.LEFT),
+          const SingleActivator(LogicalKeyboardKey.keyD): () =>
+              controller.keyMoveIndex(Direction.RIGHT),
+          const SingleActivator(LogicalKeyboardKey.arrowUp): () =>
+              controller.keyMoveTiles(Direction.UP),
+          const SingleActivator(LogicalKeyboardKey.arrowDown): () =>
+              controller.keyMoveTiles(Direction.DOWN),
+          const SingleActivator(LogicalKeyboardKey.arrowLeft): () =>
+              controller.keyMoveTiles(Direction.LEFT),
+          const SingleActivator(LogicalKeyboardKey.arrowRight): () =>
+              controller.keyMoveTiles(Direction.RIGHT),
+          const SingleActivator(LogicalKeyboardKey.keyK): () =>
+              controller.keyMoveTiles(Direction.UP),
+          const SingleActivator(LogicalKeyboardKey.keyJ): () =>
+              controller.keyMoveTiles(Direction.DOWN),
+          const SingleActivator(LogicalKeyboardKey.keyH): () =>
+              controller.keyMoveTiles(Direction.LEFT),
+          const SingleActivator(LogicalKeyboardKey.keyL): () =>
+              controller.keyMoveTiles(Direction.RIGHT),
+        },
+        child: Focus(
+            autofocus: true,
+            child: Scaffold(
+                appBar: AppBar(
+                  toolbarHeight: 0,
+                ),
+                body: WindowBorder(
+                  color: controller.isDarkTheme
+                      ? Colors.black
+                      : const Color.fromARGB(255, 250, 250, 250),
+                  child: Column(children: [
+                    WindowTitleBarBox(
+                      child: Row(
+                        children: [
+                          Expanded(child: MoveWindow()),
+                          const WindowButtons()
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: SafeArea(
+                        child: Center(
+                          child: ResponsiveRowColumn(
+                            columnMainAxisAlignment: MainAxisAlignment.center,
+                            rowMainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            layout: ResponsiveWrapper.of(context).orientation ==
+                                    Orientation.landscape
+                                ? ResponsiveRowColumnType.ROW
+                                : ResponsiveRowColumnType.COLUMN,
+                            children: [
+                              ResponsiveRowColumnItem(
+                                child: SizedBox(
+                                  height: 120,
+                                  width: 250,
+                                  child: Obx(() {
+                                    return controller.isEnded.value
+                                        ? Container()
+                                        : Column(
+                                            children: [
+                                              Tooltip(
+                                                message: "pause",
+                                                child: IconButton(
+                                                  padding: EdgeInsets.zero,
+                                                  icon: const Icon(
+                                                    Icons.pause,
+                                                    size: 32,
+                                                  ),
+                                                  onPressed: () =>
+                                                      controller.showPause(),
+                                                ),
+                                              ),
+                                              timeText(
+                                                  elapsed: controller
+                                                      .timerElapsed.value),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8),
+                                                child: Text(
+                                                    "moves: ${controller.moves}"),
+                                              ),
+                                            ],
+                                          );
+                                  }),
+                                ),
+                              ),
+                              ResponsiveRowColumnItem(
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    if (controller.bombIndex != -1) ...[
+                                      bombExplosion(),
+                                    ],
+                                    Obx(() {
+                                      return Yoda(
+                                        yodaEffect: YodaEffect.Explosion,
+                                        controller:
+                                            controller.yodaControllerExplode,
+                                        duration:
+                                            const Duration(milliseconds: 2500),
+                                        animParameters: AnimParameters(
+                                          fractionalCenter:
+                                              controller.offsetExplosion.value,
+                                          hTiles: 20,
+                                          vTiles: 20,
+                                          effectPower: 0.5 -
+                                              (controller.rowCount * 0.04),
+                                          blurPower: 5,
+                                          gravity: 0.1,
+                                          randomness: 30,
+                                        ),
+                                        startWhenTapped: false,
+                                        child: Container(
+                                          decoration: controller.bordersEnabled
+                                              ? BoxDecoration(
+                                                  border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 5))
+                                              : const BoxDecoration(),
+                                          width: controller.tileWidth *
+                                                  controller.rowCount +
+                                              (controller.bordersEnabled
+                                                  ? 10
+                                                  : 0),
+                                          height: controller.tileWidth *
+                                                  controller.rowCount +
+                                              (controller.bordersEnabled
+                                                  ? 10
+                                                  : 0),
+                                          child: Stack(
+                                            children: [
+                                              for (int i = 0;
+                                                  i <
+                                                      controller.rowCount *
+                                                          controller.rowCount;
+                                                  i++) ...[
+                                                tile(context, i, false, false),
+
+                                                // add horizontal overflow tiles
+                                                if ((i + 1) %
+                                                            controller
+                                                                .rowCount ==
+                                                        1 ||
+                                                    (i + 1) %
+                                                            controller
+                                                                .rowCount ==
+                                                        0) ...[
+                                                  tile(
+                                                    context,
+                                                    i,
+                                                    true,
+                                                    true,
+                                                    idStr: 'htile$i',
+                                                  ),
+                                                ],
+
+                                                // add vertical overflow tiles
+                                                if (i ~/ controller.rowCount ==
+                                                        controller.rowCount -
+                                                            1 ||
+                                                    i ~/ controller.rowCount ==
+                                                        0) ...[
+                                                  tile(
+                                                    context,
+                                                    i,
+                                                    true,
+                                                    false,
+                                                    idStr: 'vtile$i',
+                                                  ),
+                                                ],
+                                              ],
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                    // add bomb explosion
+                                  ],
+                                ),
+                              ),
+                              if (ResponsiveWrapper.of(context)
+                                      .isLargerThan(TABLET) &&
+                                  ResponsiveWrapper.of(context).orientation ==
+                                      Orientation.landscape) ...[
+                                const ResponsiveRowColumnItem(
+                                  child: SizedBox(
+                                    height: 120,
+                                    width: 250,
                                   ),
                                 ),
-                                timeText(
-                                    elapsed: controller.timerElapsed.value),
-                                Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: Text("moves: ${controller.moves}"),
-                                ),
                               ],
-                            );
-                    }),
-                  ),
-                ),
-                ResponsiveRowColumnItem(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      if (controller.bombIndex != -1) ...[
-                        bombExplosion(),
-                      ],
-                      Obx(() {
-                        return Yoda(
-                          yodaEffect: YodaEffect.Explosion,
-                          controller: controller.yodaControllerExplode,
-                          duration: const Duration(milliseconds: 2500),
-                          animParameters: AnimParameters(
-                            fractionalCenter: controller.offsetExplosion.value,
-                            hTiles: 20,
-                            vTiles: 20,
-                            effectPower: 0.5 - (controller.rowCount * 0.04),
-                            blurPower: 5,
-                            gravity: 0.1,
-                            randomness: 30,
+                            ],
                           ),
-                          startWhenTapped: false,
-                          child: Container(
-                            decoration: controller.bordersEnabled
-                                ? BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.black, width: 5))
-                                : const BoxDecoration(),
-                            width: controller.tileWidth * controller.rowCount +
-                                (controller.bordersEnabled ? 10 : 0),
-                            height: controller.tileWidth * controller.rowCount +
-                                (controller.bordersEnabled ? 10 : 0),
-                            child: Stack(
-                              children: [
-                                for (int i = 0;
-                                    i <
-                                        controller.rowCount *
-                                            controller.rowCount;
-                                    i++) ...[
-                                  tile(context, i, false, false),
-
-                                  // add horizontal overflow tiles
-                                  if ((i + 1) % controller.rowCount == 1 ||
-                                      (i + 1) % controller.rowCount == 0) ...[
-                                    tile(
-                                      context,
-                                      i,
-                                      true,
-                                      true,
-                                      idStr: 'htile$i',
-                                    ),
-                                  ],
-
-                                  // add vertical overflow tiles
-                                  if (i ~/ controller.rowCount ==
-                                          controller.rowCount - 1 ||
-                                      i ~/ controller.rowCount == 0) ...[
-                                    tile(
-                                      context,
-                                      i,
-                                      true,
-                                      false,
-                                      idStr: 'vtile$i',
-                                    ),
-                                  ],
-                                ],
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
-                      // add bomb explosion
-                    ],
-                  ),
-                ),
-                if (ResponsiveWrapper.of(context).isLargerThan(TABLET) &&
-                    ResponsiveWrapper.of(context).orientation ==
-                        Orientation.landscape) ...[
-                  const ResponsiveRowColumnItem(
-                    child: SizedBox(
-                      height: 120,
-                      width: 250,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                  ]),
+                ))));
   }
 
   Widget bombExplosion() {
