@@ -99,7 +99,6 @@ flutter_native_splash:
 animated_native_splash:
   jsonFile: assets/loader.json
 
-
 msix_config:
   display_name: slideboom
   publisher_display_name: joscha0
